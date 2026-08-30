@@ -283,10 +283,10 @@ do_this(to_this)
 do_that(to_this, to_that, with_those)
 ```
 
-## `trim`med `mean()`
+## Example function: `mean()`
 
 ```{r}
-x <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 100)
+x <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, NA)
 x
 ```
 
@@ -295,7 +295,7 @@ mean(x)
 ```
 
 ```{r}
-mean(x, trim = 0.1)
+mean(x, na.rm = TRUE)
 ```
 
 ## Help
@@ -340,7 +340,7 @@ Object documentation can be accessed with `?`
 
 ![](images/02/github-logo.png){fig-alt="GitHub logo" fig-align="center" width="150"}
 
--   GitHub is the home for your Git-based projects on the internet -- like DropBox but much, much better
+-   GitHub is the home for your Git-based projects on the internet -- like Dropbox but much, much better
 
 -   We will use GitHub as a platform for web hosting and collaboration (and as our course management system!)
 
@@ -420,7 +420,7 @@ You'll need to stick to this option if you haven't yet accepted your GitHub invi
 
 **Option 2:**
 
-Go to the [course GitHub organization](https://github.com/rcnj-ids-fa25) and clone `ae-YOUR-GITHUB-NAME` repo to [Posit Cloud](https://posit.cloud) in our course workspace.
+Go to the [course GitHub organization](https://github.com/rcnj-ids-fa26) and clone `ae-YOUR-GITHUB-NAME` repo to [Posit Cloud](https://posit.cloud) in our course workspace.
 
 :::
 
