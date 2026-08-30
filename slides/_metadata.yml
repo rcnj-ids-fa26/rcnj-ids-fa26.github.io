@@ -1,0 +1,28 @@
+institute: "Ramapo College"
+author: "Dr. Debbie Yuster"
+date-format: long
+format:
+  live-revealjs:
+    footer: "DATA 101 Introduction to Data Science"
+    theme: slides.scss
+    transition: fade
+    slide-number: true
+    logo: "images/logo.png" 
+    toc: false
+    webr:
+      cell-options:
+        autorun: false
+  live-html:
+    code-link: true
+    webr:
+      cell-options:
+        autorun: true
+engine: knitr
+highlight-style: a11y-light
+execute:
+  echo: true
+  warning: true
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 70
