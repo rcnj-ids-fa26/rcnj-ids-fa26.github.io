@@ -1,0 +1,370 @@
+---
+title: "Grammar of data transformation"
+subtitle: "Lecture 4"
+date: "2026-09-10"
+format: 
+  revealjs: 
+    output-file: 04-grammar-of-data-transformation-slides.html
+    footer: "DATA 101 Introduction to Data Science"
+    theme: slides.scss
+    transition: fade
+    slide-number: true
+    logo: images/logo.png
+    toc: false
+  html: 
+    code-link: true
+---
+
+# Warm up
+
+## Participate  {.smaller}
+
+Which of the following is **true** about the code below?
+
+```{r}
+#| eval: false
+#| message: false
+ggplot(flights, _[blank]_(x = dep_time, y = dep_delay)) +
+  geom_point()
+```
+
+a. `flights` is the name of the variable being plotted on the x-axis
+b. The function that goes in the [blank] is `map`
+c. The data are being visualized with a scatterplot
+d. Some points on the plot will be colored differently than others
+
+# From last time
+
+## Start with the question {.smaller}
+
+| Question | Variables | A useful first plot |
+|---|---|---|
+| What values are common? | One categorical | [Bar chart]{.fragment} |
+| What is the distribution? | One numerical | [Histogram or boxplot]{.fragment} |
+| Do groups differ? | Numerical + categorical | [Boxplot or histogram by group]{.fragment} |
+| Are two categorical variables associated? | Two categorical | [Filled or dodged bar chart]{.fragment} |
+| Are two numerical variables associated? | Two numerical | [Scatterplot]{.fragment} |
+
+## Interesting Questions <-> many variables {.xsmall}
+
+Bring the third, fourth, fifth, etc. variable to the plot using additional aesthetics such as `color`, `shape`, `size`, `linewidth`, etc. and/or with faceting (creating small multiple plots based on the levels of a variable):
+
+```{r}
+#| label: four-vars
+#| echo: false
+#| warning: false
+#| fig-asp: 0.5
+#| fig-width: 9
+library(tidyverse)
+gss <- read_csv("data/gss-2024.csv")
+gss |>
+  filter(!is.na(happiness), !is.na(health)) |>
+  ggplot(aes(y = age, x = happiness, color = health, fill = health)) +
+  geom_boxplot(show.legend = FALSE, alpha = 0.5) +
+  facet_wrap(~marital_status, nrow = 1) +
+  labs(
+    title = "Happiness, health, and age",
+    y = "Age (years)",
+    x = "Happiness",
+    color = "Health",
+    caption = "Source: 2024 General Social Survey (GSS), NORC"
+  ) +
+  theme_bw() +
+  ggthemes::scale_colour_colourblind() +
+  ggthemes::scale_fill_colourblind() +
+  scale_x_discrete(labels = scales::label_wrap(10))
+```
+
+## Data frames and variables
+
+-   Each row of a data frame is an **observation**
+
+. . .
+
+-   Each column of a data frame is a **variable**
+
+
+## `gss` data frame {.smaller}
+
+```{r}
+gss
+```
+
+## `health` variable {.smaller}
+
+```{r}
+gss$health
+```
+
+## Participate {.smaller}
+
+Why did the error occur?
+
+```{r}
+#| label: happiness-error
+#| error: true
+happiness
+```
+
+a. Name of the variable is misspelled
+b. There is no such variable in the gss data frame
+c. Must refer to variable in a data frame with `$`:   `gss$happiness`
+d. Must refer to variable in a data frame with `|>`:   `gss |> happiness`
+e. Must refer to variable in a data frame with `$`:   `happiness$gss`
+
+
+## `function(argument)`
+
+Functions are (most often) verbs, followed by what they will be applied to in parentheses, and separated by commas:
+
+```{r}
+#| eval: false
+do_this(to_this)
+do_that(to_this, to_that, with_those)
+```
+
+
+# Data transformation
+
+## A grammar of data wrangling... {.smaller}
+
+... based on the concepts of functions as verbs that manipulate data frames
+
+::: {.columns}
+
+::: {.column width="30%"}
+![](images/04/dplyr-part-of-tidyverse.png)
+:::
+
+::: {.column width="70%"}
+- `select`: pick columns by name
+- `filter`: pick rows matching criteria
+- `mutate`: add new variables
+- `summarize`: reduce variables to values
+- `group_by`: for grouped operations
+- `arrange`: reorder/sort rows
+- `distinct`: filter for unique rows
+- ... (many more)
+:::
+
+::: 
+
+## Rules of **dplyr** functions
+
+- First argument is always a data frame (we'll use the **pipe** `|>` instead)
+- They don't modify the data frame in place
+- (Instead, they return a new data frame)
+
+## Example {.smaller}
+
+```{r}
+#| code-line-numbers: "|1|2|3"
+gss |> # <1>
+  filter(age > 45) |> # <2>
+  select(age, employment_status, party_id, happiness) # <3>
+```
+
+1.  Start with the `gss` data frame
+2.  Filter for respondents older than 45
+3.  Select the columns `age`, `employment_status`, `party_id`, and `happiness`
+
+## Participate {.smaller}
+
+In data transformation with the pipe operator `|>`, what does the operator do?
+
+a) It ends a pipeline and prints the result.
+b) It joins two data frames together.
+c) It passes the output from the previous command into the first argument of the function in the next command.
+d) It is equivalent to the "or" operator.
+
+## The pipe `|>` {.smaller}
+
+The pipe operator passes what comes before it into the function that comes after it as the first argument in that function.
+
+::: columns
+
+::: {.column .fragment}
+
+```{r}
+sum(1, 2)
+```
+
+:::
+
+::: {.column .fragment}
+
+```{r}
+1 |>
+  sum(2)
+```
+
+:::
+
+:::
+
+<br>
+
+::: columns
+
+::: {.column .fragment}
+
+```{r}
+select(filter(gss, age > 50), health)
+```
+
+:::
+
+::: {.column .fragment}
+
+```{r}
+gss |>
+  filter(age > 50) |>
+  select(health)
+```
+
+:::
+
+:::
+
+## Code style tip {{< fa lightbulb >}} {.smaller}
+
+::: {.columns}
+
+::: {.column}
+
+In data **transformation** pipelines, always use a
+
+-   space before `|>`
+-   line break after `|>`
+-   indent next line of code
+
+:::
+
+::: {.column .fragment}
+
+In data **visualization** layers, always use a
+
+-   space before `+`
+-   line break after `+`
+-   indent next line of code
+
+:::
+
+:::
+
+
+## The pipe, in action
+
+::: task
+Write a single pipeline to find respondents who are living the dream: retired, in excellent health, very happy, and younger than 50 years old. 
+
+Display their ages, employment statuses, health statuses, happiness levels, and the number of children they have. Arrange the rows in increasing order of age.
+:::
+
+## The pipe - Step 1 {.small}
+
+::: {.task .xsmall}
+Write a single pipeline to find respondents who are living the dream: retired, in excellent health, very happy, and younger than 50 years old. Display their ages, employment statuses, health statuses, happiness levels, and the number of children they have.
+:::
+
+Start with the `gss` data frame:
+
+```{r}
+gss
+```
+
+## The pipe - Step 2 {.small}
+
+::: {.task .xsmall}
+Find respondents who are living the dream: **retired**, in excellent health, very happy, and younger than 50 years old. Display their ages, employment statuses, health statuses, happiness levels, and the number of children they have.
+:::
+
+```{r}
+#| code-line-numbers: "2"
+gss |>
+  filter(employment_status == "Retired")
+```
+
+## The pipe - Step 3 {.small}
+
+::: {.task .xsmall}
+Find respondents who are living the dream: retired, **in excellent health**, very happy, and younger than 50 years old. Display their ages, employment statuses, health statuses, happiness levels, and the number of children they have.
+:::
+
+```{r}
+#| code-line-numbers: "4"
+gss |>
+  filter(
+    employment_status == "Retired",
+    health == "Excellent"
+  )
+```
+
+## The pipe - Step 4 {.small}
+
+::: {.task .xsmall}
+Find respondents who are living the dream: retired, in excellent health, **very happy**, and younger than 50 years old. Display their ages, employment statuses, health statuses, happiness levels, and the number of children they have.
+:::
+
+```{r}
+#| code-line-numbers: "5"
+gss |>
+  filter(
+    employment_status == "Retired",
+    health == "Excellent",
+    happiness == "Very happy"
+  )
+```
+
+## The pipe - Step 5 {.small}
+
+::: {.task .xsmall}
+Find respondents who are living the dream: retired, in excellent health, very happy, and **younger than 50 years old**. Display their ages, employment statuses, health statuses, happiness levels, and the number of children they have.
+:::
+
+```{r}
+#| code-line-numbers: "6"
+gss |>
+  filter(
+    employment_status == "Retired",
+    health == "Excellent",
+    happiness == "Very happy",
+    age < 50
+  )
+```
+
+## The pipe - Step 7 {.small}
+
+::: {.task .xsmall}
+Find respondents who are living the dream: retired, in excellent health, very happy, and younger than 50 years old. **Display their ages, employment statuses, health statuses, happiness levels, and the number of children they have.**
+:::
+
+```{r}
+#| code-line-numbers: "8"
+gss |>
+  filter(
+    employment_status == "Retired",
+    health == "Excellent",
+    happiness == "Very happy",
+    age < 50
+  ) |>
+  select(age, employment_status, health, happiness, children)
+```
+
+## In this class, you will... {.smaller}
+
+::: columns
+::: {.column width="50%"}
+Build cakes (`ggplot`) ![](images/04/cake.png)
+:::
+
+::: {.column width="50%"}
+Stack dolls (pipe `|>`) ![](images/04/matryoshka.png)
+:::
+:::
+
+Master these constructs, and everything will be A-Ok!
+
+::: aside
+Source: [Cake by Anirban Sengupta on Unsplash](https://unsplash.com/photos/white-pink-and-yellow-cake-GQvNc4bDRYw) and [Matryoshka dolls by Julia Kadel  on Unsplash](https://unsplash.com/photos/a-group-of-russian-nesting-dolls-sitting-on-a-table-YmULswIbc3I).
+:::
