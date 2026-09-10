@@ -1,0 +1,238 @@
+---
+title: "AE 03 Flights and pipes"
+subtitle: "Suggested answers"
+---
+
+::: callout-important
+These are suggested answers.
+This document should be used as a reference only; it's not designed to be an exhaustive key.
+:::
+
+# Introduction
+
+Have you ever had a flight delayed?
+How common is that?
+Which airlines are delayed more than others?
+
+## Packages
+
+We will use the **tidyverse** packages for data wrangling and visualization and the **nycflights13** package for the data.
+
+```{r}
+#| label: load-packages
+#| message: false
+library(tidyverse)
+library(nycflights13)
+```
+
+## Data
+
+The dataset we will explore is called `flights`.
+Let's `glimpse()` at it.
+
+```{r}
+#| label: glimpse-flights
+glimpse(flights)
+```
+
+# Exploring flights
+
+## Exercise 1
+
+Fill in the blanks:
+
+The `flights` data frame has `r nrow(flights)` rows.
+Each row represents a **single flight departing NYC in 2013**.
+
+## Exercise 2
+
+What are the names of the variables in `flights`.
+
+```{r}
+#| label: column-names
+# add code here
+colnames(flights)
+```
+
+**Answer:**
+`year, month, day, dep_time, sched_dep_time, dep_delay, arr_time, sched_arr_time, arr_delay, carrier, flight, tailnum, origin, dest, air_time, distance, hour, minute, time_hour`
+
+## Exercise 3 - `select()`
+
+-   Make a data frame that only contains the variables `dep_delay` and `arr_delay`.
+
+```{r}
+#| label: select-vars
+# add code here
+flights |> 
+  select(dep_delay, arr_delay)
+```
+
+
+-   Make a data frame that keeps every variable except `dep_delay`.
+
+```{r}
+#| label: exclude-vars
+# add code here
+flights |> 
+  select(!dep_delay)
+```
+
+-   Use the `select` helper `contains()` to make a data frame that includes the variables associated with the arrival, i.e., contains the string `"arr_"` in the name.
+
+```{r}
+#| label: arr-vars
+# add code here
+flights |> 
+  select(contains("arr_"))
+```
+
+## Exercise 4 - `slice()`
+
+-   Display the first five rows of the `flights` data frame.
+
+```{r}
+#| label: slice
+# add code here
+flights |> 
+  slice_head(n = 5)
+```
+
+## Exercise 5 - `arrange()`
+
+-   Let's arrange the data by departure delay, so the flights with the shortest departure delays will be at the top of the data frame.
+
+```{r}
+#| label: arrange-delays
+# add code here
+flights |> 
+  arrange(dep_delay)
+```
+
+-   What does it mean for the `dep_delay` to have a negative value?
+
+**Answer:** It means the flight departed earlier than scheduled.
+
+-   Arrange the data by descending departure delay, so the flights with the longest departure delays will be at the top.
+
+```{r}
+#| label: arrange-delays-desc
+# add code here
+flights |> 
+  arrange(desc(dep_delay))
+```
+
+-   Create a data frame that only includes the plane tail number (`tailnum`), carrier (`carrier`), and departure delay for the flight with the longest departure delay. What is the plane tail number (`tailnum`) for this flight?
+
+```{r}
+#| label: longest-delay
+# add code here
+# Store the new dataframe so we can reference it later in the narrative
+# using inline code
+most_delayed <- flights |>
+  select(tailnum, carrier, dep_delay) |>
+  slice_max(dep_delay)
+# Display the resulting dataframe
+most_delayed
+```
+
+**Answer:** The most delayed flight had tail number `r most_delayed$tailnum`.
+
+## Exercise 6 - `filter()`
+
+-   Filter for all rows where the destination airport is RDU.
+
+```{r}
+#| label: rdu
+# add code here
+flights |> 
+  filter(dest == "RDU")
+```
+
+-   Filter for all rows where the destination airport is RDU and the arrival delay is less than 0.
+
+```{r}
+#| label: rdu-ontime
+# add code here
+flights |> 
+  filter(dest == "RDU", arr_delay < 0)
+```
+
+-   Describe what the code is doing in words.
+
+**Answer:** The following code keeps flights going to airports RDU or GSO, where the arrival delay or the departure delay are less than 0. In other words, flights to RDU or GSO that departed early or arrived early.
+
+```{r}
+#| label: nc-early
+flights |>
+  filter(
+    dest %in% c("RDU", "GSO"),
+    arr_delay < 0 | dep_delay < 0
+  )
+```
+
+**Hint:** Logical operators in R:
+
+| operator      | definition                                               |
+|:--------------|:---------------------------------------------------------|
+| `<`           | is less than?                                            |
+| `<=`          | is less than or equal to?                                |
+| `>`           | is greater than?                                         |
+| `>=`          | is greater than or equal to?                             |
+| `==`          | is exactly equal to?                                     |
+| `!=`          | is not equal to?                                         |
+| `x & y`       | is x AND y?                                              |
+| `x | y`       | is x OR y?                                               |
+| `is.na(x)`    | is x NA?                                                 |
+| `!is.na(x)`   | is x not NA?                                             |
+| `x %in% y`    | is x in y?                                               |
+| `!(x %in% y)` | is x not in y?                                           |
+| `!x`          | is not x? (only makes sense if `x` is `TRUE` or `FALSE`) |
+
+## Exercise 7 - `count()`
+
+-   Create a frequency table of the destination locations for flights from New York's 3 major airports (EWR, LGA, JFK).
+
+```{r}
+#| label: count-dest
+# add code here
+flights |>
+  filter(origin %in% c("EWR", "LGA", "JFK")) |>
+  count(dest, sort = TRUE)
+```
+
+-   In which month was there the fewest number of flights? How many flights were there in that month?
+
+```{r}
+#| label: count-month
+# add code here
+flights |> 
+  count(month, sort = TRUE)
+```
+
+**Answer:** The month with the fewest number of flights was February, which had 24,951 flights.
+
+-   On which date (month + day) was there the largest number of flights? How many flights were there on that day?
+
+```{r}
+#| label: count-date
+# add code here
+flights |> 
+  count(month, day, sort = TRUE)
+```
+
+**Answer:** The date with the largest number of flights was 11/27, with 1,014 flights. The large number of flights was likely due to Thanksgiving holiday travel.
+
+## Exercise 8 - `mutate()`
+
+-   Convert `air_time` (minutes in the air) to hours and then create a new variable, `mph`, the miles per hour of the flight.
+
+```{r}
+#| label: calculate-mph
+# add code here
+flights |> 
+  mutate(
+    air_time = air_time / 60,
+    mph = distance / air_time
+  )
+```
