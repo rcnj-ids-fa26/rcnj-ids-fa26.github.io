@@ -95,7 +95,7 @@ flights |>
 #| label: slice
 # add code here
 flights |> 
-  slice_head(n = 5)
+  slice(1:5)
 ```
 
 ## Exercise 5 - `arrange()`
