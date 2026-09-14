@@ -32,7 +32,7 @@ Below are the components of a Quarto (.qmd) file.
 
 ### Step 2: Clone the repo & start new RStudio project
 
--   Go to the GitHub course organization and click on the repo with the prefix **lab-1**.
+-   Go to the [GitHub course organization](https://github.com/rcnj-ids-fa26) and click on the repo with the prefix **lab-1**.
     It contains the starter documents you need to complete the lab.
 
 -   Click on the green **CODE** button and select **HTTPS** (it should already be selected by default).
