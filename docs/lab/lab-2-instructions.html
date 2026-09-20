@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lab 2</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="lab-2-instructions_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lab-2-instructions_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="lab-2-instructions_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="lab-2-instructions_files/libs/quarto-html/popper.min.js"></script>
+<script src="lab-2-instructions_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="lab-2-instructions_files/libs/quarto-html/anchor.min.js"></script>
+<link href="lab-2-instructions_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lab-2-instructions_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="lab-2-instructions_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="lab-2-instructions_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="lab-2-instructions_files/libs/bootstrap/bootstrap-215b371544c282197b31c8aa00ce3677.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab 2</h1>
+<p class="subtitle lead">Revisiting the Midwest</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">Lab</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h2>
+<p>By the end of the lab, you will…</p>
+<ul>
+<li>Be able to create transform data using <code>dplyr</code></li>
+<li>Build on your mastery of data visualizations using <code>ggplot2</code></li>
+<li>Get more experience with data science workflow using R, RStudio, Git, and GitHub</li>
+<li>Further your reproducible authoring skills with Quarto</li>
+<li>Improve your familiarity with version control using Git and GitHub</li>
+</ul>
+</section>
+<section id="getting-started" class="level2">
+<h2 class="anchored" data-anchor-id="getting-started">Getting started</h2>
+<section id="step-1-login-to-posit-cloud" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-login-to-posit-cloud">Step 1: Login to Posit Cloud</h3>
+<ul>
+<li>Go to <a href="https://posit.cloud" class="uri">https://posit.cloud</a> and go to our course workspace.</li>
+</ul>
+</section>
+<section id="step-2-clone-the-repo-start-new-rstudio-project" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-clone-the-repo-start-new-rstudio-project">Step 2: Clone the repo &amp; start new RStudio project</h3>
+<ul>
+<li><p>Go to the GitHub course organization and click on the repo with the prefix <strong>lab-2</strong>. It contains the starter documents you need to complete the lab.</p></li>
+<li><p>Click on the green <strong>CODE</strong> button and select <strong>HTTPS</strong> (it should already be selected by default). Click on the clipboard icon to copy the repo URL.</p></li>
+<li><p>In RStudio, go to New Project ➛ New Project from Git Repository ➛ Git</p></li>
+<li><p>Paste the URL of your assignment repo into the dialog box URL of your Git Repository.</p></li>
+<li><p>Click OK. The repo will be cloned and an RStudio project will be created.</p></li>
+<li><p>Go to the Files pane and click <strong>lab-2.qmd</strong> to open the template Quarto file. This is where you will write up your code and narrative for the lab.</p></li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Your repo also contains a <code>tests/</code> folder. <strong>Do not move, rename, edit, or delete it.</strong> The template uses it to give you instant feedback on your answers (see “Checking your work” below).</p>
+</div>
+</div>
+</section>
+<section id="step-3-update-the-yaml" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-update-the-yaml">Step 3: Update the YAML</h3>
+<p>In <code>lab-2.qmd</code>, update the <code>author</code> field to your name, render your document, and examine the changes. Then, in the Git pane, stage your changes, add a commit message (e.g., “Added author name”), and click <strong>Commit</strong>. Then, push the changes to your GitHub repository and, in your browser, confirm that these changes have indeed propagated to your repository.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you encounter any issues with the above steps, ask for help before proceeding.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="packages" class="level2">
+<h2 class="anchored" data-anchor-id="packages">Packages</h2>
+<p>In this lab, we will work with the <strong>tidyverse</strong> package, a collection of packages for performing data analysis in a “tidy” way.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li><strong>Run</strong> the code cell by clicking on the green triangle (play) button for the code cell labeled <code>load-packages</code>. This loads the package so that its features (the functions and datasets in it) are accessible from your <em>Console</em>.</li>
+<li>Then, <strong>render</strong> the document that loads this package to make its features (the functions and datasets in it) available for other code cells in your Quarto document.</li>
+</ul>
+</section>
+<section id="checking-your-work" class="level2">
+<h2 class="anchored" data-anchor-id="checking-your-work">Checking your work</h2>
+<p>This lab is partially <strong>autograded</strong>. That changes two things about how you work:</p>
+<ol type="1">
+<li><p><strong>Answers go into named objects.</strong> Each question tells you exactly what to name your answer (e.g., “save the result as a data frame named <code>county_counts</code>”). The template already contains a placeholder like <code>county_counts &lt;- NULL</code> in each answer cell – replace the <code>NULL</code> (or <code>NA</code>) with your code, but <strong>do not change the object names</strong>. The autograder looks for these exact names; an answer stored under a different name receives no credit, even if the code is correct.</p></li>
+<li><p><strong>You can check your answers as you go.</strong> After each question, the template contains a check chunk that runs <code>ottr::check()</code> on that question. Run it to see the results of the <strong>public checks</strong>: quick tests that confirm your answer has the right structure (correct type, columns, dimensions) and is in a plausible range. These checks are designed to tell you whether you’re on the right track without revealing the answer.</p></li>
+</ol>
+</section>
+<section id="guidelines" class="level2">
+<h2 class="anchored" data-anchor-id="guidelines">Guidelines</h2>
+<p>As we’ve discussed in the lecture, your plots should include an informative title, axes and legends should have human-readable labels and aesthetic choices should be carefully considered.</p>
+<p>Additionally, code should follow the <a href="https://style.tidyverse.org/">tidyverse style</a>. Particularly,</p>
+<ul>
+<li><p>there should be spaces before and line breaks after each <code>+</code> when building a <code>ggplot</code>,</p></li>
+<li><p>there should also be spaces before and line breaks after each <code>|&gt;</code> in a data transformation pipeline,</p></li>
+<li><p>code should be properly indented,</p></li>
+<li><p>there should be spaces around <code>=</code> signs and spaces after commas.</p></li>
+</ul>
+<p>Furthermore, all code should be visible in the PDF output, i.e., should not run off the page on the PDF. Long lines that run off the page should be split across multiple lines with line breaks.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>As you complete the lab and other assignments in this course, remember to develop a sound workflow for reproducible data analysis. This assignment will periodically remind you to render, commit, and push your changes to GitHub.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You should have at least 3 commits with meaningful commit messages by the end of the assignment.</p>
+</div>
+</div>
+</section>
+<section id="questions" class="level1">
+<h1>Questions</h1>
+<section id="part-1" class="level2">
+<h2 class="anchored" data-anchor-id="part-1">Part 1</h2>
+<p><strong>All about <code>group_by()</code>!</strong></p>
+<p>Use the following data frame for Question 1 and Question 2:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">var_1 =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">var_2 =</span> <span class="fu">c</span>(<span class="st">"Pizza"</span>, <span class="st">"Burger"</span>, <span class="st">"Pizza"</span>, <span class="st">"Pizza"</span>, <span class="st">"Burger"</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">var_3 =</span> <span class="fu">c</span>(<span class="st">"Apple"</span>, <span class="st">"Apple"</span>, <span class="st">"Pear"</span>, <span class="st">"Pear"</span>, <span class="st">"Banana"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 3
+  var_1 var_2  var_3 
+  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; 
+1    10 Pizza  Apple 
+2    20 Burger Apple 
+3    30 Pizza  Pear  
+4    40 Pizza  Pear  
+5    50 Burger Banana</code></pre>
+</div>
+</div>
+<p>Questions 1 and 2 are <strong>multiple choice</strong>. For each part, run the code chunk, analyze the result, and choose the statement that best describes what the code does. Record each answer in the template by assigning the letter of your choice, as a string, to the corresponding variable in the answer cell at the end of the question – for example:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>q1a <span class="ot">&lt;-</span> <span class="st">"C"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="question-1" class="level3">
+<h3 class="anchored" data-anchor-id="question-1">Question 1</h3>
+<p>Grouping by a single variable.</p>
+<p><strong>1a.</strong> What does <code>arrange()</code> do? Run the chunk, analyze the result, and assign your answer to <code>q1a</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(var_2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A. It groups the rows of <code>df</code> by the values of <code>var_2</code>.</p>
+<p>B. It sorts the rows of <code>df</code> by the values of <code>var_2</code> alphabetically.</p>
+<p>C. It removes rows with duplicate values of <code>var_2</code>.</p>
+<p>D. It reorders the columns of <code>df</code> so <code>var_2</code> comes first.</p>
+<p><strong>1b.</strong> What does <code>group_by()</code> do, and how is it different from the <code>arrange()</code> in part (a)? Run the chunk, analyze the result, and assign your answer to <code>q1b</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(var_2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A. It sorts the rows by <code>var_2</code>.</p>
+<p>B. It collapses <code>df</code> to one row per value of <code>var_2</code>.</p>
+<p>C. It leaves the rows unchanged but attaches grouping metadata (<code>Groups: var_2 [2]</code>) so that later verbs operate within each group.</p>
+<p>D. It adds a new column indicating each row’s group number.</p>
+<p><strong>1c.</strong> What does the full pipeline do? Run the chunk, analyze the result, and assign your answer to <code>q1c</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(var_2) <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_var_1 =</span> <span class="fu">mean</span>(var_1))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A. It computes the overall mean of <code>var_1</code> and returns a single row.</p>
+<p>B. It adds <code>mean_var_1</code> to every row of <code>df</code>.</p>
+<p>C. It sorts the groups by their mean of <code>var_1</code>.</p>
+<p>D. It groups <code>df</code> by <code>var_2</code> and collapses each group to one row containing the mean of <code>var_1</code> for that group.</p>
+</section>
+<section id="question-2" class="level3">
+<h3 class="anchored" data-anchor-id="question-2">Question 2</h3>
+<p>Grouping by two variables.</p>
+<p><strong>2a.</strong> What does this pipeline do, and what does the message say? Run the chunk, analyze the result, and assign your answer to <code>q2a</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(var_2, var_3) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_var_1 =</span> <span class="fu">mean</span>(var_1))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A. It produces one row per (<code>var_2</code>, <code>var_3</code>) combination; the message notes the output is still grouped by <code>var_2</code> because <code>summarize()</code> drops only the last grouping variable.</p>
+<p>B. It produces one row per value of <code>var_2</code>; the message notes that <code>var_3</code> was ignored.</p>
+<p>C. It keeps all five original rows with a new mean column; the message warns about regrouping.</p>
+<p>D. It produces a single row with the overall mean; the message notes both grouping variables were dropped.</p>
+<p><strong>2b.</strong> What does the <code>.groups</code> argument do, and how is the output different from part (a)? Run the chunk, analyze the result, and assign your answer to <code>q2b</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(var_2, var_3) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_var_1 =</span> <span class="fu">mean</span>(var_1), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A. It drops rows belonging to groups with only one observation.</p>
+<p>B. It removes <code>var_2</code> and <code>var_3</code> from the output columns.</p>
+<p>C. It changes the computed means by dropping missing values.</p>
+<p>D. The values are identical to part (a), but the result is a fully ungrouped tibble instead of remaining grouped by <code>var_2</code>.</p>
+<p><strong>2c.</strong> How are the outputs of the two pipelines below different? Run both, analyze the results, and assign your answer to <code>q2c</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(var_2, var_3) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_var_1 =</span> <span class="fu">mean</span>(var_1), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(var_2, var_3) <span class="sc">|&gt;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_var_1 =</span> <span class="fu">mean</span>(var_1))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A. The outputs are identical except for row order.</p>
+<p>B. <code>summarize()</code> collapses the data to one row per (<code>var_2</code>, <code>var_3</code>) group (4 rows), while <code>mutate()</code> keeps all 5 original rows and attaches each group’s mean as a new column.</p>
+<p>C. <code>mutate()</code> collapses to one row per group, while <code>summarize()</code> keeps all rows.</p>
+<p>D. <code>summarize()</code> computes group means, while <code>mutate()</code> computes the overall mean.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Render, commit, and push">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Render, commit, and push
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Render, commit, and push your changes to GitHub with the commit message “Added answers for Questions 1 and 2”.</p>
+<p>Make sure to commit and push all changed files so that your Git pane is empty afterward.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="part-2" class="level2">
+<h2 class="anchored" data-anchor-id="part-2">Part 2</h2>
+<p><strong>Back to the Midwest!</strong></p>
+<p>In this part, you will revisit and build on some of your findings from Lab 1, where you explored the <code>midwest</code> data frame. Remember that this data frame is bundled with the <strong>ggplot2</strong> package and is automatically loaded when you load the tidyverse package. As a refresher, the data contains demographic characteristics of counties in the Midwest region of the United States. You can read the documentation for the data set, including variable definitions, by typing <code>?midwest</code> in the Console or searching for <code>midwest</code> in the Help pane.</p>
+<section id="question-3" class="level3">
+<h3 class="anchored" data-anchor-id="question-3">Question 3</h3>
+<p>Calculate the number of counties in each state and display your results in descending order of number of counties. Save the result as a data frame named <code>county_counts</code> with columns <code>state</code> and <code>n</code>.</p>
+<p>Then, based on your output, record your answers in the answer cell: the state with the highest number of counties and its count (<code>q3_highest_state</code>, <code>q3_highest_n</code>), and the state with the lowest number of counties and its count (<code>q3_lowest_state</code>, <code>q3_lowest_n</code>). State answers should be two-letter abbreviations as they appear in the data (e.g., <code>"OH"</code>).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The number of counties in a state can change over time, so the values you see in this output may not be true today.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Render, commit, and push">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Render, commit, and push
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Render, commit, and push your changes to GitHub with the commit message “Added answer for Question 3”.</p>
+<p>Make sure to commit and push all changed files so that your Git pane is empty afterward.</p>
+</div>
+</div>
+</section>
+<section id="question-4" class="level3">
+<h3 class="anchored" data-anchor-id="question-4">Question 4</h3>
+<p>While two counties in a given state can’t have the same name, some county names might be shared across states. For example, many states (including New Jersey) have a county called Union. A classmate says “Look at that, there is a county called ___ in every single state in this dataset!” In a single pipeline, discover all counties that could fill in the blanks. Save your result as a data frame named <code>shared_counties</code> with columns <code>county</code> and <code>n</code>: only the county names that could fill in the blank and the number of times they appear in the data. <strong>Hint:</strong> to help find the answer, think about how many states are in the <code>midwest</code> dataset, and count how many times each county name appears in the dataset.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You will want to use the <code>filter()</code> function in your answer, which requires a logical condition to describe what you want to filter for. For example, <code>filter(x &gt; 2)</code> means filter for values of <code>x</code> greater than 2, and <code>filter(y &lt;= 3)</code> means filter for values of y less than or equal to 3.</p>
+<p>The table below is a summary of logical operators and how to articulate them in R.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>operator</th>
+<th>definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>&lt;</code></td>
+<td>less than</td>
+</tr>
+<tr class="even">
+<td><code>&lt;=</code></td>
+<td>less than or equal to</td>
+</tr>
+<tr class="odd">
+<td><code>&gt;</code></td>
+<td>greater than</td>
+</tr>
+<tr class="even">
+<td><code>&gt;=</code></td>
+<td>greater than or equal to</td>
+</tr>
+<tr class="odd">
+<td><code>==</code></td>
+<td>exactly equal to</td>
+</tr>
+<tr class="even">
+<td><code>!=</code></td>
+<td>not equal to</td>
+</tr>
+<tr class="odd">
+<td><code>x &amp; y</code></td>
+<td><code>x</code> AND <code>y</code></td>
+</tr>
+<tr class="even">
+<td><code>x</code> | <code>y</code></td>
+<td><code>x</code> OR <code>y</code></td>
+</tr>
+<tr class="odd">
+<td><code>is.na(x)</code></td>
+<td>test if <code>x</code> is <code>NA</code></td>
+</tr>
+<tr class="even">
+<td><code>!is.na(x)</code></td>
+<td>test if <code>x</code> is not <code>NA</code></td>
+</tr>
+<tr class="odd">
+<td><code>x %in% y</code></td>
+<td>test if <code>x</code> is in <code>y</code></td>
+</tr>
+<tr class="even">
+<td><code>!(x %in% y)</code></td>
+<td>test if <code>x</code> is not in <code>y</code></td>
+</tr>
+<tr class="odd">
+<td><code>!x</code></td>
+<td>not <code>x</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Render, commit, and push">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Render, commit, and push
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Render, commit, and push your changes to GitHub with the commit message “Added answer for Question 4”.</p>
+<p>Make sure to commit and push all changed files so that your Git pane is empty afterward.</p>
+</div>
+</div>
+</section>
+<section id="question-5" class="level3">
+<h3 class="anchored" data-anchor-id="question-5">Question 5</h3>
+<p>Return to the following box plot of population densities where you were asked to identify at least one outlier.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-2-instructions_files/figure-html/popdensity-boxplot-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In this question, we want you to revisit this box plot and identify the counties described in each section.</p>
+<p><strong>5a.</strong> The counties with a population density higher than 25,000, saved as a data frame named <code>dense_counties</code>. Your code must use the <code>filter()</code> function.</p>
+<p><strong>5b.</strong> The county with the highest population density, saved as a data frame named <code>densest_county</code>. Your code must use the <code>max()</code> function (to identify the maximum population density), combined with the <code>filter()</code> function to narrow the data down to the county having this population density.</p>
+<p>Answer using a single data wrangling pipeline for each part. Your response should be a data frame with five columns: county name, state name, population density, total population, and area, in this order. If your response has multiple rows, the data frame should be arranged in descending order of population density.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Render, commit, and push">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Render, commit, and push
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Render, commit, and push your changes to GitHub with the commit message “Added answer for Question 5”.</p>
+<p>Make sure to commit and push all changed files so that your Git pane is empty afterward.</p>
+</div>
+</div>
+</section>
+<section id="question-6" class="level3">
+<h3 class="anchored" data-anchor-id="question-6">Question 6</h3>
+<p>In Lab 1 you were also asked to describe the distribution of population densities. The following is one acceptable description that touches on the shape, center, and spread of this distribution. Calculate the values that should go into the blanks, saving them as <code>density_median</code>, <code>density_q1</code>, and <code>density_q3</code>.</p>
+<blockquote class="blockquote">
+<p>A typical Midwestern county has population density of ____ people per unit area. The middle 50% of the counties have population densities between ___ and ___ people per unit area.</p>
+</blockquote>
+<p>In the template, the blanks in this sentence are inline R code that reference your three variables – once you assign them and render, the sentence completes itself.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Think about which measures of center and spread are appropriate for skewed distributions.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Render, commit, and push">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Render, commit, and push
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Render, commit, and push your changes to GitHub with the commit message “Added answer for Question 6”.</p>
+<p>Make sure to commit and push all changed files so that your Git pane is empty afterward.</p>
+</div>
+</div>
+</section>
+<section id="question-7" class="level3">
+<h3 class="anchored" data-anchor-id="question-7">Question 7</h3>
+<p>Another visualization from Lab 1 was the following, which showed the proportion of urban counties in each state.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-2-instructions_files/figure-html/metro-barplot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Calculate these proportions in a single data pipeline. Save your result as a data frame named <code>metro_props</code> with columns <code>state</code> and <code>prop_metro</code>, where <code>prop_metro</code> is the proportion of counties in that state that are in a metro area (i.e., with <code>metro == "Yes"</code>).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Remember, you’ll first need to create a new variable called <code>metro</code> which takes on the value <code>Yes</code> if the value of <code>inmetro</code> is 1, and <code>No</code> otherwise. You can refer to <a href="../labs/lab-1.html#question-6">Lab 1</a> if you need a refresher on how to do this.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Render, commit, and push">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Render, commit, and push
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Render, commit, and push your changes to GitHub with the commit message “Added answer for Question 7”.</p>
+<p>Make sure to commit and push all changed files so that your Git pane is empty afterward.</p>
+</div>
+</div>
+</section>
+<section id="question-8" class="level3">
+<h3 class="anchored" data-anchor-id="question-8">Question 8</h3>
+<p>Return to the following scatter plot of percentage below poverty vs.&nbsp;percentage of people with a college degree, where the color and shape of points are determined by <code>state</code> where you were asked to identify at least one county that is a clear outlier by name.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-2-instructions_files/figure-html/percollege-percbelowpoverty-scatterplot-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>8a.</strong> In a single pipeline, identify the observations marked in the orange square in the upper left corner. Save your answer as a data frame named <code>poverty_outliers</code> with four variables: county, state, percentage below poverty, and percentage college educated.</p>
+<p><strong>8b.</strong> In a single pipeline, identify the observations marked in the red square in the plot above. Save your answer as a data frame named <code>college_outliers</code> with the same four variables.</p>
+<p><strong>8c.</strong> Bring your answers from part (a) and part (b) together! In a single pipeline, and a single <code>filter()</code> statement, identify the observations marked in the red and orange squares in the plot above. Save your answer as a data frame named <code>potential_outliers</code> with the same four variables.</p>
+<p><strong>8d.</strong> Create a new variable in <code>midwest</code> called <code>potential_outlier</code>. This variable should take on the value:</p>
+<ul>
+<li><p><code>Yes</code> if the point is one the ones you identified in part (c), i.e., one of the points marked in the squares in the plot above.</p></li>
+<li><p><code>No</code> otherwise.</p></li>
+</ul>
+<p><strong>Hint:</strong> use the <code>if_else()</code> function together with <code>mutate()</code>. Save the result as a data frame named <code>midwest_flagged</code>, with county, state, percentage below poverty, percentage college educated, <code>potential_outlier</code> as the selected variables, arranged in descending order of <code>potential_outlier</code>.</p>
+<p><strong>7e.</strong> Recreate the visualization above, i.e., a scatterplot of the percentage below poverty vs.&nbsp;the percentage of people with a college degree. However, color the points by the newly created <code>potential_outlier</code> variable instead of the state. Save the plot as <code>outlier_plot</code>, and make sure to set informative titles, axis, and legend labels.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Render, commit, and push">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Render, commit, and push
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Render, commit, and push your changes to GitHub with the commit message “Added answer for Question 8”.</p>
+<p>Make sure to commit and push all changed files so that your Git pane is empty afterward.</p>
+</div>
+</div>
+</section>
+<section id="question-9" class="level3">
+<h3 class="anchored" data-anchor-id="question-9">Question 9</h3>
+<p><strong>9a.</strong> In a single pipeline, calculate the total population for each state and save the resulting data frame as <code>state_population</code> with columns <code>state</code> and <code>total_pop</code>, displayed in descending order of total population.</p>
+<p><strong>9b.</strong> Then, in a separate pipeline, calculate the proportion of the total population in each state. Save the result as a data frame named <code>state_prop</code> with columns <code>state</code>, <code>total_pop</code>, and <code>prop_pop</code>, displayed in descending order of proportion of population.</p>
+<p><strong>9c.</strong> Based on your output, record your answers in the answer cell: the most populous Midwestern state and the percent of the Midwest population that lives there (<code>q9_most_state</code>, <code>q9_most_pct</code>), and the least populous state and its percent (<code>q9_least_state</code>, <code>q9_least_pct</code>). Give percents as numbers between 0 and 100 (e.g., <code>45.6</code>), rounded to one decimal place.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Render, commit, and push">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Render, commit, and push
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Render, commit, and push your changes to GitHub with the commit message “Added answer for Question 9”.</p>
+<p>Make sure to commit and push all changed files so that your Git pane is empty afterward.</p>
+</div>
+</div>
+</section>
+<section id="question-10" class="level3">
+<h3 class="anchored" data-anchor-id="question-10">Question 10</h3>
+<p>Calculate the average percentage below poverty for each state and save the resulting data frame as <code>state_poverty</code> with the columns <code>state</code> and <code>mean_percbelowpoverty</code>.</p>
+<p>Then, in a new pipeline, display the <code>state_poverty</code> data frame in ascending order of <code>mean_percbelowpoverty</code>. Based on your output, record your answers in the answer cell: the state with the lowest average percentage below poverty across its counties (<code>q10_lowest_state</code>) and the state with the highest (<code>q10_highest_state</code>).</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Render, commit, and push">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Render, commit, and push
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Render, commit, and push your changes to GitHub with the commit message “Added answer for Question 10”.</p>
+<p>Make sure to commit and push all changed files so that your Git pane is empty afterward.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="wrap-up" class="level1">
+<h1>Wrap-up</h1>
+<section id="submission" class="level2">
+<h2 class="anchored" data-anchor-id="submission">Submission</h2>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Before you wrap up the assignment, make sure all of your files are updated in your GitHub repo. We will be checking these to make sure you have been committing and pushing changes (with descriptive commit messages).</p>
+<p>You must turn in <strong>both</strong> the <code>.qmd</code> file and the PDF to Gradescope by the submission deadline to be considered “on time”.</p>
+</div>
+</div>
+<p>Download your completed <code>lab-2.qmd</code> and <code>lab-2.pdf</code> files. To download a file from Posit Cloud, go to the <strong>Files</strong> pane, select the file by marking its <strong>checkbox</strong>, click <strong>More</strong>, then <strong>Export</strong>.</p>
+<p>This lab requires <strong>two assignment submissions</strong> on Gradescope (accessed via Canvas), both due by the deadline. <strong>Note: you may resubmit to Gradescope as many times as you like (until the deadline)</strong>:</p>
+<ol type="1">
+<li><p><strong>Lab 2 QMD:</strong> upload your completed <strong><code>lab-2.qmd</code></strong> file. The autograder will run the same public checks you saw while working, and you will see those results right away. The hidden correctness tests are also run, but their results will be released only after the lab has been graded.</p></li>
+<li><p><strong>Lab 2 PDF:</strong> upload your rendered PDF document <strong><code>lab-2.pdf</code></strong>. This is where you <strong>select pages</strong>. Note that a single question may have multiple pages associated with it, and a single page may be associated with multiple questions. Mark all the pages associated with each question – see <a href="https://guides.gradescope.com/hc/en-us/articles/21864315441677-Submitting-a-PDF-for-an-assignment">this article</a> for instructions. All the pages of your lab should be associated with at least one question (i.e., should be “checked”).</p></li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Checklist
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Make sure you have:</p>
+<ul>
+<li>answered all questions, using the exact object names given in each question</li>
+<li>run the check chunk for each question and reviewed the results</li>
+<li>rendered your Quarto document</li>
+<li>committed and pushed everything to your GitHub repository so that the Git pane in RStudio is empty</li>
+<li>downloaded your QMD and PDF files from RStudio onto your computer</li>
+<li>uploaded your <code>lab-2.qmd</code> file to the Lab 2 QMD Gradescope assignment and confirmed the autograder ran</li>
+<li>uploaded your PDF file <code>lab-2.pdf</code> to the Lab 2 PDF Gradescope assignment and selected the pages associated with each question</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Remember, haikus, not novellas, when writing code!<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
