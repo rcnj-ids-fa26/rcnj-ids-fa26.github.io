@@ -1,0 +1,423 @@
+---
+title: Exploratory data analysis II
+subtitle: Lecture 6
+date: 2026-09-24
+format: 
+  revealjs: 
+    output-file: 06-exploratory-data-analysis-II-slides.html
+    footer: "DATA 101 Introduction to Data Science"
+    theme: slides.scss
+    transition: fade
+    slide-number: true
+    logo: images/logo.png
+    toc: false
+  html: 
+    code-link: true
+---
+
+```{r}
+#| label: setup
+#| include: false
+ggplot2::theme_set(ggplot2::theme_gray(base_size = 16))
+```
+
+
+## Multivariate analysis {.smaller}
+
+Analyzing the relationship between multiple variables:
+
+::: incremental
+-   In general, one variable is identified as the **outcome** of interest
+
+-   The remaining variables are **predictors** or **explanatory variables**
+
+-   Plots for exploring multivariate relationships are the same as those for bivariate relationships, but **conditional** on one or more variables
+
+    -   Conditioning can be done via faceting or aesthetic mappings (e.g., scatterplot of `y` vs. `x1`, colored by `x2`, faceted by `x3`)
+
+-   Summary statistics for exploring multivariate relationships are the same as those for bivariate relationships, but **conditional** on one or more variables
+
+    -   Conditioning can be done via grouping (e.g., correlation between `y` and `x1`, grouped by levels of `x2` and `x3`)
+:::
+
+# Application exercise
+
+## From the application exercise: `flip_22_24`
+
+```{r}
+#| include: false
+library(tidyverse)
+gerrymander <- read_csv("data/gerrymander.csv")
+gerrymander_24 <- gerrymander |> filter(!is.na(house_rep_24))
+```
+
+```{r}
+gerrymander_24 <- gerrymander_24 |>
+  mutate(
+    flip_22_24 = case_when(
+      house_party_22 == "Republican" &
+        house_party_24 == "Democrat" ~ "Flip R to D",
+      house_party_22 == "Democrat" &
+        house_party_24 == "Republican" ~ "Flip D to R",
+      .default = "No Flip"
+    )
+  ) |>
+  relocate(house_party_22, house_party_24, flip_22_24, gerry_26, .after = state)
+```
+
+# `mutate()`
+
+## From grades to categories
+
+::: question
+How can we combine the 2026 gerrymandering grades into low, medium, and high prevalence of gerrymandering?
+:::
+
+-   A or B → Low
+-   C → Medium
+-   D or F → High
+
+We'll create a new variable called `gerry_26_cat` from `gerry_26`.
+
+## `mutate()`
+
+-   The `mutate()` function transforms (*mutates*) a data frame by creating a new column or updating an existing one
+
+-   We choose a name for the column on the left of `=` and describe how to calculate it on the right
+
+-   To create `gerry_26_cat`, we need different values for different grades
+
+```{r}
+#| eval: false
+gerrymander_24 |>
+  mutate(gerry_26_cat = ...)
+```
+
+## `mutate()` and `case_when()` {.smaller}
+
+Use `case_when()` to recode with multiple conditions:
+
+```{r}
+#| code-line-numbers: "|2-8|4-6|9"
+gerrymander_24 |>
+  mutate(
+    gerry_26_cat = case_when(
+      gerry_26 %in% c("A", "B") ~ "Low",
+      gerry_26 == "C" ~ "Medium",
+      gerry_26 %in% c("D", "F") ~ "High"
+    )
+  ) |>
+  select(district, gerry_26, gerry_26_cat)
+```
+
+-   Each condition goes on the left of `~`, and its new value goes on the right
+-   The first matching condition determines the value
+-   Grades that don't match any condition, including missing grades, get `NA`
+
+## `mutate()` and store {.smaller}
+
+Creating a column in a pipeline doesn't change the original data frame:
+
+```{r}
+#| error: true
+gerrymander_24 |>
+  select(district, gerry_26, gerry_26_cat)
+```
+
+. . .
+
+To keep the new column, store the result:
+
+```{r}
+gerrymander_24 <- gerrymander_24 |>
+  mutate(
+    gerry_26_cat = case_when(
+      gerry_26 %in% c("A", "B") ~ "Low",
+      gerry_26 == "C" ~ "Medium",
+      gerry_26 %in% c("D", "F") ~ "High"
+    )
+  )
+```
+
+## Check the new variable {.smaller}
+
+```{r}
+gerrymander_24 |>
+  select(district, gerry_26, gerry_26_cat)
+```
+
+::: question
+What value does `gerry_26_cat` have when `gerry_26` is missing? Why?
+:::
+
+## What's going on? {.smaller}
+
+::: question
+The gerrymandering categories appear in an unexpected order. What's going on?
+:::
+
+```{r}
+gerrymander_24 |>
+  filter(!is.na(gerry_26_cat)) |>
+  ggplot(aes(x = flip_22_24, fill = gerry_26_cat)) +
+  geom_bar(position = "fill")
+```
+
+## `mutate()` and `fct_relevel()` {.smaller}
+
+-   `gerry_26_cat` is a character variable, so the plot orders its values alphabetically
+-   `fct_relevel()` creates a factor with levels in the specified order
+-   We can use `mutate()` to overwrite `gerry_26_cat` and store the change
+
+```{r}
+#| code-line-numbers: "|1|3"
+gerrymander_24 <- gerrymander_24 |>
+  mutate(
+    gerry_26_cat = fct_relevel(gerry_26_cat, "Low", "Medium", "High")
+  )
+
+gerrymander_24 |>
+  select(district, gerry_26, gerry_26_cat)
+```
+
+## Revisit the plot {.smaller}
+
+::: question
+How does the distribution of 2022–2024 flip outcomes vary by prevalence of gerrymandering for the 2026 election?
+:::
+
+```{r}
+gerrymander_24 |>
+  filter(!is.na(gerry_26_cat)) |>
+  ggplot(aes(x = flip_22_24, fill = gerry_26_cat)) +
+  geom_bar(position = "fill")
+```
+
+## `mutate()` and `if_else()` {.smaller}
+
+Use `if_else()` to recode a logical (true/false) condition:
+
+```{r}
+gerrymander_24 |>
+  mutate(
+    trump_or_harris = if_else(
+      trump_24 >= 50,  # condition
+      "Trump",  # action if true
+      "Harris",  # action if false
+    )
+  ) |>
+  select(district, trump_24, trump_or_harris)
+```
+
+-   Each condition goes on the left of `~`, and its new value goes on the right
+-   The first matching condition determines the value
+-   Grades that don't match any condition, including missing grades, get `NA`
+
+# `group_by()`, `summarize()`, `count()`
+
+## Spot the difference {.smaller}
+
+::: question
+What does `group_by()` do?
+:::
+
+::: columns
+::: column
+
+```{r}
+gerrymander_24 |>
+  filter(!is.na(gerry_26_cat)) |>
+  count(flip_22_24, gerry_26_cat)
+```
+
+:::
+::: column
+
+```{r}
+gerrymander_24 |>
+  filter(!is.na(gerry_26_cat)) |>
+  count(flip_22_24, gerry_26_cat) |>
+  group_by(flip_22_24)
+```
+
+:::
+:::
+
+## Let's simplify! {.smaller}
+
+::: question
+What does `group_by()` do in the following pipeline?
+:::
+
+::: columns
+::: column
+
+```{r}
+gerrymander |>
+  summarize(mean_trump_24 = mean(trump_24, na.rm = TRUE))
+```
+
+:::
+::: column
+
+```{r}
+gerrymander |>
+  group_by(state) |>
+  summarize(mean_trump_24 = mean(trump_24, na.rm = TRUE))
+```
+
+:::
+:::
+
+## `group_by()` {.smaller}
+
+-   Group by converts a data frame to a grouped data frame, where subsequent operations are performed once per group
+
+-   `ungroup()` removes grouping
+
+::: columns
+::: column
+
+```{r}
+gerrymander_24 |>
+  select(state, district, house_party_22, house_party_24) |>
+  group_by(state)
+```
+
+:::
+::: {.column .fragment}
+
+```{r}
+#| code-line-numbers: "4"
+gerrymander_24 |>
+  select(state, district, house_party_22, house_party_24) |>
+  group_by(state) |>
+  ungroup()
+```
+
+:::
+:::
+
+## `group_by() |> summarize()` {.smaller}
+
+A common pipeline is `group_by()` and then `summarize()` to **calculate** summary statistics for each group:
+
+```{r}
+gerrymander_24 |>
+  group_by(state) |>
+  summarize(
+    mean_trump_24 = mean(trump_24, na.rm = TRUE),
+    median_trump_24 = median(trump_24, na.rm = TRUE)
+  )
+```
+
+## `group_by() |> summarize()` {.smaller}
+
+This pipeline can also be used to **count** number of observations for each group:
+
+```{r}
+gerrymander_24 |>
+  group_by(state) |>
+  summarize(n = n())
+```
+
+## `summarize()` {.smaller}
+
+```{r}
+#| eval: false
+... |>
+  summarize(
+    name_of_summary_statistic = summary_function(variable)
+  )
+```
+
+. . .
+
+-   `name_of_summary_statistic`: Anything you want to call it!
+    -   Recommendation: Keep it short and evocative
+-   `summary_function()`:
+    -   `n()`: number of observations
+    -   `mean()`: mean
+    -   `median()`: median
+    -   `sd()`: standard deviation
+    -   `min()`: minimum
+    -   `max()`: maximum
+    -   `IQR()`: inter-quartile range
+    -   `quantile()`: quantile (e.g., 0.25, 0.75, etc.)
+
+## Spot the difference {.smaller}
+
+::: question
+What's the difference between the following two pipelines?
+:::
+
+::: columns
+
+::: column
+
+```{r}
+gerrymander_24 |>
+  group_by(state) |>
+  summarize(n = n())
+```
+
+:::
+
+::: column
+
+```{r}
+gerrymander_24 |>
+  count(state)
+```
+
+:::
+
+:::
+
+## `count()`
+
+::: columns
+::: {.column width="40%"}
+``` r
+... |>
+  count(variable)
+```
+:::
+
+::: {.column width="60%"}
+
+```{r}
+#| eval: false
+... |>
+  count(variable1, variable2)
+```
+
+:::
+:::
+
+-   Count the number of observations in each level of variable(s)
+
+-   Place the counts in a variable called `n`
+
+## Review {.xsmall}
+
+::: task
+How would you write the following pipeline with `count()` instead? (Select all that apply)
+
+```{r}
+#| output-location: column
+gerrymander_24 |>
+  group_by(state) |>
+  summarize(n = n()) |>
+  arrange(desc(n))
+```
+
+::: wooclap-choices
+A) `gerrymander_24 |> arrange(state) |> count()`
+B) `gerrymander_24 |> count(state) |> arrange(desc(n))`
+C) `gerrymander_24 |> count(state) |> sort(n)`
+D) `gerrymander_24 |> count(state, sort = TRUE)`
+:::
+
+:::
+
