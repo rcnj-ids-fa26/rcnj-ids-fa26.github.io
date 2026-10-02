@@ -1,0 +1,519 @@
+---
+title: Lab 3
+subtitle: JOINing the Olympic Gymnastics Committee
+categories: Lab
+draft: false
+---
+
+## Learning objectives
+
+By the end of the lab, you will...
+
+-   Combine two data frames with `left_join()`, `inner_join()`, and `anti_join()`
+-   Specify join keys with `join_by()` when the key columns have different names
+-   Reshape data with `pivot_longer()` and `pivot_wider()`
+-   Convert a character variable to a factor and reorder its levels with `fct_relevel()`
+-   Continue developing your data wrangling and visualization skills with the tidyverse
+-   Get more experience with the data science workflow using R, RStudio, Git, and GitHub
+
+## Getting started
+
+Log in to RStudio, clone your `lab-3` repo from GitHub, open your `lab-3.qmd` document, and get started!
+
+::: {.callout-tip collapse="true"}
+## Click here if you prefer to see step-by-step instructions
+
+### Step 1: Login to Posit Cloud
+
+-   Go to <https://posit.cloud> and go to our course workspace.
+
+### Step 2: Clone the repo & start new RStudio project
+
+-   Go to the GitHub course organization and click on the repo with the prefix **lab-3**.
+    It contains the starter documents you need to complete the lab.
+
+-   Click on the green **CODE** button and select **HTTPS** (it should already be selected by default).
+    Click on the clipboard icon to copy the repo URL.
+
+-   In RStudio, go to New Project ➛ New Project from Git Repository ➛ Git
+-   Paste the URL of your assignment repo into the dialog box URL of your Git Repository.
+-   Click OK. The repo will be cloned and an RStudio project will be created.
+-   Go to the Files pane and click **lab-3.qmd** to open the template Quarto file.
+    This is where you will write up your code and narrative for the lab.
+
+### Step 3: Update the YAML
+
+In `lab-3.qmd`, update the `author` field to your name, render your document, and examine the changes.
+Then, in the Git pane, stage your changes, add a commit message (e.g., "Added author name"), and click **Commit**.
+Then, push the changes to your GitHub repository and, in your browser, confirm that these changes have indeed propagated to your repository.
+
+::: callout-important
+If you run into any issues with the first steps outlined above, seek help before proceeding.
+:::
+:::
+
+::: callout-important
+Your repo also contains a `data/` folder and a `tests/` folder.
+**Do not move, rename, edit, or delete them.**
+The template reads data from `data/` and uses `tests/` to give you instant feedback on your answers (see "Checking your work" below).
+:::
+
+## Packages
+
+In this lab we will work with the **tidyverse** package, which is a collection of packages for doing data analysis in a "tidy" way.
+
+```{r}
+#| eval: true
+#| message: false
+library(tidyverse)
+```
+
+-   **Run** the code cell by clicking on the green triangle (play) button for the code cell labeled `load-packages`. This loads the package to make its features (the functions and datasets in it) be accessible from your *Console*.
+-   Then, **render** the document which loads this package to make its features (the functions and datasets in it) be available for other code cells in your Quarto document.
+
+## Checking your work
+
+This lab is **autograded**.
+That changes two things about how you work:
+
+1.  **Answers go into named objects.**
+    Each question below tells you exactly what to name your answer (e.g., "save the result as `scores_codes`"), and the template's code cells already contain placeholders such as `scores_codes <- NULL` with a short comment describing what goes there.
+    Replace the `NULL` (or `NA`) with your code, but **do not change the object names**.
+    The autograder looks for these exact names; an answer stored under a different name receives no credit, even if the code is correct.
+
+2.  **You can check your answers as you go.**
+    After each question, the template contains a check chunk that runs `ottr::check()` on that question.
+    Run it to see the results of the **public checks**: quick tests that confirm your answer has the right structure (correct columns, plausible number of rows, and so on).
+    These checks are designed to tell you whether you're on the right track *without* revealing the answer.
+
+::: callout-note
+## Multiple choice and short answers
+
+Some questions ask you to record an answer by assigning a value to a variable.
+Letters and names must be typed as strings (in quotes), for example `q1_cause <- "B"` or `q9_highest <- "Antarctica"`.
+Names should be spelled exactly as they appear in the data.
+Numeric answers are typed as numbers without quotes, for example `n_routines <- 100`.
+:::
+
+::: callout-warning
+Passing all public checks does **not** guarantee full credit.
+When your submission is graded, additional **hidden tests** check your answers for full correctness.
+An answer with the right shape but wrong values can pass every public check and still lose points, so always sanity-check your results yourself.
+A check chunk that errors with something like "object not found" usually means you haven't run the cells above it -- run all chunks in order (or render the document) and try again.
+:::
+
+## Guidelines
+
+As we've discussed in lecture, your plots should include an informative title, axes and legends should have human-readable labels, and careful consideration should be given to aesthetic choices.
+
+Additionally, code should follow the [tidyverse style](https://style.tidyverse.org/).
+Particularly,
+
+-   there should be spaces before and line breaks after each `+` when building a `ggplot`,
+
+-   there should also be spaces before and line breaks after each `|>` in a data transformation pipeline,
+
+-   code should be properly indented,
+
+-   there should be spaces around `=` signs and spaces after commas.
+
+Furthermore, all code should be visible in the PDF output, i.e., should not run off the page on the PDF.
+Long lines that run off the page should be split across multiple lines with line breaks.[^1]
+
+[^1]: Remember, haikus not novellas when writing code!
+
+::: callout-important
+You should have at least 3 commits with meaningful commit messages by the end of the assignment.
+:::
+
+# Questions
+
+## Part 1
+
+**Bringing two data frames together**
+
+In honor of National Gymnastics Day, you will work with real gymnastics data from the 2024 Paris Olympics!
+For Part 1, you will work with two small data frames and join them with various join functions.
+Both are created for you in the template with the code below:
+
+-   `paris_scores`: Team final balance beam and floor exercise scores for four gymnasts.
+
+```{r}
+#| eval: true
+paris_scores <- tribble(
+  ~gymnast         , ~balance_beam , ~floor_exercise ,
+  "Simone Biles"   , 14.40         , 14.70           ,
+  "Sunisa Lee"     , 14.60         , 13.50           ,
+  "Rebeca Andrade" , 14.10         , 14.20           ,
+  "Jordan Chiles"  , 12.70         , 14.00
+)
+
+paris_scores
+```
+
+-   `noc_codes`: 3-letter National Olympic Committee (NOC) code of the country each of four gymnasts competed for.
+
+```{r}
+#| eval: true
+noc_codes <- tribble(
+  ~gymnast_name    , ~country_code ,
+  "Simone Biles"   , "USA"         ,
+  "Rebeca Andrade" , "BRA"         ,
+  "Kaylia Nemour"  , "ALG"         ,
+  "Qiyuan Qiu"     , "CHN"
+)
+
+noc_codes
+```
+
+::: callout-note
+The `tribble()` function is helpful for creating small data frames (`tibble`s) with an easier to read row-by-row layout.
+:::
+
+### Question 1
+
+Your friend writes the following code to join the `paris_scores` and `noc_codes` data frames and gets an error message:
+
+```{r}
+#| eval: false
+paris_scores |>
+  left_join(noc_codes)
+```
+
+```
+Error in `left_join()`:
+! `by` must be supplied when `x` and `y` have no common variables.
+ℹ Use `cross_join()` to perform a cross-join.
+```
+
+**1a.**
+Record in `q1_cause` the option that best explains why this error occurs:
+
+   A. The two data frames have no column with the same name, so R cannot guess which columns to match rows on.
+
+   B. The two data frames have different numbers of rows, so they cannot be joined.
+
+   C. Some gymnast names are spelled differently in the two data frames.
+
+   D. `left_join()` only works on data frames read in from a CSV file, not on `tribble()`s.
+
+**1b.**
+Fix the code: join `paris_scores` and `noc_codes`, in that order, with `left_join()`, telling R which columns to match on.
+Save the result as `scores_codes`.
+
+::: callout-tip
+When the key columns have different names in the two data frames, specify them with `join_by()`, for example `join_by(id == identifier)`, where the first name is the column in the left data frame and the second name is the column in the right data frame.
+:::
+
+### Question 2
+
+Join the two data frames with an `inner_join()`, in both orders:
+
+**2a.**
+`paris_scores` first, then `noc_codes`.
+Save the result as `inner_scores_first`.
+
+**2b.**
+`noc_codes` first, then `paris_scores`.
+Save the result as `inner_codes_first`.
+
+Look carefully at both results.
+How do they compare in number of rows, number of columns, and column order?
+
+::: {.callout-tip title="Render, commit, and push"}
+Render, commit, and push your changes to GitHub with the commit message "Added answers for Questions 1 and 2".
+
+Make sure to commit and push all changed files so that your Git pane is empty afterward.
+:::
+
+### Question 3
+
+Join the two data frames with an `anti_join()`, in both orders:
+
+**3a.**
+`paris_scores` first, then `noc_codes`.
+Save the result as `anti_scores_first`.
+
+**3b.**
+`noc_codes` first, then `paris_scores`.
+Save the result as `anti_codes_first`.
+
+**3c.**
+Your ultimate goal is to construct a dataset where you have all gymnasts who are in the `paris_scores` data frame along with their event scores and the country they competed for.
+In order to accomplish this, you will need to look up some gymnasts' NOC codes in an alternate resource, since they're not all in the `noc_codes` data frame.
+Record in `q3_which_join` the join function you would use to find out *whose* NOC codes you need to look up:
+
+   A. `left_join()`
+
+   B. `inner_join()`
+
+   C. `anti_join()`
+
+   D. `full_join()`
+
+### Question 4
+
+The `paris_scores` data frame is in a *wide* format: each apparatus has its own column.
+Reshape it into a *long* format with one row per gymnast-apparatus combination, using `pivot_longer()`.
+The result should have exactly three columns, `gymnast`, `event`, and `score`, in that order, where `event` contains the former column names (`balance_beam` or `floor_exercise`) and `score` contains the scores.
+Save the result as `scores_long`.
+
+::: {.callout-tip title="Render, commit, and push"}
+Render, commit, and push your changes to GitHub with the commit message "Added answers for Questions 3 and 4".
+
+Make sure to commit and push all changed files so that your Git pane is empty afterward.
+:::
+
+## Part 2
+
+**Paris 2024 routines**
+
+For Part 2 of this lab, you'll work with a new dataset, `gymnastics`, which contains information about the routines performed by gymnasts in the women's artistic gymnastics competition at the 2024 Paris Olympics.
+**Each row represents a single routine**, so a gymnast who competed on all four apparatus in qualification appears in at least four rows.
+
+The template reads the data into R with:
+
+```{r}
+#| eval: false
+gymnastics <- read_csv("data/gymnastics.csv")
+```
+
+The variables in this dataset are:
+
+| Variable       | Description                                                           |
+|----------------|-----------------------------------------------------------------------|
+| `name`         | Gymnast's name, in "Given Surname" order                              |
+| `country`      | Country name                                                          |
+| `country_code` | 3-letter National Olympic Committee (NOC) code                        |
+| `event`        | Apparatus: Vault, Uneven Bars, Balance Beam, Floor Exercise           |
+| `competition`  | Which round: Qualification, Team Final, All-Around Final, Event Final |
+| `d_score`      | Difficulty score (a number greater than zero, in increments of 0.1)   |
+| `e_score`      | Execution score (a number between 0 and 10)                           |
+| `penalty`      | Neutral deduction                                                     |
+| `score`        | Routine total = `d_score` + `e_score` - `penalty`                     |
+| `rank`         | Placement for that row's competition                                  |
+
+### Question 5
+
+Get to know the data.
+`glimpse()` at the `gymnastics` data frame, then record:
+
+-   `n_routines`: the number of routines (rows) in the data frame.
+-   `n_gymnasts`: the number of distinct gymnasts in the data frame.
+
+Write code that computes each of these numbers rather than typing them in.
+
+::: callout-tip
+The `distinct()` function keeps one row for each distinct value of the variable(s) you give it, dropping the duplicates.
+So the number of distinct gymnasts is the number of rows in the result of `distinct(name)`:
+
+```{r}
+#| eval: false
+gymnastics |>
+  distinct(name) |>
+  nrow()
+```
+:::
+
+### Question 6
+
+Olympic order is the specific order in which gymnasts compete the apparatus.
+Read about Olympic order in [this NBC Olympics explainer](https://www.nbcolympics.com/news/gymnastics-101-olympic-competition-format).
+
+**6a.**
+Based on the article, record the Olympic order of the four events in women's artistic gymnastics in `olympic_order`, as a character vector with the event names spelled exactly as they appear in the data, e.g., `c("Event 1", "Event 2", "Event 3", "Event 4")`.
+
+**6b.**
+Run the following code in your Console and analyze the result.
+
+```{r}
+#| eval: false
+gymnastics |>
+  pull(event) |>
+  as.factor() |>
+  levels()
+```
+
+Record in `q6_why_alpha` the option that best explains why the events are listed in this order in the output:
+
+   A. When a character variable is converted to a factor, R sorts the levels alphabetically by default.
+
+   B. The levels are listed in the order in which each event first appears in the data.
+
+   C. The levels are listed in Olympic order.
+
+   D. The levels are listed in order of the average score on each event.
+
+**6c.**
+Write code to change the `event` variable so that its levels reflect Olympic order and save the new variable, with the same name, in the `gymnastics` data frame, i.e., overwrite the `gymnastics` data frame with the new version of the `event` variable.
+Then, display the new ordering of the levels with `levels(gymnastics$event)`.
+
+::: callout-tip
+`fct_relevel()` takes a factor (or a character variable) and a vector of level names, and returns a factor with the levels in that order.
+You already have that vector from part (a).
+Use it inside `mutate()`.
+:::
+
+::: {.callout-tip title="Render, commit, and push"}
+Render, commit, and push your changes to GitHub with the commit message "Added answers for Questions 5 and 6".
+
+Make sure to commit and push all changed files so that your Git pane is empty afterward.
+:::
+
+### Question 7
+
+In the All-Around Final, each gymnast competes on all four apparatus and her four scores are added up.
+The `gymnastics` data frame has one row per routine, so each All-Around finalist appears in four rows.
+Reshape the data so that each finalist appears in **one** row, with one column per apparatus.
+
+**7a.**
+In a single pipeline, keep only the All-Around Final routines, keep only the `name`, `country`, `event`, and `score` columns, and then use `pivot_wider()` to spread the events into columns.
+The result should have one row per gymnast and the columns `name`, `country`, `Vault`, `Uneven Bars`, `Balance Beam`, and `Floor Exercise`.
+Save the result as `aa_wide`.
+
+::: callout-tip
+Dropping the other columns *before* pivoting matters: `pivot_wider()` uses every column you do not pivot to identify a row, so if columns like `rank` or `d_score` are still present, each routine remains its own row.
+:::
+
+**7b.**
+Starting from `aa_wide`, add a column called `total` containing the sum of the four apparatus scores, and arrange the rows in descending order of `total`.
+Save the result as `aa_totals`.
+
+::: callout-tip
+Column names that contain spaces are not "proper" names in R, so to refer to them you need to surround them with backticks, e.g. `` `Uneven Bars` ``.
+:::
+
+**7c.**
+Record the winner's total score in `q7_winner_total`, as a number.
+If everything worked, the order of your rows should match the official All-Around Final results.
+
+### Question 8
+
+**8a.**
+Create a vector called `gymnasts_of_interest` containing the names of two to five All-Around finalists whose scores you want to visualize.
+For example:
+
+```{r}
+#| eval: false
+gymnasts_of_interest <- c("Gymnast One", "Gymnast Two")
+```
+
+Make sure that the spelling of the names matches how they appear in the data.
+
+**8b.**
+In a single pipeline, filter `gymnastics` to include only the All-Around Final routines of your `gymnasts_of_interest`, and save the result as `aa_selected`.
+Each gymnast should appear in exactly four rows.
+
+**8c.**
+Using `aa_selected`, create a plot of score (y-axis) vs. event (x-axis) for these gymnasts, saved as `aa_plot`.
+
+Requirements for the plot:
+
+-   Data should be represented with points as well as lines connecting each gymnast's four scores.
+-   Each gymnast should be represented by a different color line and different color and shape points.
+-   Axes and legend should be properly labeled.
+-   The plot should have an appropriate title (and optionally a subtitle).
+-   The plot should be customized in at least one way -- you could use a different than default theme, a different than default color scale, or some other customization.
+
+Because you reordered the levels of `event` in Question 6, the apparatus will appear on the x-axis in Olympic order.
+
+::: callout-tip
+When the x-axis variable is categorical, `geom_line()` needs to be told which points belong together on the same line.
+Add `group = name` to the aesthetics of the line layer: `geom_line(aes(group = name))`.
+:::
+
+::: {.callout-tip title="Render, commit, and push"}
+Render, commit, and push your changes to GitHub with the commit message "Added answers for Questions 7 and 8".
+
+Make sure to commit and push all changed files so that your Git pane is empty afterward.
+:::
+
+## Part 3
+
+**Continents**
+
+To qualify for major competitions such as the Olympics, gymnasts must compete in their Continental Championship: the Pan American Games, European Championships, Asian Championships, African Championships, or Oceania Championships.
+One question of interest, then, is whether gymnasts from different continents score differently.
+
+The `continents` dataset contains countries and the continent each one is in.
+The template reads it in with `continents <- read_csv("data/continents.csv")`.
+Its variables are:
+
+| Variable    | Description                                         |
+|-------------|-----------------------------------------------------|
+| `entity`    | Country name                                        |
+| `code`      | Country code (3-letter ISO code for most countries) |
+| `year`      | Year the continent assignment was recorded          |
+| `continent` | Continent the country is in                         |
+
+::: callout-note
+The Pan American Games feature athletes from both North and South American countries.
+For this analysis, you don't have to combine the two continents.
+:::
+
+### Question 9
+
+**9a.**
+Join the two data frames based on the `country` variable in `gymnastics` and the `entity` variable in `continents`, and save the result as `gym_continents`.
+Make sure that your joined data frame contains **all** rows of the `gymnastics` data frame, whether or not the country was found in `continents`.
+
+**9b.**
+In a single pipeline starting from `gym_continents`, produce a summary of the average vault score by continent.
+The result should have two columns, `continent` and `mean_vault`, and one row per continent.
+Save it as `vault_by_continent`.
+
+**9c.**
+Record the continent with the highest average vault score in `q9_highest` and the continent with the lowest in `q9_lowest`, as strings spelled exactly as in the data.
+Ignore the row where `continent` is `NA`.
+
+**9d.**
+Your summary has a row where `continent` is `NA`: some countries in `gymnastics` did not find a match in `continents`.
+Using `anti_join()` followed by `distinct(country)`, write code to identify which countries in `gymnastics` have no match in `continents`.
+Save the result as `unmatched`.
+
+**9e.**
+Look up each unmatched country in both data frames (the data viewer, or `filter()`, will help).
+Two of them fail to match because the two data frames use different names for the same country.
+Record in `q9_reason` the one that fails for a **different** reason:
+
+   A. Great Britain
+
+   B. Chinese Taipei
+
+   C. AUT
+
+::: {.callout-tip title="Render, commit, and push"}
+Render, commit, and push your final changes to GitHub with a meaningful commit message.
+
+Make sure to commit and push all changed files so that your Git pane is empty afterward.
+We keep repeating this because it's important and because we see students forget to do this.
+:::
+
+# Wrap-up
+
+## Submission
+
+::: callout-warning
+Before you wrap up the assignment, make sure all of your files are updated in your GitHub repo.
+We will be checking these to make sure you have been committing and pushing changes (with descriptive commit messages).
+
+You must turn in **both** the `.qmd` file and the PDF to Gradescope by the submission deadline to be considered "on time".
+:::
+
+Download your completed `lab-3.qmd` and `lab-3.pdf` files.
+To download a file from Posit Cloud, go to the **Files** pane, select the file by marking its **checkbox**, click **More**, then **Export**.
+
+Submit **BOTH** `lab-3.qmd` and `lab-3.pdf` in Gradescope (accessed via Canvas), due by the deadline. (You will NOT need to select pages for the PDF.)
+
+::: callout-important
+## Checklist
+
+Make sure you have:
+
+-   answered all questions, using the exact object names given in each question
+-   run the check chunk for each question and reviewed the results
+-   rendered your Quarto document
+-   committed and pushed everything to your GitHub repository so that the Git pane in RStudio is empty
+-   downloaded your QMD and PDF files from RStudio onto your computer
+-   uploaded your `lab-3.qmd` **and** `lab-3.pdf` files to the Lab 3 Gradescope assignment and confirmed the autograder ran successfully
+:::
