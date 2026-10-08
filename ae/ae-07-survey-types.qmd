@@ -1,0 +1,56 @@
+---
+title: "AE 07: Survey types"
+categories: Application exercise
+---
+
+# Getting started
+
+## Packages
+
+We'll use the **tidyverse** package for this analysis.
+
+```{r}
+#| label: load-packages
+#| message: false
+library(tidyverse)
+library(readxl)
+```
+
+## Data
+
+The data are available in the `data` folder.
+
+```{r}
+#| label: load-data
+#| message: false
+#| error: true
+survey_raw <- read_excel("data/survey-2026-10-05.xlsx")
+```
+
+# Prep
+
+Clean the data such that it has two variables:
+
+1. `year`: The class of the students with levels `First-year`, `Sophomore`, `Junior`, and `Senior`, in that order.
+2. `n_mon_classes`: The number of classes each student has on Mondays.
+
+Save the resulting data frame as `survey`.
+
+```{r}
+#| label: clean-data
+# Add your code here
+
+```
+
+
+# Explore
+
+Explore the relationship between `year` and `n_mon_classes` using a table and a plot.
+Describe the relationship or the lack thereof .
+
+```{r}
+#| label: explore-data
+# Add your code here
+
+```
+

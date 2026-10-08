@@ -1,0 +1,91 @@
+---
+title: "AE 07: Survey types"
+subtitle: Suggested answers
+categories: 
+  - Application exercise
+  - Answers
+---
+
+::: callout-important
+These are suggested answers.
+This document should be used as a reference only; it's not designed to be an exhaustive key.
+:::
+
+# Getting started
+
+## Packages
+
+We'll use the **tidyverse** package for this analysis.
+
+```{r}
+#| label: load-packages
+#| message: false
+library(tidyverse)
+library(readxl)
+```
+
+## Data
+
+The data are available in the `data` folder.
+
+```{r}
+#| label: load-data
+#| message: false
+#| error: true
+survey_raw <- read_excel("data/survey-2026-10-05.xlsx")
+survey_raw
+```
+
+# Prep
+
+Clean the data such that it has two variables:
+
+1. `year`: The class of the students with levels `First-year`, `Sophomore`, `Junior`, and `Senior`, in that order.
+2. `n_mon_classes`: The number of classes each student has on Mondays.
+
+Save the resulting data frame as `survey`.
+
+```{r}
+#| label: clean-data
+# Add your code here
+survey <- survey_raw |>
+  mutate(
+    year = fct_relevel(year, "First-year", "Sophomore", "Junior", "Senior")
+  )
+survey
+```
+
+
+# Explore
+
+Explore the relationship between `year` and `n_mon_classes` using a table and a plot.
+Describe the relationship or the lack thereof .
+
+```{r}
+#| label: explore-data
+# Add your code here
+survey |>
+  group_by(year) |>
+  summarize(
+    mean_n_classes = mean(n_mon_classes),
+    med_n_classes = median(n_mon_classes),
+    sd_n_classes = sd(n_mon_classes)
+    )
+
+survey |>
+  ggplot(aes(x = year, y = n_mon_classes)) +
+  geom_boxplot() 
+
+survey |>
+  ggplot(aes(x = n_mon_classes, color = year)) +
+  geom_density()
+
+survey |>
+  ggplot(aes(x = year, fill = factor(n_mon_classes))) +
+  geom_bar(position = "fill")
+
+survey |>
+  ggplot(aes(x = n_mon_classes, fill = year)) +
+  geom_histogram(binwidth = 1) +
+  facet_wrap(~year)
+```
