@@ -102,7 +102,7 @@ ggplot(law_and_order, aes(x = season, y = av_rating, shape = title)) +
 
 20.  a, d
 
-21. c, e
+21. b, c, e
 
 22. a
 
