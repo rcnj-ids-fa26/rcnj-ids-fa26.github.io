@@ -1,0 +1,51 @@
+---
+title: "Presentation, Final Report, & more"
+subtitle: "Milestone 5"
+categories: "Project"
+---
+
+
+## Final Report
+
+Your final report has the same requirements and instructions as the draft report.
+You can review those [here](/project/3-report.html).
+
+## Github Repository
+
+Your GitHub repository is an important component of the final project.
+It should contain commits from all team members and should include:
+
+- Quarto Markdown (QMD) files for the project, proposal, and contract,
+formatted to clearly present all of your code and results. Be sure the final
+versions of all files (particularly `report.qmd`) are in the repository. This
+is how I will access and grade the code you wrote to generate your report.
+
+- Your dataset(s), in the `/data` folder
+
+- Data dictionary, in the README.md file of the `/data` directory. (This should
+have been completed at the [proposal](/project/2-proposal.html) stage.)
+
+The repository must be finalized by **Monday, December 14 at 1:00pm**.
+
+## Presentation
+
+Each team will give a presentation during our final exam slot on Monday,
+December 14th at 3:20pm. There is a **10-minute time limit** per group.
+You can prepare presentation slides using presentation software such as Google Slides,
+PowerPoint, Keynote, etc. You could even use [Quarto](https://quarto.org/docs/presentations/), as I do for our course slide decks.
+
+In the presentation, introduce your research question and dataset, showcase visualizations/results, and provide some conclusions. The presentation slides will be graded for content and quality. For submission, convert these slides to a .pdf document to be submitted in Canvas. The slides are due on **Monday, December 14 at 1:00pm**.
+
+In order to fit in the 10-minute time limit, the slide deck should have no more
+than 6-7 content slides + 1 title slide. Here is a suggested outline;
+you do not have to use this exact format for the slide deck.
+
+- Title Slide
+- Slide 1: Introduce the topic, motivation, and research question
+- Slide 2: Introduce the data
+- Slide 3 - 4: Highlights from your analysis
+- Slide 5: Conclusions + limitations/future work
+
+## Peer teamwork evaluation
+
+You will be asked to fill out a survey where you rate the contribution and teamwork of each team member by assigning a contribution percentage for each team member and describing their contributions. Filling out the survey is a requirement for receiving your project grade. If you are suggesting that an individual did less than half the expected contribution given your team size (e.g., for a team of four students, if a student contributed less than 12.5% of the total effort), please provide some explanation. If any individual gets an average peer score indicating that this was the case, their grade will be assessed accordingly. Team Peer Evaluations are due on **Monday, December 14 at 11:59pm**.

@@ -1,0 +1,50 @@
+---
+title: "Peer Review"
+subtitle: "Milestone 4"
+categories: "Project"
+---
+
+Each student will be assigned another group's Project Draft to review in Canvas. [Here](https://community.canvaslms.com/t5/Student-Guide/How-do-I-submit-a-peer-review-to-an-assignment/ta-p/293) are instructions for how to access the submission and leave feedback. Note: For the first few steps, rather than clicking Assignments (which isn't available in our course), access the assignment by clicking on the Project: Draft Report assignment in the Project module in Canvas.
+
+There is no rubric for you to fill out. Rather, you can leave comments and annotations within the document, and in the right sidebar, you can leave general/overall feedback.
+
+Your review should be thorough/comprehensive (that does not mean you need to correct the group's typos), and actionable. While there is no specific required amount, a rough guideline would be 5-6 substantive comments at specific points in the report, as well as a few brief paragraphs of overall feedback, which do not merely repeat the in-document comments. Correcting typos or grammar would not count towards these numbers (though you're a nice person if you decide to do so anyway), neither would a generic comment like "Nice job!". Simply providing the suggested number of comments doesn't guarantee full credit if the comments don't seem substantive, or if you did not address larger issues. Again, these are not hard and fast rules. For example, once a student gave no in-document comments at all, but wrote extensive overall feedback packed with insightful comments, suggestions, and prompts for the group to consider. The reviewer received full credit.
+
+As you write the overall feedback, keep in mind the following criteria that I'll be considering as I evaluate the final reports. These are also good things to consider in evaluating your own projects:
+
+**Abstract:**
+
+- Is there a well written summary (a few sentences long) of the project?
+
+**Introduction:**
+
+- Is the background and motivation of the research question(s) described?
+- Is the research question well designed and is the data being used relevant to the research question(s)?
+
+**Data:**
+
+- Is the dataset described, including its structure (what are the observations and variables, generally speaking, and how many of each are there) and is it properly cited, including the URL where it was found?
+- Were any data prep decisions and steps (creating new variables, transforming variables) described?
+
+**Analysis:**
+
+- Were the methods described clearly, using English words rather than variable names or R commands?
+- Did the team use appropriate statistical procedures (including EDA, visualization, and modeling, if used) and were the results interpreted accurately?
+- Are visualizations titled and labeled appropriately, and interpreted so that the reader understands the point of the visualization? Is the visualization type appropriate for the data being represented? Does the visualization add insight, or should it have been replaced by summary statistics or some other way of describing the data?
+
+**Discussion**
+
+- Does the report have a good concluding section that sums up what was learned?
+- Are the limitations of the analysis considered and discussed?
+    Does the team discuss ideas for possible further work, if they had more time/knowledge/resources to continue with the project?
+
+**Overall**
+
+- Does the report flow well from start to finish?
+- Do all aspects of the report make sense to a reader with DATA 101-level background who is unfamiliar with the dataset? Are any topic-specific terms explained sufficiently?
+- Has the team taken care that there are no misspellings or grammatical errors?
+- Does it appear that time and effort went into the planning and implementation of the project?
+- Does the reader learn something interesting, unexpected, or that confirms our intuition, from reading this report?
+- Are all sources cited, including the dataset itself but also articles or other sources that provided strong inspiration or code for the project? (Just like in our exams, course sources like assigned readings or lecture slides do not need to be cited.)
+
+Finally, if you've completed your peer review and would like a second project to review, email me. For a job well done, you can earn up to 5 extra credit points to your peer review score (which is graded out of 15).
