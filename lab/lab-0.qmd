@@ -273,6 +273,7 @@ Type the following lines of code in the **console** in RStudio filling in your n
 usethis::use_git_config(
   user.name = "Your name", 
   user.email = "Email associated with your GitHub account",
+  pull.rebase = "false"
 )
 ```
 
@@ -281,7 +282,8 @@ For example, student Minnie Mouse would type
 ```{r}
 usethis::use_git_config(
   user.name = "Minnie Mouse", 
-  user.email = "mmouse1@ramapo.edu"
+  user.email = "mmouse1@ramapo.edu",
+  pull.rebase = "false"
 )
 ```
 
