@@ -46,7 +46,13 @@ It can be straightforward, or it can be cheeky, but it must be [SFW](https://www
 
 ## Setup
 
--   Clone the `project` repo and open the `about.qmd` file.
+-   Clone the `project` repo and open the `about.qmd` file. **DON'T DO ANYTHING ELSE - DON'T TYPE, DON'T RENDER. JUST WAIT.**
+-   In the **Console** pane, paste and run the following code:
+```{r}
+#| eval: false
+usethis::use_git_config(pull.rebase = "false")
+```
+
 -   Assign the numbers 1, 2, 3, and 4 to each of the team members as follows: If your team has 2 members, then one member should take on Roles 1 and 4, and the other should take on Roles 2 and 3. If your team has 3 members, then one member should take on Roles 1 and 4, one should take on Role 2, and one should take on Role 3.
 
 ## Let's cause a merge conflict!
@@ -124,7 +130,7 @@ Role 2 tries to pulls from the remote repo as the error instructed and views the
 
 ![](images/role-2-resolve-merge-conflict.png){ width="400px" }
 
-Role resolves the merge conflict by editing the `about.qmd` document to remove the merge conflict decorators (`<<<<<< HEAD`, `======`, and `>>>>>>> 97e290f39f197467b5563ea8f81187b760c95aa2`, the commit hash). Since the team name is "Team Royal Blue", Role 2 deletes Role 1's edit and keeps their own. Then, Role 2 renders the project.
+Role 2 resolves the merge conflict by editing the `about.qmd` document to remove the merge conflict decorators (`<<<<<< HEAD`, `======`, and `>>>>>>> 97e290f39f197467b5563ea8f81187b760c95aa2`, the commit hash). Since the team name is "Team Royal Blue", Role 2 deletes Role 1's edit and keeps their own. Then, Role 2 renders the project.
 ::: 
 
 -   **Click the Stage checkbox** for all files in your Git tab.
