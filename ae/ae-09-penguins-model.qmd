@@ -1,0 +1,159 @@
+---
+title: "AE 09: Modeling penguins"
+categories: 
+  - Application exercise
+fig-width: 7
+fig-asp: 0.618
+---
+
+In this application exercise we will be studying penguins.
+The data can be found in the **palmerpenguins** package and we will use **tidyverse** and **tidymodels** for data exploration and modeling, respectively.
+
+```{r}
+#| label: load-packages
+#| message: false
+library(tidyverse)
+library(tidymodels)
+library(palmerpenguins)
+```
+
+Read the following context and take a `glimpse` at the data set before we get started.
+
+> This data set comprising various measurements of three different penguin species, namely Adelie, Gentoo, and Chinstrap.
+> The rigorous study was conducted in the islands of the Palmer Archipelago, Antarctica.
+> These data were collected from 2007 to 2009 by Dr. Kristen Gorman with the Palmer Station Long Term Ecological Research Program, part of the US Long Term Ecological Research Network.
+> The data set is called `penguins`.
+
+```{r}
+#| label: glimpse-penguins
+glimpse(penguins)
+```
+
+## Visualizing the relationship
+
+Our goal is to understand better how various body measurements and attributes of penguins relate to their body mass.
+
+- Create an appropriate plot to investigate the relationship between penguins' flipper length and body mass. Put the predictor on the x-axis and the outcome on the y-axis. Add appropriate labels.
+
+```{r}
+#| label: visualize
+# add code here
+```
+
+- Describe the **form, direction, and strength** of the relationship. Note any unusual observations.
+
+Add response here.
+
+- Let R draw the regression line. Use `geom_smooth()` with `method = "lm"` and set `se = FALSE`.
+
+```{r}
+#| label: visualize-with-line
+#| warning: false
+# add code here
+```
+
+- What types of questions can this plot help answer?
+
+Add response here.
+
+## Model fit and summary
+
+- Fit a linear regression model that predicts body mass from flipper length.
+
+```{r}
+#| label: fit-model
+# add code here
+```
+
+- Display the model summary and extract the slope and intercept estimates.
+
+```{r}
+#| label: model-summary
+# add code here
+```
+
+- Write the fitted model using mathematical notation.
+
+Add response here.
+
+- Interpret the slope in context.
+
+Add response here.
+
+- Interpret the intercept in context. Is this interpretation meaningful for these data?
+
+Add response here.
+
+## Correlation
+
+- Calculate the correlation between flipper length and body mass. Interpret its sign and magnitude.
+
+```{r}
+#| label: correlation
+# add code here
+```
+
+Add response here.
+
+## Predictions and residuals
+
+- Use the model to predict the body mass of a penguin with a flipper length of 210mm.
+
+```{r}
+#| label: prediction
+# add code here
+```
+
+Add response here.
+
+- If appropriate, use the model to predict the body mass of a penguin with a flipper length of 100mm.
+
+Add response here.
+
+- Use `augment()` to add predictions and residuals to the penguins data.
+
+```{r}
+#| label: augment-model
+# add code here
+```
+
+# Linear regression with a categorical predictor
+
+-   A different researcher wants to look at body weight of penguins based on the island they were recorded on. How are the variables involved in this analysis different?
+
+Add response here.
+
+-   Make an appropriate visualization to investigate this relationship below. Additionally, calculate the mean body mass by island.
+
+```{r}
+#| label: plot-bm-island
+# add code here
+```
+
+```{r}
+#| label: mean-bm-island
+# add code here
+```
+
+-   Fit the linear regression model and display the results. Write the model below.
+
+```{r}
+#| label: fit-bm-island
+# add code here
+```
+
+Add response here.
+
+-   Interpret each coefficient in the context of the problem.
+
+Add response here.
+
+-   What is the estimated body weight of a penguin on Biscoe island?
+    What are the estimated body weights of penguins on Dream and Torgersen islands?
+
+```{r}
+#| label: predict-bm-island
+# add code here
+```
+
+Add response here.

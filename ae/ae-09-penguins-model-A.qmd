@@ -1,0 +1,219 @@
+---
+title: "AE 09: Modeling penguins"
+subtitle: "Suggested answers"
+categories: 
+  - Application exercise
+  - Answers
+fig-width: 7
+fig-asp: 0.618
+---
+
+::: callout-important
+These are suggested answers.
+This document should be used as reference only, it's not designed to be an exhaustive key.
+:::
+
+In this application exercise we will be studying penguins.
+The data can be found in the **palmerpenguins** package and we will use **tidyverse** and **tidymodels** for data exploration and modeling, respectively.
+
+```{r}
+#| label: load-packages
+#| message: false
+library(tidyverse)
+library(tidymodels)
+library(palmerpenguins)
+```
+
+Read the following context and take a `glimpse` at the data set before we get started.
+
+> This data set comprising various measurements of three different penguin species, namely Adelie, Gentoo, and Chinstrap.
+> The rigorous study was conducted in the islands of the Palmer Archipelago, Antarctica.
+> These data were collected from 2007 to 2009 by Dr. Kristen Gorman with the Palmer Station Long Term Ecological Research Program, part of the US Long Term Ecological Research Network.
+> The data set is called `penguins`.
+
+```{r}
+#| label: glimpse-penguins
+glimpse(penguins)
+```
+
+## Visualizing the relationship
+
+Our goal is to understand better how various body measurements and attributes of penguins relate to their body mass.
+
+- Create an appropriate plot to investigate the relationship between penguins' flipper length and body mass. Put the predictor on the x-axis and the outcome on the y-axis. Add appropriate labels.
+
+```{r}
+#| label: visualize
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point() +
+  labs(
+    x = "Flipper length (mm)",
+    y = "Body mass (g)",
+    title = "Body mass vs. flipper length",
+    subtitle = "Palmer penguins"
+  )
+```
+
+- Describe the **form, direction, and strength** of the relationship. Note any unusual observations.
+
+*The relationship is roughly linear, positive, and strong: penguins with higher
+flipper lengths tend to have higher body mass. There are no unusual observations.*
+
+- Let R draw the regression line. Use `geom_smooth()` with `method = "lm"` and set `se = FALSE`.
+
+```{r}
+#| label: visualize-with-line
+#| warning: false
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    x = "Flipper length (mm)",
+    y = "Body mass (g)",
+    title = "Body mass vs. flipper length",
+    subtitle = "Palmer penguins"
+  )
+```
+
+- What types of questions can this plot help answer?
+
+*How does penguin body mass tend to change with flipper length? What body mass
+would we predict for a penguin with a given flipper length?*
+
+## Model fit and summary
+
+- Fit a linear regression model that predicts body mass from flipper length.
+
+```{r}
+#| label: fit-model
+
+bm_fl_fit <- linear_reg() |>
+  fit(body_mass_g ~ flipper_length_mm, data = penguins)
+
+bm_fl_fit
+```
+
+- Display the model summary and extract the slope and intercept estimates.
+
+```{r}
+#| label: model-summary
+tidy(bm_fl_fit)
+```
+
+- Write the fitted model using mathematical notation.
+
+$$
+\widehat{body~mass} = -5781 + 49.7 \times flipper~length
+$$
+
+
+- Interpret the slope in context.
+
+*For each additional millimeter of a penguin's flipper length, their predicted weight will be higher, on average, by 49.7 grams.*
+
+- Interpret the intercept in context. Is this interpretation meaningful for these data?
+
+*Penguins with a flipper length of 0 are predicted to weigh -5781 grams. This is the mathematical interpretation, but it is not practically meaningful: penguins cannot have a flipper length of zero, nor a negative mass!*
+
+## Correlation
+
+- Calculate the correlation between flipper length and body mass. Interpret its sign and magnitude.
+
+```{r}
+#| label: correlation
+penguins |>
+  summarize(r = cor(flipper_length_mm, body_mass_g, use = "complete.obs"))
+```
+
+*The correlation is approximately 0.871, indicating a strong positive linear relationship.*
+
+## Predictions and residuals
+
+- Use the model to predict the body mass of a penguin with a flipper length of 210mm.
+
+```{r}
+#| label: prediction
+new_penguin <- tibble(flipper_length_mm = 210)
+
+predict(bm_fl_fit, new_data = new_penguin)
+```
+
+*The predicted mass is approximately 4653g.*
+
+- If appropriate, use the model to predict the body mass of a penguin with a flipper length of 100mm.
+
+*This prediction isn't appropriate since 100 mm is outside of the range of the data (extrapolation).*
+
+- Use `augment()` to add predictions and residuals to the penguins data.
+
+```{r}
+#| label: augment-model
+penguins_aug <- augment(
+  bm_fl_fit,
+  new_data = penguins
+)
+penguins_aug
+```
+
+# Linear regression with a categorical predictor
+
+-   A different researcher wants to look at body weight of penguins based on the island they were recorded on. How are the variables involved in this analysis different?
+
+*Predictor is categorical.*
+
+-   Make an appropriate visualization to investigate this relationship below. Additionally, calculate the mean body mass by island.
+
+```{r}
+#| label: plot-bm-island
+ggplot(penguins, aes(x = island, y = body_mass_g)) +
+  geom_boxplot()
+```
+
+```{r}
+#| label: mean-bm-island
+penguins |>
+  group_by(island) |>
+  summarize(mean_bm = mean(body_mass_g, na.rm = TRUE))
+```
+
+-   Fit the linear regression model and display the results. Write the model below.
+
+```{r}
+#| label: fit-bm-island
+bm_island_fit <- linear_reg() |>
+  fit(body_mass_g ~ island, data = penguins)
+
+tidy(bm_island_fit)
+```
+
+$$\widehat{bodymass} = 4716 - 1003*islandDream -1010*islandTorgersen$$
+
+-   Interpret each coefficient in the context of the problem.
+
+    -   Intercept: The model predicts penguins from Biscoe to weigh 4716 grams.
+
+    -   Slopes:
+
+        -   The model predicts penguins from Dream island to weigh, on average, 1003 grams less than those from Biscoe island.
+
+        -   The model predicts penguins from Torgersen island to weigh, on average, 1010 grams less than those from Biscoe island.
+
+-   What is the estimated body weight of a penguin on Biscoe island?
+    What are the estimated body weights of penguins on Dream and Torgersen islands?
+
+```{r}
+#| label: predict-bm-island
+three_penguins <- tibble(
+  island = c("Biscoe", "Dream", "Torgersen")
+)
+bm_island_fit |>
+  predict(new_data = three_penguins)
+```
+
+- Penguins on Biscoe island are estimated to weigh
+4716 grams.
+
+- Penguins on Dream Island are estimated to weigh 3713 grams.
+
+- Penguins on Torgersen Island are estimated to weigh
+3706 grams.
