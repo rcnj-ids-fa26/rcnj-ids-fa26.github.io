@@ -1,0 +1,541 @@
+---
+title: Lab 4
+subtitle: Visualize, model, interpret
+categories: Lab
+draft: false
+---
+
+# Introduction
+
+In this lab you'll start your practice of statistical modeling.
+You'll fit models, interpret model output, make predictions, and make decisions about your data and research question based on the model results.
+
+## Learning objectives
+
+By the end of the lab, you will...
+
+-   Fit linear regression models and interpret model coefficients in context of the data and research question.
+-   Make predictions from a fitted model, by hand and with R, and compute residuals.
+-   Transform data using a log-transformation for a better model fit.
+-   Use $R^2$ to compare the explanatory power of different predictors.
+
+And, as usual, you will also...
+
+-   Get more experience with data science workflow using R, RStudio, Git, and GitHub
+-   Further your reproducible authoring skills with Quarto
+-   Improve your familiarity with version control using Git and GitHub
+
+## Getting started
+
+Log in to RStudio, clone your `lab-4` repo from GitHub, open your `lab-4.qmd` document, and get started!
+
+::: {.callout-tip collapse="true"}
+## Click here if you prefer to see step-by-step instructions
+
+### Step 1: Login to Posit Cloud
+
+-   Go to <https://posit.cloud> and go to our course workspace.
+
+### Step 2: Clone the repo & start new RStudio project
+
+-   Go to the GitHub course organization and click on the repo with the prefix **lab-4**.
+    It contains the starter documents you need to complete the lab.
+
+-   Click on the green **CODE** button and select **HTTPS** (it should already be selected by default).
+    Click on the clipboard icon to copy the repo URL.
+
+-   In RStudio, go to New Project ➛ New Project from Git Repository ➛ Git
+-   Paste the URL of your assignment repo into the dialog box URL of your Git Repository.
+-   Click OK. The repo will be cloned and an RStudio project will be created.
+-   Go to the Files pane and click **lab-4.qmd** to open the template Quarto file.
+    This is where you will write up your code and narrative for the lab.
+
+### Step 3: Update the YAML
+
+In `lab-4.qmd`, update the `author` field to your name, render your document, and examine the changes.
+Then, in the Git pane, stage your changes, add a commit message (e.g., "Added author name"), and click **Commit**.
+Then, push the changes to your GitHub repository and, in your browser, confirm that these changes have indeed propagated to your repository.
+
+::: callout-important
+If you run into any issues with the first steps outlined above, seek help before proceeding.
+:::
+:::
+
+::: callout-important
+Your repo also contains a `data/` folder and a `tests/` folder.
+**Do not move, rename, edit, or delete them.**
+The template reads data from `data/` and uses `tests/` to give you instant feedback on your answers (see "Checking your work" below).
+:::
+
+## Packages
+
+In this lab, we will work with the
+
+-   **tidyverse** package for doing data analysis in a "tidy" way,
+-   **tidymodels** package for modeling in a "tidy" way, and
+-   **openintro** package for the dataset for Part 1.
+
+```{r}
+#| eval: true
+#| message: false
+library(tidyverse)
+library(tidymodels)
+library(openintro)
+```
+
+-   **Run** the code cell by clicking on the green triangle (play) button for the code cell labeled `load-packages`. This loads the packages so that their features (the functions and datasets in them) are accessible from your *Console*.
+-   Then, **render** the document that loads these packages to make their features available for other code cells in your Quarto document.
+
+## Checking your work
+
+This lab is **autograded**.
+That changes two things about how you work:
+
+1.  **Answers go into named objects.**
+    Each question below tells you exactly what to name your answer (e.g., "save the model as `weight_habit_fit`"), and the template's code cells already contain placeholders such as `weight_habit_fit <- NULL` with a short comment describing what goes there.
+    Replace the `NULL` (or `NA`) with your code, but **do not change the object names**.
+    The autograder looks for these exact names; an answer stored under a different name receives no credit, even if the code is correct.
+
+2.  **You can check your answers as you go.**
+    After each question, the template contains a check chunk that runs `ottr::check()` on that question.
+    Run it to see the results of the **public checks**: quick tests that confirm your answer has the right structure (a fitted model, a plot with the right variables, and so on).
+    These checks are designed to tell you whether you're on the right track *without* revealing the answer.
+
+3.  **The last check chunk checks your code style.**
+    It reports any lines that do not follow the course style guidelines (see below), with line numbers, so you can fix them before submitting.
+
+::: callout-note
+## Multiple choice and short answers
+
+Some questions ask you to record an answer by assigning a value to a variable.
+Letters and names must be typed as strings (in quotes), for example `q1_relationship <- "B"` or `q5_response <- "weight"`.
+Numeric answers are typed as numbers without quotes, for example `q2_slope <- 1.5`.
+:::
+
+::: callout-warning
+Passing all public checks does **not** guarantee full credit.
+When your submission is graded, additional **hidden tests** check your answers for full correctness.
+An answer with the right shape but wrong values can pass every public check and still lose points, so always sanity-check your results yourself.
+A check chunk that errors with something like "object not found" usually means you haven't run the cells above it -- run all chunks in order (or render the document) and try again.
+:::
+
+::: callout-warning
+## Never put these in your document
+
+`install.packages()`, `View()`, and `?` help requests belong in the Console, never in a code chunk.
+A document containing them will fail the autograder.
+:::
+
+## Guidelines
+
+As we've discussed in lecture, your plots should include an informative title, axes and legends should have human-readable labels, and careful consideration should be given to aesthetic choices.
+
+Additionally, code should follow the [tidyverse style](https://style.tidyverse.org/).
+Particularly,
+
+-   there should be spaces before and line breaks after each `+` when building a `ggplot`,
+
+-   there should also be spaces before and line breaks after each `|>` in a data transformation pipeline,
+
+-   code should be properly indented,
+
+-   there should be spaces around `=` signs and spaces after commas.
+
+Furthermore, all code should be visible in the PDF output, i.e., should not run off the page on the PDF.
+Long lines that run off the page should be split across multiple lines with line breaks.[^1]
+
+[^1]: Remember, haikus not novellas when writing code!
+
+::: callout-important
+You should have at least 3 commits with meaningful commit messages by the end of the assignment.
+:::
+
+# Part 1 - Smoking during pregnancy
+
+We are interested in the impact of smoking during pregnancy.
+Since it is not possible to run a randomized controlled experiment to investigate this impact, we will instead use a data set that has been of interest to medical researchers who are studying the relationship between habits and practices of expectant mothers and the birth of their children.
+This is a random sample of 1,000 cases from a data set released in 2014 by the state of North Carolina.
+The data set is called `births14`, and it is included in the **openintro** package you loaded at the beginning of the assignment.
+You can read about the dataset by searching for `births14` in the Help pane of RStudio.
+
+## Question 1
+
+**1a.**
+Create a version of the `births14` data set dropping observations where there are `NA`s for `habit`.
+Save this version as `births14_habitgiven`.
+
+**1b.**
+Plotting the data is a useful first step because it helps us quickly visualize trends, identify strong associations, and develop research questions.
+Create an appropriate plot (using `births14_habitgiven`) displaying the relationship between `weight` and `habit`, saved as `weight_habit_plot`, with an informative title and axis labels.
+
+**1c.**
+Record in `q1_relationship` the option that best describes the relationship you observe:
+
+   A. The typical birth weight is about the same for babies born to smokers and to nonsmokers.
+
+   B. Babies born to smokers tend to weigh more than babies born to nonsmokers.
+
+   C. Babies born to smokers tend to weigh somewhat less than babies born to nonsmokers.
+
+   D. Babies born to smokers tend to weigh much less than babies born to nonsmokers, with almost no overlap between the two distributions.
+
+::: {.callout-tip title="Render, commit, and push"}
+Render, commit, and push your changes to GitHub with the commit message "Added answer for Question 1".
+
+Make sure to commit and push all changed files so that your Git pane is empty afterward.
+:::
+
+## Question 2
+
+**2a.**
+Fit a linear model that predicts `weight` from `habit` (using `births14_habitgiven`) and save the model object as `weight_habit_fit`.
+Then, provide the tidy summary output (`tidy(weight_habit_fit)` is already in the template).
+
+**2b.**
+From the tidy output, record the estimated intercept in `q2_intercept` and the estimated slope in `q2_slope`, as numbers rounded to three decimal places.
+
+**2c.**
+Record in `q2_equation` which of the following is the estimated least squares regression line, written with proper notation:
+
+   A. $\text{weight} = 7.27 - 0.593 \times \text{habit}_{\text{smoker}}$
+
+   B. $\widehat{\text{weight}} = 7.27 - 0.593 \times \text{habit}_{\text{smoker}} + \varepsilon$
+
+   C. $\widehat{\text{weight}} = 7.27 - 0.593 \times \text{habit}_{\text{smoker}}$
+
+   D. $\widehat{\text{weight}} = -0.593 + 7.27 \times \text{habit}_{\text{smoker}}$
+
+::: callout-tip
+If you would like to practice typing an equation using proper notation in your own document, type it in-between `$$` and `$$`, and use `\hat{example}` or `\widehat{example}` to put a hat on a character.
+This is not graded.
+:::
+
+**2d.**
+Record in `q2_intercept_meaningful` the option that best interprets the intercept and assesses whether it is meaningful:
+
+   A. The intercept is the predicted birth weight when `habit` is zero. This is not meaningful, because `habit` cannot be zero.
+
+   B. The intercept is the predicted birth weight of a baby born to a nonsmoker, the baseline level of `habit`. This is meaningful, because nonsmokers are a real group in the data.
+
+   C. The intercept is the predicted birth weight for a mother of age zero. This is not meaningful, because it is far outside the observed data.
+
+   D. The intercept is the average birth weight of all babies in the data. This is meaningful because it describes the whole sample.
+
+**2e.**
+Record in `q2_slope_interp` the option that correctly interprets the slope:
+
+   A. Babies born to smokers are predicted to weigh 0.593 lbs.
+
+   B. For each additional cigarette smoked per day, predicted birth weight decreases by 0.593 lbs.
+
+   C. Smoking during pregnancy causes a baby to weigh 0.593 lbs less.
+
+   D. Babies born to smokers are predicted to weigh 0.593 lbs less, on average, than babies born to nonsmokers.
+
+::: {.callout-tip title="Render, commit, and push"}
+Render, commit, and push your changes to GitHub with the commit message "Added answer for Question 2".
+
+Make sure to commit and push all changed files so that your Git pane is empty afterward.
+:::
+
+## Question 3
+
+**3a.**
+Another researcher is interested in assessing the relationship between babies' weights and mothers' ages.
+Fit another linear model predicting `weight` from `mage` to investigate this relationship, using the full `births14` data, and save the model object as `weight_mage_fit`.
+Then, provide the tidy summary output.
+
+**3b.**
+Record in `q3_intercept_meaningful` the option that best interprets the intercept and assesses whether it is meaningful:
+
+   A. The intercept is the predicted birth weight for a mother of average age. This is meaningful, because it describes a typical mother.
+
+   B. The intercept is the predicted birth weight for a mother aged 0. This is not meaningful, because a mother's age cannot be 0 and it is far outside the observed ages (14 to 47).
+
+   C. The intercept is the predicted birth weight for a nonsmoker. This is meaningful, because nonsmokers are the baseline group.
+
+   D. The intercept is not meaningful because it is smaller than the intercept in Question 2.
+
+**3c.**
+Record in `q3_slope_interp` the option that correctly interprets the slope:
+
+   A. Having an older mother causes a baby to weigh 0.014 lbs more.
+
+   B. For each additional pound of birth weight, the mother's age increases by 0.014 years, on average.
+
+   C. For each additional year of the mother's age, the predicted birth weight increases by 0.014 lbs, on average.
+
+   D. Babies born to one-year-old mothers are predicted to weigh 0.014 lbs.
+
+::: {.callout-tip title="Render, commit, and push"}
+Render, commit, and push your changes to GitHub with the commit message "Added answer for Question 3".
+
+Make sure to commit and push all changed files so that your Git pane is empty afterward.
+:::
+
+## Question 4
+
+**4a.**
+Using the estimated intercept and slope from Question 3 (rounded as they appear in the tidy output), predict *by hand* the weight of a baby born to a 30-year-old mother.
+Record your prediction in `q4_pred_hand`, as a number.
+
+**4b.**
+Now make the same prediction with R, using `predict()` with a new data frame containing `mage = 30`.
+Save the result as `q4_pred_r` (this will be a one-row data frame with a `.pred` column).
+It should agree with your by-hand prediction up to rounding.
+
+**4c.**
+Use `augment()` to add predictions and residuals to the `births14` data, and save the result as `births14_aug`.
+
+**4d.**
+Find the heaviest baby in `births14_aug` and record its residual in `q4_resid_heaviest`, as a number.
+
+**4e.**
+Record in `q4_resid_meaning` the option that correctly describes what this residual tells us:
+
+   A. The model predicted the heaviest baby would weigh more than it actually did.
+
+   B. The heaviest baby weighed more than the model predicts for a baby born to a mother of that age.
+
+   C. The mother of the heaviest baby was older than the model predicted.
+
+   D. The residual is the predicted weight of the heaviest baby.
+
+::: {.callout-tip title="Render, commit, and push"}
+Render, commit, and push your changes to GitHub with the commit message "Added answer for Question 4".
+
+Make sure to commit and push all changed files so that your Git pane is empty afterward.
+:::
+
+# Part 2 - Parasites
+
+Parasites can cause infectious disease -- but not all animals are affected by the same parasites.
+Some parasites are present in a multitude of species and others are confined to a single host.
+It is hypothesized that closely related hosts are more likely to share the same parasites.
+More specifically, it is thought that closely related hosts will live in similar environments and have similar genetic makeup that coincides with optimal conditions for the same parasite to flourish.
+
+In this part of the lab, we will see how much evolutionary history predicts parasite similarity.
+
+The dataset comes from an Ecology Letters paper by Cooper et al. (2012) entitled "Phylogenetic host specificity and understanding parasite sharing in primates" located [here](https://onlinelibrary.wiley.com/doi/10.1111/j.1461-0248.2012.01858.x).
+The goal of the paper was to identify the ability of evolutionary history and ecological traits to characterize parasite host specificity.
+
+Each row of the data contains two species, `species1` and `species2`.
+
+Subsequent columns describe metrics that compare the species:
+
+-   `divergence_time`: how many millions of years ago the two species diverged, i.e. how many million years ago they were the same species.
+
+-   `distance`: geodesic distance between species geographic range centroids (in kilometers)
+
+-   `BMdiff`: difference in body mass between the two species (in grams)
+
+-   `precdiff`: difference in mean annual precipitation across the two species geographic ranges (mm)
+
+-   `parsim`: a measure of parasite similarity (proportion of parasites shared between species, ranges from 0 to 1.)
+
+The data are available in `parasites.csv` in your `data` folder; the template reads it in and saves it as `parasites`.
+
+## Question 5
+
+Let's start by examining the relationship between `divergence_time` and `parsim`.
+
+**5a.**
+Based on the goals of the analysis, which variable is the response variable?
+Record its name in `q5_response`, as a string.
+
+**5b.**
+Visualize the relationship between the two variables with a scatterplot, saved as `parsim_plot`, with an informative title and axis labels.
+
+**5c.**
+Record in `q5_relationship` the option that best describes the relationship:
+
+   A. A positive, roughly linear relationship: more diverged species share more parasites.
+
+   B. A negative, roughly linear relationship: parasite similarity decreases steadily as divergence time increases.
+
+   C. A negative, curved relationship: parasite similarity drops quickly for small divergence times and then levels off near zero for large ones.
+
+   D. No relationship: parasite similarity is about the same at every divergence time.
+
+## Question 6
+
+Next, model this relationship.
+
+**6a.**
+Fit a linear model predicting `parsim` from `divergence_time` and save it as `parsim_fit`.
+Then, provide the tidy summary output.
+
+**6b.**
+Record in `q6_slope_interp` the option that correctly interprets the slope:
+
+   A. For each additional unit of parasite similarity, the predicted divergence time decreases by 0.0065 million years.
+
+   B. For each additional million years of divergence time, the predicted parasite similarity increases by 0.0065, on average.
+
+   C. For each additional kilometer between species' ranges, the predicted parasite similarity decreases by 0.0065.
+
+   D. For each additional million years of divergence time, the predicted parasite similarity decreases by 0.0065, on average.
+
+**6c.**
+Record in `q6_intercept_interp` the option that correctly interprets the intercept:
+
+   A. The predicted parasite similarity for two species with no shared parasites is 0.379.
+
+   B. The predicted parasite similarity for two species that diverged 0 million years ago (i.e., that are effectively the same species) is 0.379.
+
+   C. The intercept is not meaningful because a divergence time of 0 is impossible.
+
+   D. The intercept is the average parasite similarity across all pairs of species in the data.
+
+**6d.**
+Recreate the visualization from Question 5, this time adding a regression line to the visualization.
+Save it as `parsim_line_plot`.
+
+
+**6e.**
+Record in `q6_strange` what you notice about the regression line that may be strange, particularly for very large divergence times:
+
+   A. For very large divergence times the line predicts parasite similarity greater than 1.
+
+   B. The line curves downward and then back up.
+
+   C. For very large divergence times the line predicts negative parasite similarity, which is impossible for a proportion.
+
+   D. The line passes through the origin.
+
+::: {.callout-tip title="Render, commit, and push"}
+Render, commit, and push your changes to GitHub with the commit message "Added answers for Questions 5 and 6".
+
+Make sure to commit and push all changed files so that your Git pane is empty afterward.
+:::
+
+## Question 7
+
+Since `parsim` takes values between 0 and 1, we want to transform this variable so that it can range between $(-\infty, +\infty)$.
+This will be better suited for fitting a regression model (and interpreting predicted values!)
+
+**7a.**
+Using `mutate()`, create a new variable `transformed_parsim` that is calculated as `log(parsim / (1 - parsim))`.
+Add this variable to your `parasites` data frame, i.e., overwrite `parasites` with the new version.
+
+::: callout-note
+`log()` in R represents the **natural logarithm**.
+:::
+
+**7b.**
+Then, visualize the relationship between `divergence_time` and `transformed_parsim` with a scatterplot, and add a regression line to your visualization.
+Save it as `transformed_plot`.
+
+**7c.**
+Record in `q7_describe` the option that best describes what you observe:
+
+   A. The relationship is now roughly linear and negative, so a straight line describes the points well.
+
+   B. The relationship is still strongly curved; the transformation made no difference.
+
+   C. The relationship is now positive.
+
+   D. There is no longer any relationship between the two variables.
+
+## Question 8
+
+*Which variable is the strongest individual predictor of parasite similarity between species?*
+
+To answer this question, begin by fitting a linear regression model to each pair of variables.
+Save the models as `dt_model`, `dist_model`, `BM_model`, and `prec_model`, respectively.
+
+-   `divergence_time` and `transformed_parsim`
+
+-   `distance` and `transformed_parsim`
+
+-   `BMdiff` and `transformed_parsim`
+
+-   `precdiff` and `transformed_parsim`
+
+**8a.**
+Report the slopes for each of these models (provide the tidy output of each).
+
+**8b.**
+To answer the question of interest, would it be useful to compare the slopes in each model to choose the variable that is the strongest predictor of parasite similarity?
+Record your answer in `q8_compare_slopes`:
+
+   A. No. The slopes are all negative, so none of the predictors is useful.
+
+   B. Yes. The model with the largest slope (in absolute value) has the strongest predictor.
+
+   C. Yes, as long as the slopes are first squared.
+
+   D. No. The predictors are measured in different units (millions of years, kilometers, grams, millimeters), so the size of a slope depends on the unit of its predictor and the slopes cannot be compared across models.
+
+## Question 9
+
+Now, what if we calculated $R^2$ to help answer our question?
+To compare the explanatory power of each individual predictor, we will look at $R^2$ between the models.
+$R^2$ is a measure of how much of the variability in the response variable is explained by the model.
+
+As you may have guessed from the name, $R^2$ can be calculated by squaring the correlation when we have a simple linear regression model.
+The correlation $r$ takes values $-1$ to $1$, therefore $R^2$ takes values $0$ to $1$.
+Intuitively, if $r = 1$ or $-1$, then $R^2 = 1$, indicating the model is a perfect fit for the data.
+If $r \approx 0$ then $R^2 \approx 0$, indicating the model is a very bad fit for the data.
+
+You can calculate $R^2$ using the `glance()` function.
+For example, you can calculate $R^2$ for `dt_model` using the code `glance(dt_model)$r.squared`.
+
+**9a.**
+Calculate $R^2$ for each model fit in the previous question, saved as `dt_r2`, `dist_r2`, `BM_r2`, and `prec_r2`.
+
+**9b.**
+To answer our question of interest, would it be useful to compare the $R^2$ in each model to choose the variable that is the strongest predictor of parasite similarity?
+Record your answer in `q9_compare_r2`:
+
+   A. No. $R^2$ depends on the units of the predictor, just like the slope.
+
+   B. Yes. $R^2$ is the proportion of variability in the response explained by the model; it has no units, so it can be compared across models with different predictors.
+
+   C. No. Only the slopes can be used to compare predictors.
+
+   D. Yes, but only because $R^2$ is always equal to 1 for a simple linear regression.
+
+**9c.**
+Record the name of the strongest individual predictor of parasite similarity in `q9_strongest`, as a string spelled exactly as the variable name in the data.
+
+::: {.callout-tip title="Render, commit, and push"}
+Render, commit, and push your final changes to GitHub with a meaningful commit message.
+
+Make sure to commit and push all changed files so that your Git pane is empty afterward.
+We keep repeating this because it's important and because we see students forget to do this.
+:::
+
+## Code style
+
+The last check chunk in your template runs a style check on your whole document and reports every line that breaks one of the style guidelines above, with its line number.
+There is nothing to write for this question: fix the lines it reports, re-run the check, and repeat until it passes.
+
+# Wrap-up
+
+## Submission
+
+::: callout-warning
+Before you wrap up the assignment, make sure all of your files are updated in your GitHub repo.
+We will be checking these to make sure you have been committing and pushing changes (with descriptive commit messages).
+
+You must turn in **both** the `.qmd` file and the PDF to Gradescope by the submission deadline to be considered "on time".
+:::
+
+Download your completed `lab-4.qmd` and `lab-4.pdf` files.
+To download a file from Posit Cloud, go to the **Files** pane, select the file by marking its **checkbox**, click **More**, then **Export**.
+
+Submit **BOTH** `lab-4.qmd` and `lab-4.pdf` in Gradescope (accessed via Canvas), due by the deadline. (You will NOT need to select pages for the PDF.)
+
+::: callout-important
+## Checklist
+
+Make sure you have:
+
+-   answered all questions, using the exact object names given in each question
+-   run the check chunk for each question and reviewed the results
+-   rendered your Quarto document
+-   committed and pushed everything to your GitHub repository so that the Git pane in RStudio is empty
+-   downloaded your QMD and PDF files from RStudio onto your computer
+-   uploaded your `lab-4.qmd` **and** `lab-4.pdf` files to the Lab 4 Gradescope assignment and confirmed the autograder ran successfully
+:::
