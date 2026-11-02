@@ -1,0 +1,767 @@
+---
+title: "Linear models with multiple predictors"
+subtitle: "Lecture 13"
+date: "2026-11-02"
+format: 
+  revealjs: 
+    output-file: 13-linear-model-multiple-predictors-slides.html
+    footer: "DATA 101 Introduction to Data Science"
+    theme: slides.scss
+    transition: fade
+    slide-number: true
+    logo: images/logo.png
+    pdf-separate-fragments: true
+    toc: false
+  html: 
+    code-link: true
+filters: 
+  - ../remove-fmt-skip.lua
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#| label: setup
+#| include: false
+ggplot2::theme_set(ggplot2::theme_gray(base_size = 16))
+todays_ae <- "ae-10-penguins-model-multi"
+```
+
+# Warm-up
+
+## Participate {.small}
+
+Which of the following is true about linear regression models?
+
+a) The regression line always passes through the origin (x = 0, y = 0).
+b) The slope indicates the average change in the outcome for a one-unit increase in the predictor.
+c) The intercept indicates the average value of the predictor when the outcome is 0.
+d) Least squares regression line minimizes the sum of the vertical distances between the observed and predicted values of the outcome.
+
+
+# Linear regression with a categorical predictor
+
+## Packages
+
+```{r}
+#| messages: false
+library(tidyverse)
+library(tidymodels)
+library(palmerpenguins)
+library(ggthemes)
+library(ggbeeswarm)
+```
+
+## From last time (with `penguins`)
+
+::: question
+A different researcher wants to look at body weight of penguins based on the island they were recorded on.
+How are the variables involved in this analysis different?
+:::
+
+. . .
+
+-   outcome: body weight (numerical)
+
+-   predictor: island (categorical)
+
+## Visualize body weight vs. island {.smaller}
+
+::: question
+Determine whether each of the following plot types would be an appropriate choice for visualizing the relationship between body weight and island of penguins.
+:::
+
+-   Scatterplot [❌]{.fragment}
+
+-   Box plot [✅]{.fragment}
+
+-   Violin plot [✅]{.fragment}
+
+-   Density plot [✅]{.fragment}
+
+-   Bar plot [❌]{.fragment}
+
+-   Stacked bar plot [❌]{.fragment}
+
+## Boxplot {.smaller}
+
+
+```{r}
+#| code-fold: true
+#| warning: false
+ggplot(
+  penguins,
+  aes(x = island, y = body_mass_g)
+) +
+  geom_boxplot() +
+  labs(
+    x = "Island",
+    y = "Body mass (g)",
+    title = "Body mass by island"
+  )
+```
+
+## Violin plot {.smaller}
+
+```{r}
+#| code-fold: true
+#| warning: false
+ggplot(
+  penguins,
+  aes(x = island, y = body_mass_g)
+) +
+  geom_violin() +
+  labs(
+    x = "Island",
+    y = "Body mass (g)",
+    title = "Body mass by island"
+  )
+```
+
+## Density plot {.smaller}
+
+```{r}
+#| code-fold: true
+#| warning: false
+ggplot(
+  penguins,
+  aes(x = body_mass_g, color = island, fill = island)
+) +
+  geom_density(alpha = 0.5) +
+  scale_color_viridis_d(end = 0.85) +
+  scale_fill_viridis_d(end = 0.85) +
+  labs(
+    x = "Island",
+    y = "Body mass (g)",
+    title = "Body mass by island"
+  )
+```
+
+## Multiple geoms {.smaller}
+
+```{r}
+#| code-fold: true
+#| warning: false
+#| fig-asp: 0.6
+ggplot(
+  penguins,
+  aes(x = island, y = body_mass_g, color = island)
+) +
+  geom_boxplot() +
+  geom_jitter(width = 0.12, height = 0, size = 2, alpha = 0.5) +
+  scale_color_viridis_d(end = 0.85) +
+  scale_fill_viridis_d(end = 0.85) +
+  labs(
+    x = "Island",
+    y = "Body mass (g)",
+    title = "Body mass by island"
+  ) +
+  theme(legend.position = "none")
+```
+
+## Summarize
+
+::: question
+Calculate the average body mass for penguins on each island.
+How do the averages compare across islands?
+:::
+
+::: fragment
+
+```{r}
+penguins |>
+  group_by(island) |>
+  summarize(mean_body_mass = mean(body_mass_g, na.rm = TRUE))
+```
+
+:::
+
+## Model - fit {.smaller}
+
+::: question
+Fit a linear regression model predicting body weight from island and display the results.
+Why is Biscoe not in the output?
+:::
+
+```{r}
+bm_island_fit <- linear_reg() |>
+  fit(body_mass_g ~ island, data = penguins)
+
+tidy(bm_island_fit)
+```
+
+::: fragment
+
+$$
+\widehat{body~mass} = 4716 - 1003 \times islandDream - 1010 \times islandTorgersen
+$$
+
+:::
+
+## Model - interpret, Dream {.smaller}
+
+$$
+\widehat{body~mass} = 4716 \color{#9E2C6A}{- 1003 \times islandDream} - 1010 \times islandTorgersen
+$$
+
+::: fragment
+
+Penguins from Dream island are expected to weigh, on average, 1003 grams less than those from Biscoe island.
+
+:::
+
+## Model - interpret, Torgersen {.smaller}
+
+$$
+\widehat{body~mass} = 4716 - 1003 \times islandDream \color{#9E2C6A}{- 1010 \times islandTorgersen}
+$$
+
+::: fragment
+
+Penguins from Torgersen island are expected to weigh, on average, 1010 grams less than those from Biscoe island.
+
+:::
+
+## Model - interpret, Intercept {.smaller}
+
+$$
+\widehat{body~mass} = \color{#9E2C6A}{4716} - 1003 \times islandDream - 1010 \times islandTorgersen
+$$
+
+::: fragment
+
+Penguins from Biscoe island are expected to weigh, on average, 4716 grams.
+
+:::
+
+## Model - predict {.smaller}
+
+::: question
+What is the predicted body weight of a penguin on Biscoe island?
+What are the estimated body weights of penguins on Dream and Torgersen islands?
+Where have we seen these values before?
+:::
+
+::: fragment
+
+```{r}
+new_penguins <- tibble(
+  island = c("Biscoe", "Dream", "Torgersen")
+)
+
+augment(bm_island_fit, new_data = new_penguins)
+```
+
+:::
+
+
+## Model - predict {.smaller}
+
+::: task
+Calculate the predicted body weights of penguins on Biscoe, Dream, and Torgersen islands *by hand*.
+:::
+
+$$
+\widehat{body~mass} = 4716 - 1003 \times islandDream - 1010 \times islandTorgersen
+$$
+
+. . .
+
+-   Biscoe: $\widehat{body~mass} = 4716 - 1003 \times \color{#9E2C6A}{0} - 1010 \times \color{#9E2C6A}{0} = 4716$
+
+. . .
+
+-   Dream: $\widehat{body~mass} = 4716 - 1003 \times \color{#9E2C6A}{1} - 1010 \times \color{#9E2C6A}{0} = 3713$
+
+. . .
+
+-   Torgersen: $\widehat{body~mass} = 4716 - 1003 \times \color{#9E2C6A}{0} - 1010 \times \color{#9E2C6A}{1} = 3706$
+
+## Models with categorical predictors {.smaller}
+
+::: incremental
+-   A categorical predictor is encoded using **dummy variables**.
+    A predictor with $k$ levels requires $k - 1$ dummy variables.
+
+-   The first level of the categorical variable is the **baseline level**.
+    In a model with one categorical predictor, the intercept is the predicted value of the outcome for the baseline level (when all dummy variables equal 0).
+
+-   Each slope coefficient describes the difference between the predicted value of the outcome for that level of the categorical variable compared to the baseline level.
+:::
+
+## Changing the baseline level
+
+-   By default, R uses the first level of a categorical variable as the baseline level.
+
+-   We can change the baseline level by reordering the levels of the categorical variable.
+
+## Participate
+
+What function goes in the blank to make "Dream" the baseline level in the `island` variable?
+
+```{r}
+#| eval: false
+penguins |>
+  mutate(
+    island = ___(island, "Dream")
+  )
+```
+
+a) `level_reorder`
+b) `fct_relevel`
+c) `fct_reorder`
+d) `str_relevel`
+
+## Participate {.smaller}
+
+What is the baseline level of `island` in the following model?
+
+```{r}
+#| include: false
+penguins <- penguins |>
+  mutate(
+    island = fct_relevel(island, "Torgersen")
+  )
+```
+
+```{r}
+linear_reg() |>
+  fit(body_mass_g ~ island, data = penguins) |>
+  tidy()
+```
+
+
+a) Biscoe
+b) Dream
+c) Torgersen
+d) Cannot tell from the output
+
+# Multiple predictors
+
+## A new question
+
+::: question
+How do penguins' body mass vary by island as well as flipper length?
+:::
+
+-   outcome: body mass (numerical)
+
+-   predictor**s**: 
+    - island (categorical)
+    - flipper length (numerical)
+
+## Visualize
+
+```{r}
+#| include: false
+penguins <- penguins |>
+  mutate(
+    island = fct_relevel(island, "Biscoe", "Dream", "Torgersen")
+  )
+```
+
+```{r}
+#| label: bodymass-island-flipperlength
+#| code-fold: true
+#| warning: false
+#| fig-asp: 0.618
+#| fig-width: 7
+ggplot(
+  penguins,
+  aes(x = flipper_length_mm, y = body_mass_g, fill = island)
+) +
+  geom_point(
+    alpha = 0.7,
+    size = 3,
+    shape = "circle filled",
+    color = "#674574"
+  ) +
+  scale_fill_viridis_d(end = 0.85) +
+  labs(
+    x = "Flipper length (mm)",
+    y = "Body mass (g)",
+    fill = "Island",
+  ) +
+  theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.87, 0.22)
+  )
+```
+
+## Model - fit {.smaller}
+
+```{r}
+bm_island_fl_fit <- linear_reg() |>
+  fit(
+    body_mass_g ~ island + flipper_length_mm,
+    data = penguins
+  )
+```
+
+## Model - output and formula {.smaller}
+
+```{r}
+tidy(bm_island_fl_fit)
+```
+
+::: fragment
+
+$$
+\begin{aligned}
+\widehat{\text{body mass}} &= -4625 \\
+&- 262 \times \text{islandDream} \\
+&- 185 \times \text{islandTorgersen} \\
+&+ 44.5 \times \text{flipper length}
+\end{aligned}
+$$
+
+:::
+
+## Model - formula, deconstructed {.smaller}
+
+::: fragment
+**Biscoe:** $\text{Dream} = \color{#5C97CB}{\mathbf{0}}$ and $\text{Torgersen} = \color{#5C97CB}{\mathbf{0}}$
+
+$$
+\begin{aligned}
+\widehat{\text{body mass}} &= -4625 - 262 \times \color{#5C97CB}{\mathbf{0}} - 185 \times \color{#5C97CB}{\mathbf{0}} + 44.5 \times \text{flipper length} \\
+&= -4625 + 44.5 \times \text{flipper length}
+\end{aligned}
+$$
+:::
+
+::: fragment
+**Dream:** $\text{Dream} = \color{#9E2C6A}{\mathbf{1}}$ and $\text{Torgersen} = \color{#5C97CB}{\mathbf{0}}$
+
+$$
+\begin{aligned}
+\widehat{\text{body mass}} &= -4625 - 262 \times \color{#9E2C6A}{\mathbf{1}} - 185 \times \color{#5C97CB}{\mathbf{0}} + 44.5 \times \text{flipper length} \\
+&= -4887 + 44.5 \times \text{flipper length}
+\end{aligned}
+$$
+:::
+
+::: fragment
+**Torgersen:** $\text{Dream} = \color{#5C97CB}{\mathbf{0}}$ and $\text{Torgersen} = \color{#9E2C6A}{\mathbf{1}}$
+
+$$
+\begin{aligned}
+\widehat{\text{body mass}} &= -4625 - 262 \times \color{#5C97CB}{\mathbf{0}} - 185 \times \color{#9E2C6A}{\mathbf{1}} + 44.5 \times \text{flipper length} \\
+&= -4810 + 44.5 \times \text{flipper length}
+\end{aligned}
+$$
+:::
+
+## Participate {.xsmall}
+
+What do the following look like on a scatterplot?
+
+-   **Biscoe:** $\widehat{\text{body mass}} = -4625 + 44.5 \times \text{flipper length}$
+
+-   **Dream:** $\widehat{\text{body mass}} = -4887 + 44.5 \times \text{flipper length}$
+
+-   **Torgersen:** $\widehat{\text{body mass}} = -4810 + 44.5 \times \text{flipper length}$
+
+
+a. Parallel lines with different intercepts
+b. Parallel lines with the same intercept
+c. Lines with different slopes and different intercepts
+d. Lines with different slopes and the same intercept
+
+## Model - visualize
+
+```{r}
+#| label: bodymass-island-flipperlength-lm-main
+#| code-fold: true
+#| warning: false
+#| fig-asp: 0.7
+#| fig-width: 7
+bm_island_fl_aug <- augment(
+  bm_island_fl_fit,
+  new_data = penguins
+)
+
+ggplot(
+  bm_island_fl_aug,
+  aes(x = flipper_length_mm, y = body_mass_g, fill = island)
+) +
+  geom_line(
+    aes(y = .pred, color = island),
+    linewidth = 1
+  ) +
+  geom_point(
+    alpha = 0.7,
+    size = 3,
+    shape = "circle filled",
+    color = "#674574"
+  ) +
+  scale_color_viridis_d(end = 0.85, guide = "none") +
+  scale_fill_viridis_d(end = 0.85) +
+  labs(
+    x = "Flipper length (mm)",
+    y = "Body mass (g)",
+    fill = "Island",
+    title = "Main effects model",
+    subtitle = "Linear model for each island: same slope, different intercepts"
+  ) +
+  theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.87, 0.22)
+  )
+```
+
+## Model - interpret, slope (numerical)
+
+::: small
+
+$$
+\begin{aligned}
+\widehat{\text{body mass}} &= -4625 \\
+&- 262 \times \text{Dream} \\
+&- 185 \times \text{Torgersen} \\
+&+ 44.5 \times \text{flipper length}
+\end{aligned}
+$$
+
+:::
+
+::: fragment
+**Flipper length:** For each additional millimeter of flipper length, the model predicts body mass to be higher, on average, by 44.5 grams, all else held constant (i.e., for penguins on the same island).
+:::
+
+## Model - interpret, slope (categorical)
+
+::: small
+
+$$
+\begin{aligned}
+\widehat{\text{body mass}} &= -4625 \\
+&- 262 \times \text{Dream} \\
+&- 185 \times \text{Torgersen} \\
+&+ 44.5 \times \text{flipper length}
+\end{aligned}
+$$
+
+:::
+
+::: fragment
+**Dream:** For Dream penguins, the model predicts body mass to be lower, on average, by 262 grams than for Biscoe penguins, all else held constant (i.e., for penguins with the same flipper length).
+:::
+
+## Model - interpret, slope (categorical)
+
+::: small
+
+$$
+\begin{aligned}
+\widehat{\text{body mass}} &= -4625 \\
+&- 262 \times \text{Dream} \\
+&- 185 \times \text{Torgersen} \\
+&+ 44.5 \times \text{flipper length}
+\end{aligned}
+$$
+
+:::
+
+::: fragment
+**Torgersen:** For Torgersen penguins, the model predicts body mass to be lower, on average, by 185 grams than for Biscoe penguins, all else held constant (i.e., for penguins with the same flipper length).
+:::
+
+## Model - interpret, intercept
+
+::: small
+
+$$
+\begin{aligned}
+\widehat{\text{body mass}} &= -4625 \\
+&- 262 \times \text{Dream} \\
+&- 185 \times \text{Torgersen} \\
+&+ 44.5 \times \text{flipper length}
+\end{aligned}
+$$
+
+:::
+
+::: fragment
+**Intercept:** For Biscoe penguins with a flipper length of 0 mm, the model predicts body mass to be -4625 g. The intercept is **not meaningful in context**.
+
+:::
+
+## $R^2$: Variability explained {.smaller}
+
+::: question
+How much of the variability in body mass is explained by...
+:::
+
+::: {.columns}
+
+::: {.column}
+
+**island alone:**
+
+```{r}
+glance(bm_island_fit) |>
+  select(r.squared)
+```
+
+::: {.fragment .xsmall}
+
+The model with island alone as predictor explains approximately **39.4%** of the variability in body mass among Palmer penguins.
+
+:::
+
+:::
+
+::: {.column}
+
+::: fragment
+
+**island + flipper length:**
+
+```{r}
+glance(bm_island_fl_fit) |>
+  select(r.squared)
+```
+
+:::
+
+::: {.fragment .xsmall}
+
+The model with island and flipper length as predictors explains approximately **77.4%** of the variability in body mass among Palmer penguins.
+
+:::
+
+:::
+
+:::
+
+::: {.question .fragment .xsmall}
+
+What does this say about which model is better for predicting body mass?
+
+:::
+
+## Adjusted $R^2$: Fit and complexity {.smaller}
+
+-  $R^2$:
+   - measures the proportion of variability explained by the model
+   - increases as more predictors are added to the model, even if the new predictors are not meaningful
+
+-   Adjusted $R^2$:
+    - measures the proportion of variability explained by the model, with a penalty for the number of predictor coefficients in the model
+    - penalizes the model for adding unnecessary predictors, therefore does not automatically increase when another predictor is added
+  
+## Adjusted $R^2$: Fit and complexity {.smaller}
+
+::: {.columns}
+
+::: {.column}
+
+**island alone:**
+
+```{r}
+glance(bm_island_fit) |>
+  select(adj.r.squared)
+```
+
+:::
+
+::: {.column}
+
+::: fragment
+
+**island + flipper length:**
+
+```{r}
+glance(bm_island_fl_fit) |>
+  select(adj.r.squared)
+```
+
+:::
+
+:::
+
+:::
+
+<br>
+
+::: {.question .fragment}
+
+What does this say about which model is better for predicting body mass?
+
+:::
+
+## Other explanations?
+
+::: {.columns}
+
+::: {.column width="30%"}
+
+::: {.question .small} 
+
+Current model: Body mass changes by the same amount for each additional millimeter of flipper length, regardless of island.
+
+Could there be a different reality?
+
+:::
+
+:::
+
+::: {.column width="70%"}
+
+```{r}
+#| label: mental-distress-island-flipper_length_mm-lm-revisit
+#| code-fold: true
+#| warning: false
+#| fig-asp: 0.618
+#| fig-width: 7
+bm_island_fl_aug <- augment(
+  bm_island_fl_fit,
+  new_data = penguins
+)
+
+ggplot(
+  bm_island_fl_aug,
+  aes(x = flipper_length_mm, y = body_mass_g, fill = island)
+) +
+  geom_line(
+    aes(y = .pred, color = island),
+    linewidth = 1
+  ) +
+  geom_point(
+    alpha = 0.7,
+    size = 3,
+    shape = "circle filled",
+    color = "#674574"
+  ) +
+  scale_color_viridis_d(end = 0.85, guide = "none") +
+  scale_fill_viridis_d(end = 0.85) +
+  labs(
+    x = "Flipper length (mm)",
+    y = "Body mass (g)",
+    fill = "Island",
+  ) +
+  theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.87, 0.22)
+  )
+
+```
+
+:::
+
+:::
+
+# Application exercise
+
+## `{r} todays_ae` {.smaller}
+
+::: appex
+-   Go to your ae project in RStudio.
+
+-   If you haven't yet done so, make sure all of your changes up to this point are committed and pushed, i.e., there's nothing left in your Git pane.
+
+-   If you haven't yet done so, click Pull to get today's application exercise file: *`{r} paste0(todays_ae, ".qmd")`*.
+
+-   Work through the application exercise in class, and render, commit, and push your edits.
+:::
