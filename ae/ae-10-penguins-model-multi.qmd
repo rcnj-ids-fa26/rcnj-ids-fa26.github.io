@@ -1,0 +1,203 @@
+---
+title: "AE 10: body mass with multiple predictors"
+categories:
+  - Application exercise
+fig-asp: 0.618
+fig-width: 7
+---
+
+In the previous application exercise, we used a linear regression model with one predictor to study body mass of penguins from the Palmer archipelago.
+In this exercise, we will use *both* a numerical predictor and a categorical predictor to model body mass.
+We will also investigate whether the relationship between flipper length and body mass might differ by island.
+
+
+## Getting started
+
+### Packages
+
+We will use the **tidyverse** package for data visualization and wrangling, the **tidymodels** package for modeling, and the **palmerpenguins** package for the data.
+
+```{r}
+#| label: load-packages
+#| message: false
+library(tidyverse)
+library(tidymodels)
+library(palmerpenguins)
+```
+
+
+## The main-effects model
+
+So far, we fit the following **main effects** model:
+
+```{r}
+#| label: fit-main-effects-model
+
+bm_fl_island_main <- linear_reg() |>
+  fit(
+    body_mass_g ~ flipper_length_mm + island,
+    data = penguins
+    )
+
+tidy(bm_fl_island_main)
+```
+
+- In this model, what assumption do we make about the relationship between flipper length and body mass across the three islands?
+
+*Add your response here.*
+
+## Could the slopes differ?
+
+The following plot also fits a separate regression line for each island.
+
+```{r}
+#| label: visualize-separate-lines
+#| message: false
+#| warning: false
+ggplot(
+  penguins,
+  aes(x = flipper_length_mm, y = body_mass_g, color = island)
+) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_color_viridis_d(end = 0.85) +
+  labs(
+    x = "Flipper length (mm)",
+    y = "Body mass (g)",
+    color = "Island",
+  ) +
+  theme(legend.position = "bottom")
+```
+
+- How do these lines differ from the parallel fitted lines produced by the main effects model?
+
+*Add your response here.*
+
+## Fitting an interaction model
+
+An **interaction effects** model allows the slope for flipper length to differ across islands.
+In a model formula, `island * flipper_length_mm` includes:
+
+- the main effect of `island`,
+- the main effect of `flipper_length_mm`, and
+- their interaction.
+
+- Fit the interaction model and examine its coefficients. Name the model `bm_fl_island_int`.
+
+```{r}
+#| label: fit-interaction-model
+# add code here
+```
+
+- Which island is the baseline level?
+
+*Add your response here.*
+
+## Comparing the two models visually
+
+- Set the following code cell's `eval` option to `true` to render the visualizations of main and interaction effect models. Describe what the code is doing.
+
+```{r}
+#| label: compare-model-plots
+#| layout-ncol: 2
+#| warning: false
+#| eval: false
+
+bm_fl_island_main_aug <- augment(
+  bm_fl_island_main,
+  new_data = penguins
+)
+
+ggplot(
+  bm_fl_island_main_aug,
+  aes(x = flipper_length_mm, color = island)
+) +
+  geom_point(aes(y = body_mass_g), alpha = 0.5) +
+  geom_line(aes(y = .pred), linewidth = 1) +
+  scale_color_viridis_d(end = 0.85) +
+  labs(
+    x = "Flipper length (mm)",
+    y = "Body mass (g)",
+    color = "island",
+    title = "Main-effects model"
+  ) +
+  theme(legend.position = "bottom")
+
+
+bm_fl_island_int_aug <- augment(
+  bm_fl_island_int,
+  new_data = penguins
+)
+
+ggplot(
+  bm_fl_island_int_aug,
+  aes(x = flipper_length_mm, color = island)
+) +
+  geom_point(aes(y = body_mass_g), alpha = 0.5) +
+  geom_line(aes(y = .pred), linewidth = 1) +
+  scale_color_viridis_d(end = 0.85) +
+  labs(
+    x = "Flipper length (mm)",
+    y = "Body mass (g)",
+    color = "island",
+    title = "Interaction model"
+  ) +
+  theme(legend.position = "bottom")
+```
+
+*Add your response here.*
+
+- Describe the key difference between the fitted lines in the two plots.
+
+*Add your response here.*
+
+- Which model makes the stronger assumption about the relationship between flipper length and body mass? Explain.
+
+*Add your response here.*
+
+## Interpreting the interaction model
+
+- Write the fitted interaction model using mathematical notation. Your model should contain six coefficient estimates.
+
+*Add your response here.*
+
+- Write the model for Biscoe island penguins using mathematical notation. Then, interpret the slope for flipper length in context.
+
+*Add your response here.*
+
+- Write the model for Dream island penguins using mathematical notation. Then, interpret the slope for flipper length in context.
+
+*Add your response here.*
+
+- Write the model for Torgersen island penguins using mathematical notation. Then, interpret the slope for flipper length in context.
+
+*Add your response here.*
+
+- In the interaction model, what does the intercept represent? Is its interpretation meaningful for these data?
+
+*Add your response here.*
+
+## Comparing model fit
+
+- Calculate the $R^2$ and adjusted $R^2$ for each model.
+
+```{r}
+#| label: model-fits
+# add code here
+```
+
+- Which model has the higher $R^2$? Why does adding interaction terms necessarily result in an $R^2$ that is at least as high?
+
+*Add your response here.*
+
+- Which model has the higher adjusted $R^2$? Why is adjusted $R^2$ more useful than $R^2$ for this comparison?
+
+*Add your response here.*
+
+- How large is the difference in fit between the two models? Do you consider this difference practically meaningful?
+
+*Add your response here.*
+
+- Considering both model fit and simplicity, which model would you choose for predicting body mass? Justify your choice.
+
+*Add your response here.*
