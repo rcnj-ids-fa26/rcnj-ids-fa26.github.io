@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lab 5</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="lab-5-instructions_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lab-5-instructions_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="lab-5-instructions_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="lab-5-instructions_files/libs/quarto-html/popper.min.js"></script>
+<script src="lab-5-instructions_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="lab-5-instructions_files/libs/quarto-html/anchor.min.js"></script>
+<link href="lab-5-instructions_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lab-5-instructions_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="lab-5-instructions_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="lab-5-instructions_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="lab-5-instructions_files/libs/bootstrap/bootstrap-215b371544c282197b31c8aa00ce3677.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab 5</h1>
+<p class="subtitle lead">Hotel cancellations</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">Lab</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>In this lab you’ll work with hotel cancellations. The data describe the demand of two different types of hotels. Each observation represents a hotel booking between July 1, 2015 and August 31, 2017. Some bookings were canceled (<code>is_canceled = 1</code>) and others were kept, i.e., the guests checked into the hotel (<code>is_canceled = 0</code>). You can view the code book for all variables <a href="https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md">here</a>.</p>
+<section id="learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h2>
+<p>By the end of the lab, you will…</p>
+<ul>
+<li>Prepare a dataset for modeling: recode an outcome as a factor, filter out data quality issues, and split the data into training and testing sets.</li>
+<li>Fit logistic regression models and interpret their coefficients.</li>
+<li>Compute predicted probabilities by hand and with R, and classify observations.</li>
+<li>Evaluate a classifier on a testing set.</li>
+</ul>
+</section>
+<section id="getting-started" class="level2">
+<h2 class="anchored" data-anchor-id="getting-started">Getting started</h2>
+<p>Log in to RStudio, clone your <code>lab-5</code> repo from GitHub, open your <code>lab-5.qmd</code> document, and get started!</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Click here if you prefer to see step-by-step instructions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<section id="step-1-login-to-posit-cloud" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-login-to-posit-cloud">Step 1: Login to Posit Cloud</h3>
+<ul>
+<li>Go to <a href="https://posit.cloud" class="uri">https://posit.cloud</a> and go to our course workspace.</li>
+</ul>
+</section>
+<section id="step-2-clone-the-repo-start-new-rstudio-project" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-clone-the-repo-start-new-rstudio-project">Step 2: Clone the repo &amp; start new RStudio project</h3>
+<ul>
+<li><p>Go to the GitHub course organization and click on the repo with the prefix <strong>lab-5</strong>. It contains the starter documents you need to complete the lab.</p></li>
+<li><p>Click on the green <strong>CODE</strong> button and select <strong>HTTPS</strong> (it should already be selected by default). Click on the clipboard icon to copy the repo URL.</p></li>
+<li><p>In RStudio, go to New Project ➛ New Project from Git Repository ➛ Git</p></li>
+<li><p>Paste the URL of your assignment repo into the dialog box URL of your Git Repository.</p></li>
+<li><p>Click OK. The repo will be cloned and an RStudio project will be created.</p></li>
+<li><p>Go to the Files pane and click <strong>lab-5.qmd</strong> to open the template Quarto file. This is where you will write up your code and narrative for the lab.</p></li>
+</ul>
+</section>
+<section id="step-3-update-the-yaml" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-update-the-yaml">Step 3: Update the YAML</h3>
+<p>In <code>lab-5.qmd</code>, update the <code>author</code> field to your name, render your document, and examine the changes. Then, in the Git pane, stage your changes, add a commit message (e.g., “Added author name”), and click <strong>Commit</strong>. Then, push the changes to your GitHub repository and, in your browser, confirm that these changes have indeed propagated to your repository.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you run into any issues with the first steps outlined above, seek help before proceeding.</p>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Your repo also contains a <code>data/</code> folder and a <code>tests/</code> folder. <strong>Do not move, rename, edit, or delete them.</strong> The template reads data from <code>data/</code> and uses <code>tests/</code> to give you instant feedback on your answers (see “Checking your work” below).</p>
+</div>
+</div>
+</section>
+<section id="packages" class="level2">
+<h2 class="anchored" data-anchor-id="packages">Packages</h2>
+<p>In this lab we will work with the <strong>tidyverse</strong> and <strong>tidymodels</strong> packages.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li><strong>Run</strong> the code cell by clicking on the green triangle (play) button for the code cell labeled <code>load-packages</code>. This loads the packages so that their features (the functions and datasets in them) are accessible from your <em>Console</em>.</li>
+<li>Then, <strong>render</strong> the document that loads these packages to make their features available for other code cells in your Quarto document.</li>
+</ul>
+</section>
+<section id="checking-your-work" class="level2">
+<h2 class="anchored" data-anchor-id="checking-your-work">Checking your work</h2>
+<p>This lab is <strong>autograded</strong>. That changes two things about how you work:</p>
+<ol type="1">
+<li><p><strong>Answers go into named objects.</strong> Each question below tells you exactly what to name your answer (e.g., “save the model as <code>cancel_fit</code>”), and the template’s code cells already contain placeholders such as <code>cancel_fit &lt;- NULL</code> with a short comment describing what goes there. Replace the <code>NULL</code> (or <code>NA</code>) with your code, but <strong>do not change the object names</strong>. The autograder looks for these exact names; an answer stored under a different name receives no credit, even if the code is correct.</p></li>
+<li><p><strong>You can check your answers as you go.</strong> After each question, the template contains a check chunk that runs <code>ottr::check()</code> on that question. Run it to see the results of the <strong>public checks</strong>: quick tests that confirm your answer has the right structure (a fitted model, a data frame with the right columns, and so on). These checks are designed to tell you whether you’re on the right track <em>without</em> revealing the answer.</p></li>
+<li><p><strong>The last check chunk checks your code style.</strong> It reports any lines that do not follow the course style guidelines (see below), with line numbers, so you can fix them before submitting.</p></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Multiple choice and short answers
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Some questions ask you to record an answer by assigning a value to a variable. Letters and names must be typed as strings (in quotes), for example <code>q2_why_not_linear &lt;- "B"</code> or <code>q4_class &lt;- "canceled"</code>. Numeric answers are typed as numbers without quotes, for example <code>q5_TPR &lt;- 0.5</code>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Passing all public checks does <strong>not</strong> guarantee full credit. When your submission is graded, additional <strong>hidden tests</strong> check your answers for full correctness. An answer with the right shape but wrong values can pass every public check and still lose points, so always sanity-check your results yourself. A check chunk that errors with something like “object not found” usually means you haven’t run the cells above it – run all chunks in order (or render the document) and try again. If your checks start failing after you re-run a chunk, restart R (<strong>Session ➛ Restart R</strong>) and run the chunks in order from the top.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Never put these in your document
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>install.packages()</code>, <code>View()</code>, and <code>?</code> help requests belong in the Console, never in a code chunk. A document containing them will fail the autograder.</p>
+</div>
+</div>
+</section>
+<section id="guidelines" class="level2">
+<h2 class="anchored" data-anchor-id="guidelines">Guidelines</h2>
+<p>Code should follow the <a href="https://style.tidyverse.org/">tidyverse style</a>. Particularly,</p>
+<ul>
+<li><p>there should be spaces before and line breaks after each <code>+</code> when building a <code>ggplot</code>,</p></li>
+<li><p>there should also be spaces before and line breaks after each <code>|&gt;</code> in a data transformation pipeline,</p></li>
+<li><p>there should be spaces around <code>=</code> signs and spaces after commas.</p></li>
+</ul>
+<p>Furthermore, all code should be visible in the PDF output, i.e., should not run off the page on the PDF. Lines should not span more than 80 characters; long lines should be split across multiple lines with line breaks.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You should have at least 3 commits with meaningful commit messages by the end of the assignment.</p>
+</div>
+</div>
+</section>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<p>The dataset, called <code>hotels.csv</code>, can be found in the <code>data</code> folder. The template reads it in with:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>hotels <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/hotels.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The variables used in this lab are:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 87%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>hotel</code></td>
+<td>Type of hotel: <code>City Hotel</code> or <code>Resort Hotel</code></td>
+</tr>
+<tr class="even">
+<td><code>is_canceled</code></td>
+<td>Whether the booking was canceled: <code>1</code> if canceled, <code>0</code> if not (the guests checked in)</td>
+</tr>
+<tr class="odd">
+<td><code>lead_time</code></td>
+<td>Number of days between the date the booking was made and the arrival date</td>
+</tr>
+<tr class="even">
+<td><code>adults</code></td>
+<td>Number of adults in the booking</td>
+</tr>
+<tr class="odd">
+<td><code>adr</code></td>
+<td>Average daily rate: the sum of all lodging transactions for the booking divided by the number of nights stayed, in dollars</td>
+</tr>
+</tbody>
+</table>
+<p>Below is an exploratory summary of some of the variables we will use in our analysis.</p>
+<div class="quarto-layout-panel" data-layout="[0.55, -0.05, 0.4]">
+<div class="quarto-layout-row">
+<div id="firstcol" class="quarto-layout-cell" style="flex-basis: 55.0%;justify-content: center;">
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Cancellation status</th>
+<th style="text-align: right;">Number of bookings</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0 - Not canceled</td>
+<td style="text-align: right;">37583</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1 - Canceled</td>
+<td style="text-align: right;">22112</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-5-instructions_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-5-instructions_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 5.0%;justify-content: flex-start;">
+<p>&nbsp;</p>
+</div>
+<div id="secondcol" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: center;">
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Number of adults</th>
+<th style="text-align: right;">Number of bookings</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">196</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">11478</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">44995</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2984</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">33</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">55</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="questions" class="level1">
+<h1>Questions</h1>
+<section id="part-1---data-prep" class="level2">
+<h2 class="anchored" data-anchor-id="part-1---data-prep">Part 1 - Data prep</h2>
+<section id="question-1" class="level3">
+<h3 class="anchored" data-anchor-id="question-1">Question 1</h3>
+<p><strong>1a.</strong> In a single pipeline starting from <code>hotels</code>, prepare the data for modeling and save the result as a new data frame named <code>hotels_clean</code>. The pipeline should:</p>
+<ul>
+<li>transform <code>is_canceled</code> to the appropriate data class so that it uses informative labels (<code>"not canceled"</code> and <code>"canceled"</code> instead of 0 and 1, respectively), with the levels ordered such that when we fit a logistic regression model to predict this outcome, success is defined as <code>"canceled"</code> (what we’re predicting); and</li>
+<li>based on the exploratory summaries above, address a few data quality issues by removing any bookings with average daily rate greater than $1,000 and any bookings with number of adults greater than or equal to 5.</li>
+</ul>
+<p><strong>1b.</strong> Split <code>hotels_clean</code> into a training set (75%) and a testing set (25%), setting the random seed to <code>1117</code> for reproducibility (the <code>set.seed(1117)</code> line is already in the template, immediately before the split). Save the split as <code>hotels_split</code>, the training set as <code>hotels_train</code>, and the testing set as <code>hotels_test</code>.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Render, commit, and push">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Render, commit, and push
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Render, commit, and push your changes to GitHub with the commit message “Added answer for Question 1”.</p>
+<p>Make sure to commit and push all changed files so that your Git pane is empty afterward.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="part-2---predicting-cancellations" class="level2">
+<h2 class="anchored" data-anchor-id="part-2---predicting-cancellations">Part 2 - Predicting cancellations</h2>
+<p>Using these data, one of our goals is to explore the following question:</p>
+<blockquote class="blockquote">
+<p><em>Are bookings made further in advance more likely to be canceled?</em></p>
+</blockquote>
+<p>The variable <code>lead_time</code> is the number of days between the date the booking was made and the arrival date.</p>
+<section id="question-2" class="level3">
+<h3 class="anchored" data-anchor-id="question-2">Question 2</h3>
+<p><strong>2a.</strong> In a single pipeline, calculate the number of bookings and the mean lead time for reservations that were canceled and reservations that were not canceled. The result should have the columns <code>is_canceled</code>, <code>n</code>, and <code>mean_lead_time</code>. Save it as <code>lead_by_cancel</code>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Think carefully about which dataset you should use: <code>hotels_clean</code>, the training subset, or the testing subset?</p>
+</div>
+</div>
+<p><strong>2b.</strong> Record in <code>q2_why_not_linear</code> the option that best explains why we cannot use a linear model to model the relationship between whether a booking was canceled and its lead time:</p>
+<p>A. A linear model requires the outcome to be normally distributed, which a yes/no outcome is not.</p>
+<p>B. A linear model can only be fit when the predictor is categorical, and lead time is numeric.</p>
+<p>C. A linear model would produce predicted values outside 0 to 1, which cannot be probabilities.</p>
+<p>D. A linear model cannot be fit to a dataset with as many observations as this one has.</p>
+</section>
+<section id="question-3" class="level3">
+<h3 class="anchored" data-anchor-id="question-3">Question 3</h3>
+<p><strong>3a.</strong> Fit a logistic regression model to predict whether a booking was canceled from <code>lead_time</code>, using the <strong>training set</strong>, and save it as <code>cancel_fit</code>. Display a tidy summary of the model output (<code>tidy(cancel_fit)</code> is already in the template).</p>
+<p><strong>3b.</strong> Record in <code>q3_slope_interp</code> the option that correctly interprets the slope coefficient. The model predicts that, for each additional day of lead time, …</p>
+<p>A. the probability of cancellation is higher by a factor of about 1.006, on average.</p>
+<p>B. the odds of cancellation are higher by a factor of about 1.006, on average.</p>
+<p>C. the odds of cancellation are higher by a factor of about 0.006, on average.</p>
+<p>D. the odds of cancellation are lower by a factor of about 1.006, on average.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Render, commit, and push">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Render, commit, and push
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Render, commit, and push your changes to GitHub with the commit message “Added answers for Questions 2 and 3”.</p>
+<p>Make sure to commit and push all changed files so that your Git pane is empty afterward.</p>
+</div>
+</div>
+</section>
+<section id="question-4" class="level3">
+<h3 class="anchored" data-anchor-id="question-4">Question 4</h3>
+<p>Consider a booking made <strong>300 days</strong> in advance.</p>
+<p>Let <span class="math inline">\(b_0\)</span> be the estimated intercept and <span class="math inline">\(b_1\)</span> the estimated slope from <code>cancel_fit</code>.</p>
+<p><strong>4a.</strong> Record in <code>q4_formula</code> which of the following expressions gives the predicted probability that this booking is canceled:</p>
+<p>A. <span class="math inline">\(b_0 + b_1 \times 300\)</span></p>
+<p>B. <span class="math inline">\(e^{\,b_0 + b_1 \times 300}\)</span></p>
+<p>C. <span class="math inline">\(\dfrac{1 + e^{\,b_0 + b_1 \times 300}}{e^{\,b_0 + b_1 \times 300}}\)</span></p>
+<p>D. <span class="math inline">\(\dfrac{e^{\,b_0 + b_1 \times 300}}{1 + e^{\,b_0 + b_1 \times 300}}\)</span></p>
+<p><strong>4b.</strong> Compute this probability <em>by hand</em> using the coefficients from your tidy output, and record it in <code>q4_prob_hand</code> as a number. (You may do the arithmetic in R, but write out the formula yourself rather than calling <code>predict()</code>.)</p>
+<p><strong>4c.</strong> Now compute the same probability with R, using <code>predict()</code> and <code>type = "prob"</code> with a new data frame containing <code>lead_time = 300</code>. Save the result as <code>q4_prob_r</code>; the probability of cancellation is in its <code>.pred_canceled</code> column. It should agree with your by-hand value up to rounding.</p>
+<p><strong>4d.</strong> Using a probability threshold of 0.5, record the model’s classification of this booking in <code>q4_class</code>, as the string <code>"canceled"</code> or <code>"not canceled"</code>.</p>
+<p><strong>4e.</strong> It turns out that this booking was actually canceled. Given that fact and the model’s classification, record in <code>q4_outcome_type</code> which of the following this booking is:</p>
+<p>A. a true positive</p>
+<p>B. a false positive</p>
+<p>C. a true negative</p>
+<p>D. a false negative</p>
+</section>
+<section id="question-5" class="level3">
+<h3 class="anchored" data-anchor-id="question-5">Question 5</h3>
+<p><strong>5a.</strong> Use <code>augment()</code> to add predicted classes and probabilities to the <strong>testing</strong> set, and save the result as <code>cancel_pred</code>. The predicted class is in the <code>.pred_class</code> column.</p>
+<p><strong>5b.</strong> From <code>cancel_pred</code>, compute the following rates as proportions between 0 and 1, and record them in <code>q5_TPR</code>, <code>q5_FPR</code>, <code>q5_TNR</code>, and <code>q5_FNR</code>:</p>
+<ul>
+<li><strong>True positive rate (TPR):</strong> of the bookings that were actually canceled, the proportion the model predicted to be canceled.</li>
+<li><strong>False positive rate (FPR):</strong> of the bookings that were actually not canceled, the proportion the model predicted to be canceled.</li>
+<li><strong>True negative rate (TNR):</strong> of the bookings that were actually not canceled, the proportion the model predicted to be not canceled.</li>
+<li><strong>False negative rate (FNR):</strong> of the bookings that were actually canceled, the proportion the model predicted to be not canceled.</li>
+</ul>
+<p><strong>5c.</strong> Record in <code>q5_interp</code> the option that best describes what these rates say about the model:</p>
+<p>A. The model correctly identifies most of the bookings that were actually canceled.</p>
+<p>B. The model correctly identifies only a minority of the bookings that were actually canceled.</p>
+<p>C. The model predicts cancellation for most of the bookings that were not actually canceled.</p>
+<p>D. The model never predicts cancellation, so it misses every booking that was actually canceled.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Render, commit, and push">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Render, commit, and push
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Render, commit, and push your changes to GitHub with the commit message “Added answers for Questions 4 and 5”.</p>
+<p>Make sure to commit and push all changed files so that your Git pane is empty afterward.</p>
+</div>
+</div>
+</section>
+<section id="question-6" class="level3">
+<h3 class="anchored" data-anchor-id="question-6">Question 6</h3>
+<p><strong>6a.</strong> Fit another model to predict whether a booking was canceled from <code>lead_time</code> and <code>hotel</code> type (Resort Hotel or City Hotel), with main effects only (no interaction), using the training set. Save it as <code>cancel_hotel_fit</code> and display a tidy output of the model.</p>
+<p><strong>6b.</strong> Record in <code>q6_intercept_interp</code> the option that correctly interprets the intercept:</p>
+<p>A. For a City Hotel booking made 0 days in advance, the predicted probability of cancellation is about <span class="math inline">\(\dfrac{e^{-0.99}}{1+e^{-0.99}}\approx 0.27\)</span>.</p>
+<p>B. For a Resort Hotel booking made 0 days in advance, the predicted probability of cancellation is about <span class="math inline">\(\dfrac{e^{-0.99}}{1+e^{-0.99}}\approx 0.27\)</span>.</p>
+<p>C. For a City Hotel booking made 0 days in advance, the predicted probability of cancellation is about <span class="math inline">\(-0.99\)</span>.</p>
+<p>D. For each additional day of lead time at a Resort Hotel, the predicted odds of cancellation change by a factor of about <span class="math inline">\(e^{-0.99} \approx 0.37\)</span>.</p>
+</section>
+</section>
+<section id="part-3---predicting-daily-rates" class="level2">
+<h2 class="anchored" data-anchor-id="part-3---predicting-daily-rates">Part 3 - Predicting daily rates</h2>
+<section id="question-7" class="level3">
+<h3 class="anchored" data-anchor-id="question-7">Question 7</h3>
+<p>The dataset also contains information about the average daily rate (<code>adr</code>) for each booking. The following multiple linear regression model, fit on the training set, predicts <code>adr</code> from <code>adults</code> and <code>hotel</code> type.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  term              estimate std.error statistic   p.value
+  &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)           50.3     0.861      58.4 0        
+2 adults                29.7     0.444      67.0 0        
+3 hotelResort Hotel    -10.9     0.458     -23.8 8.40e-125</code></pre>
+</div>
+</div>
+<p><strong>7a.</strong> Record in <code>q7_adults</code> the best interpretation of the slope coefficient for <code>adults</code>. For each additional adult in the booking, the average daily rate is predicted to be higher by $29.70</p>
+<p>A. for Resort Hotels compared to City Hotels, on average.</p>
+<p>B. for City Hotels compared to Resort Hotels, on average.</p>
+<p>C. on average, without holding hotel type constant.</p>
+<p>D. on average, holding hotel type constant.</p>
+<p><strong>7b.</strong> Record in <code>q7_hotel</code> the correct interpretation of the slope coefficient for <code>hotel</code>:</p>
+<p>A. For each additional Resort Hotel booking, the predicted average daily rate is $10.90 lower, holding number of adults constant.</p>
+<p>B. For each additional adult in the booking, the predicted average daily rate is $10.90 lower at Resort Hotels than at City Hotels, on average.</p>
+<p>C. Resort Hotel bookings are predicted to have an average daily rate $10.90 lower than City Hotel bookings, on average, holding number of adults constant.</p>
+<p>D. Resort Hotel bookings are predicted to have an average daily rate $10.90 higher than City Hotel bookings, on average, holding number of adults constant.</p>
+<p><strong>7c.</strong> Record in <code>q7_intercept</code> the correct interpretation of the intercept:</p>
+<p>A. The predicted average daily rate for a booking with 0 adults at a Resort Hotel is $50.30.</p>
+<p>B. The predicted average daily rate for a booking with 0 adults at a City Hotel is $50.30.</p>
+<p>C. For each additional adult at a City Hotel, the average daily rate is predicted to be $50.30 higher.</p>
+<p>D. The predicted average daily rate for a booking with 1 adult at a City Hotel is $50.30.</p>
+<p><strong>7d.</strong> Which of the following (Plot A or Plot B) is the correct visual representation of this model? Record your answer in <code>q7_plot</code> as <code>"A"</code> or <code>"B"</code>.</p>
+<div class="cell quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="lab-5-instructions_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="480"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="lab-5-instructions_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Think about whether a model with only the main effects of <code>adults</code> and <code>hotel</code>, or one that also includes their interaction, produces lines with the same slope for both hotel types.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What next?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you were to continue this analysis, you could evaluate the daily rate model’s performance on the testing set, and explore including other predictors in both models to see if they improve performance.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Render, commit, and push">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Render, commit, and push
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Render, commit, and push your final changes to GitHub with a meaningful commit message.</p>
+<p>Make sure to commit and push all changed files so that your Git pane is empty afterward. We keep repeating this because it’s important and because we see students forget to do this.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="code-style" class="level2">
+<h2 class="anchored" data-anchor-id="code-style">Code style</h2>
+<p>The last check chunk in your template runs a style check on your whole document and reports every line that breaks one of the style guidelines above, with its line number. There is nothing to write for this question: fix the lines it reports, re-run the check, and repeat until it passes.</p>
+</section>
+</section>
+<section id="wrap-up" class="level1">
+<h1>Wrap-up</h1>
+<section id="submission" class="level2">
+<h2 class="anchored" data-anchor-id="submission">Submission</h2>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Before you wrap up the assignment, make sure all of your files are updated in your GitHub repo. We will be checking these to make sure you have been committing and pushing changes (with descriptive commit messages).</p>
+<p>You must turn in <strong>both</strong> the <code>.qmd</code> file and the PDF to Gradescope by the submission deadline to be considered “on time”.</p>
+</div>
+</div>
+<p>Download your completed <code>lab-5.qmd</code> and <code>lab-5.pdf</code> files. To download a file from Posit Cloud, go to the <strong>Files</strong> pane, select the file by marking its <strong>checkbox</strong>, click <strong>More</strong>, then <strong>Export</strong>.</p>
+<p>Submit <strong>BOTH</strong> <code>lab-5.qmd</code> and <code>lab-5.pdf</code> in Gradescope (accessed via Canvas), due by the deadline. (You will NOT need to select pages for the PDF.)</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Checklist
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Make sure you have:</p>
+<ul>
+<li>answered all questions, using the exact object names given in each question</li>
+<li>run the check chunk for each question and reviewed the results</li>
+<li>rendered your Quarto document</li>
+<li>committed and pushed everything to your GitHub repository so that the Git pane in RStudio is empty</li>
+<li>downloaded your QMD and PDF files from RStudio onto your computer</li>
+<li>uploaded your <code>lab-5.qmd</code> <strong>and</strong> <code>lab-5.pdf</code> files to the Lab 5 Gradescope assignment and confirmed the autograder ran successfully</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Remember, haikus not novellas when writing code!<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
