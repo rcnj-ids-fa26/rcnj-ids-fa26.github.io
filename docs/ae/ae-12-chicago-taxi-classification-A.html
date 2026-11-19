@@ -293,6 +293,7 @@ $ hour     &lt;dbl&gt; 17, 8, 15, 14, 14, 12, 13, 8, 20, 16, 20, 8, 15, 15, 12, 
 4 yes         yes     273  0.91 True positive </code></pre>
 </div>
 </div>
+<p>The FPR is 0.92. The FNR is 0.09.</p>
 <p>Another commonly used display of this information is a confusion matrix. Create this using the <code>conf_mat()</code> function.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">conf_mat</span>(</span>
@@ -439,6 +440,7 @@ Prediction  no yes
 4 yes         yes     264  0.88 True positive </code></pre>
 </div>
 </div>
+<p>The FPR is 0.79. The FNR is 0.12.</p>
 </section>
 <section id="sensitivity-specificity-roc-curve-1" class="level2">
 <h2 class="anchored" data-anchor-id="sensitivity-specificity-roc-curve-1">Sensitivity, specificity, ROC curve</h2>
@@ -532,6 +534,7 @@ Prediction  no yes
 1 roc_auc binary         0.568</code></pre>
 </div>
 </div>
+<p>The full model has the higher AUC, 0.568 compared to the custom model’s AUC of 0.517.</p>
 </section>
 
 </main>

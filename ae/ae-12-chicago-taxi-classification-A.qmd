@@ -138,6 +138,8 @@ chicago_taxi_custom_aug |>
   )
 ```
 
+The FPR is 0.92. The FNR is 0.09.
+
 Another commonly used display of this information is a confusion matrix.
 Create this using the `conf_mat()` function.
 
@@ -218,6 +220,8 @@ chicago_taxi_full_aug |>
   )
 ```
 
+The FPR is 0.79. The FNR is 0.12.
+
 ## Sensitivity, specificity, ROC curve
 
 Calculate sensitivity and specificity and draw the ROC curve.
@@ -265,7 +269,6 @@ roc_auc(
   event_level = "second"
 )
 
-
 # Full model
 roc_auc(
   chicago_taxi_full_aug,
@@ -274,3 +277,5 @@ roc_auc(
   event_level = "second"
 )
 ```
+
+The full model has the higher AUC, 0.568 compared to the custom model's AUC of 0.517.
