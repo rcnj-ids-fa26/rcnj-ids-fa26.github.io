@@ -446,3 +446,9 @@ Consider adapting your group's final project for the [Student Data Scrollytellin
 - **Eligibility:** Open to students at all levels, working individually or in teams
 
 - **Prizes:** Cash awards for top entries
+
+## Scrollytelling Contest - Resources
+
+1. [From Prof. Tyler George's course](https://stats-tgeorge.github.io/STA364_TSApps/project/project.html)
+
+2. [Winning entries and their code repos](https://posit.co/blog/closeread-prize-winners) (not from the student contest)
