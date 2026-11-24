@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Exam 2 review</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="exam-2-review_files/libs/clipboard/clipboard.min.js"></script>
+<script src="exam-2-review_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="exam-2-review_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="exam-2-review_files/libs/quarto-html/popper.min.js"></script>
+<script src="exam-2-review_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="exam-2-review_files/libs/quarto-html/anchor.min.js"></script>
+<link href="exam-2-review_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="exam-2-review_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="exam-2-review_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="exam-2-review_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="exam-2-review_files/libs/bootstrap/bootstrap-215b371544c282197b31c8aa00ce3677.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Exam 2 review</h1>
+<p class="subtitle lead">Questions</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Suggested answers can be found <a href="../exam-review/exam-2-review-A.html">here</a>, but resist the urge to peek before you go through it yourself.</p>
+</div>
+</div>
+<section id="reference-materials" class="level2">
+<h2 class="anchored" data-anchor-id="reference-materials">Reference materials</h2>
+<p>The following resources will be made available in the exam:</p>
+<ul>
+<li><p>a scientific calculator that looks like this: <img src="images/calculator.jpeg" class="img-fluid"></p></li>
+<li><p><a href="https://hellodata.science/">Hello Data Science</a></p></li>
+<li><p><a href="https://openintrostat.github.io/ims/">Introduction to Modern Statistics 2e</a></p></li>
+<li><p><a href="https://r4ds.hadley.nz/">R for Data Science 2e</a></p></li>
+<li><p>Formulas:</p></li>
+</ul>
+<p><span class="math display">\[
+\widehat{p}
+=
+\frac{e^{b_0+b_1x+\cdots +b_mx_m}}{1+e^{b_0+b_1x+\cdots +b_mx_m}}
+\]</span></p>
+<p><span class="math display">\[
+\log\left(\frac{\widehat{p}}{1-\widehat{p}}\right)
+=
+b_0+b_1x+\cdots+b_mx_m
+\]</span> <span class="math display">\[FNR = \dfrac{FN}{FN+TP}\]</span> <span class="math display">\[FPR = \dfrac{FP}{FP+TN}\]</span> <span class="math display">\[TPR = \dfrac{TP}{FN+TP}\]</span> <span class="math display">\[TNR = \dfrac{TN}{FP+TN}\]</span></p>
+</section>
+<section id="blizzard-salaries" class="level2">
+<h2 class="anchored" data-anchor-id="blizzard-salaries">Blizzard salaries</h2>
+<p>In 2020, employees of Blizzard Entertainment circulated a spreadsheet to anonymously share salaries and recent pay increases amidst rising tension in the video game industry over wage disparities and executive compensation. (Source: <a href="https://www.bloomberg.com/news/articles/2020-08-03/blizzard-workers-share-salaries-in-revolt-over-wage-disparities">Blizzard Workers Share Salaries in Revolt Over Pay</a>)</p>
+<p>The name of the data frame used for this analysis is <code>blizzard_salary</code> and the variables are:</p>
+<ul>
+<li><p><code>percent_incr</code>: Raise given in July 2020, as percent increase with values ranging from 0 (no increase) to 21.5 (21.5% increase)</p></li>
+<li><p><code>salary_type</code>: Type of salary, with levels <code>Hourly</code> and <code>Salaried</code></p></li>
+<li><p><code>annual_salary</code>: Annual salary, in USD, with values ranging from $1 to $216,856.</p></li>
+<li><p><code>performance_rating</code>: Most recent review performance rating, with levels <code>Poor</code>, <code>Successful</code>, <code>High</code>, and <code>Top</code>. The <code>Poor</code> level is the lowest rating and the <code>Top</code> level is the highest rating.</p></li>
+</ul>
+<p>The first ten rows of <code>blizzard_salary</code> are shown below:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 409 × 4
+   percent_incr salary_type annual_salary performance_rating
+          &lt;dbl&gt; &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;             
+ 1          1   Salaried               1  High              
+ 2          1   Salaried               1  Successful        
+ 3          1   Salaried               1  High              
+ 4          1   Hourly             33987. Successful        
+ 5         NA   Hourly             34798. High              
+ 6         NA   Hourly             35360  &lt;NA&gt;              
+ 7         NA   Hourly             37440  &lt;NA&gt;              
+ 8          0   Hourly             37814. &lt;NA&gt;              
+ 9          4   Hourly             41101. Top               
+10          1.2 Hourly             42328  &lt;NA&gt;              
+# ℹ 399 more rows</code></pre>
+</div>
+</div>
+<section id="question-1" class="level3">
+<h3 class="anchored" data-anchor-id="question-1">Question 1</h3>
+<p>You fit a model for predicting raises (<code>percent_incr</code>) from salaries (<code>annual_salary</code>). We’ll call this model <code>raise_1_fit</code>. A tidy output of the model is shown below.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term           estimate  std.error statistic   p.value
+  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)   1.87      0.432           4.33 0.0000194
+2 annual_salary 0.0000155 0.00000452      3.43 0.000669 </code></pre>
+</div>
+</div>
+<p>Which of the following is the best interpretation of the slope coefficient?</p>
+<ol type="a">
+<li>For every additional $1,000 of annual salary, the model predicts the raise to be higher, on average, by 1.55%.</li>
+<li>For every additional $1,000 of annual salary, the raise goes up by 0.0155%.</li>
+<li>For every additional $1,000 of annual salary, the model predicts the raise to be higher, on average, by 0.0155%.</li>
+<li>For every additional $1,000 of annual salary, the model predicts the raise to be higher, on average, by 1.87%.</li>
+</ol>
+</section>
+<section id="question-2" class="level3">
+<h3 class="anchored" data-anchor-id="question-2">Question 2</h3>
+<p>You then fit a model for predicting raises (<code>percent_incr</code>) from salaries (<code>annual_salary</code>) and performance ratings (<code>performance_rating</code>). We’ll call this model <code>raise_2_fit</code>. Which of the following is definitely true based on the information you have so far?</p>
+<ol type="a">
+<li>Intercept of <code>raise_2_fit</code> is higher than intercept of <code>raise_1_fit</code>.</li>
+<li>Slope of <code>raise_2_fit</code> is higher than RMSE of <code>raise_1_fit</code>.</li>
+<li>Adjusted <span class="math inline">\(R^2\)</span> of <code>raise_2_fit</code> is higher than adjusted <span class="math inline">\(R^2\)</span> of <code>raise_1_fit</code>.</li>
+<li><span class="math inline">\(R^2\)</span> of <code>raise_2_fit</code> is higher than <span class="math inline">\(R^2\)</span> of <code>raise_1_fit</code>.</li>
+</ol>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="question-3" class="level3">
+<h3 class="anchored" data-anchor-id="question-3">Question 3</h3>
+<p>The tidy model output for the <code>raise_2_fit</code> model you fit is shown below.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 5
+  term                            estimate  std.error statistic  p.value
+  &lt;chr&gt;                              &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)                   3.55       0.508           6.99 1.99e-11
+2 annual_salary                 0.00000989 0.00000436      2.27 2.42e- 2
+3 performance_ratingPoor       -4.06       1.42           -2.86 4.58e- 3
+4 performance_ratingSuccessful -2.40       0.397          -6.05 4.68e- 9
+5 performance_ratingTop         2.99       0.715           4.18 3.92e- 5</code></pre>
+</div>
+</div>
+<p>When your teammate sees this model output, they remark</p>
+<blockquote class="blockquote">
+<p>“The coefficient for <code>performance_ratingSuccessful</code> is negative. That’s weird. I guess it means that people who get successful performance ratings get lower raises.”</p>
+</blockquote>
+<p>How would you respond to your teammate?</p>
+</section>
+<section id="question-4" class="level3">
+<h3 class="anchored" data-anchor-id="question-4">Question 4</h3>
+<p>Ultimately, your teammate decides they don’t like the negative slope coefficients in the model output you created (not that there’s anything wrong with negative slope coefficients!), does something else, and comes up with the following model output.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 5
+  term                            estimate  std.error statistic    p.value
+  &lt;chr&gt;                              &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+1 (Intercept)                  -0.511      1.47          -0.347 0.729     
+2 annual_salary                 0.00000989 0.00000436     2.27  0.0242    
+3 performance_ratingSuccessful  1.66       1.42           1.17  0.242     
+4 performance_ratingHigh        4.06       1.42           2.86  0.00458   
+5 performance_ratingTop         7.05       1.53           4.60  0.00000644</code></pre>
+</div>
+</div>
+<p>Unfortunately they didn’t write their code in a Quarto document, instead just wrote some code in the Console and then lost track of their work. They remember using the <code>fct_relevel()</code> function and doing something like the following:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>blizzard_salary <span class="ot">&lt;-</span> blizzard_salary <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">performance_rating =</span> <span class="fu">fct_relevel</span>(performance_rating, ___))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>What should they put in the blanks to get the same model output as above?</p>
+<ol type="a">
+<li>“Poor”, “Successful”, “High”, “Top”</li>
+<li>“Successful”, “High”, “Top”</li>
+<li>“Top”, “High”, “Successful”, “Poor”</li>
+<li>Poor, Successful, High, Top</li>
+</ol>
+</section>
+<section id="question-5" class="level3">
+<h3 class="anchored" data-anchor-id="question-5">Question 5</h3>
+<p>Suppose we fit a model to predict <code>percent_incr</code> from <code>annual_salary</code> and <code>salary_type</code>. A tidy output of the model is shown below.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  term                 estimate  std.error statistic p.value
+  &lt;chr&gt;                   &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 (Intercept)         1.24      0.570           2.18 0.0300 
+2 annual_salary       0.0000137 0.00000464      2.96 0.00329
+3 salary_typeSalaried 0.913     0.544           1.68 0.0938 </code></pre>
+</div>
+</div>
+<p>Which of the following visualizations represents this model? Explain your reasoning.</p>
+<div id="fig-raise-salary-type" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-raise-salary-type-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-raise-salary-type" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-raise-salary-type-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-raise-salary-type-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="exam-2-review_files/figure-html/fig-raise-salary-type-1.png" class="img-fluid figure-img" data-ref-parent="fig-raise-salary-type" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-raise-salary-type-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Option 1
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-raise-salary-type" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-raise-salary-type-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-raise-salary-type-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="exam-2-review_files/figure-html/fig-raise-salary-type-2.png" class="img-fluid figure-img" data-ref-parent="fig-raise-salary-type" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-raise-salary-type-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Option 2
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-raise-salary-type" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-raise-salary-type-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-raise-salary-type-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="exam-2-review_files/figure-html/fig-raise-salary-type-3.png" class="img-fluid figure-img" data-ref-parent="fig-raise-salary-type" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-raise-salary-type-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Option 3
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-raise-salary-type" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-raise-salary-type-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-raise-salary-type-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="exam-2-review_files/figure-html/fig-raise-salary-type-4.png" class="img-fluid figure-img" data-ref-parent="fig-raise-salary-type" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-raise-salary-type-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(d) Option 4
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-raise-salary-type-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Visualizations of the relationship between percent increase, annual salary, and salary type
+</figcaption>
+</figure>
+</div>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="question-6" class="level3">
+<h3 class="anchored" data-anchor-id="question-6">Question 6</h3>
+<p>When building a model to predict <code>percent_incr</code>, what is the main reason to split this data into training and testing sets?</p>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+<section id="movies" class="level1">
+<h1>Movies</h1>
+<p>The data for this part comes from the Internet Movie Database (IMDB). Specifically, the data are a random sample of movies released between 1980 and 2020.</p>
+<p>The name of the data frame used for this analysis is <code>movies</code>, and it contains the variables shown in <a href="#tbl-data-dictionary" class="quarto-xref">Table&nbsp;1</a>.</p>
+<div id="tbl-data-dictionary" class="quarto-float quarto-figure quarto-figure-center anchored" data-tbl-colwidths="[20,80]">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-data-dictionary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Data dictionary for <code>movies</code>
+</figcaption>
+<div aria-describedby="tbl-data-dictionary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 80%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>name</code></td>
+<td>name of the movie</td>
+</tr>
+<tr class="even">
+<td><code>rating</code></td>
+<td>rating of the movie (R, PG, etc.)</td>
+</tr>
+<tr class="odd">
+<td><code>genre</code></td>
+<td>main genre of the movie.</td>
+</tr>
+<tr class="even">
+<td><code>runtime</code></td>
+<td>duration of the movie</td>
+</tr>
+<tr class="odd">
+<td><code>year</code></td>
+<td>year of release</td>
+</tr>
+<tr class="even">
+<td><code>release_date</code></td>
+<td>release date (YYYY-MM-DD)</td>
+</tr>
+<tr class="odd">
+<td><code>release_country</code></td>
+<td>release country</td>
+</tr>
+<tr class="even">
+<td><code>score</code></td>
+<td>IMDB user rating</td>
+</tr>
+<tr class="odd">
+<td><code>votes</code></td>
+<td>number of user votes</td>
+</tr>
+<tr class="even">
+<td><code>director</code></td>
+<td>the director</td>
+</tr>
+<tr class="odd">
+<td><code>writer</code></td>
+<td>writer of the movie</td>
+</tr>
+<tr class="even">
+<td><code>star</code></td>
+<td>main actor/actress</td>
+</tr>
+<tr class="odd">
+<td><code>country</code></td>
+<td>country of origin</td>
+</tr>
+<tr class="even">
+<td><code>budget</code></td>
+<td>the budget of a movie (some movies don’t have this, so it appears as 0)</td>
+</tr>
+<tr class="odd">
+<td><code>gross</code></td>
+<td>revenue of the movie</td>
+</tr>
+<tr class="even">
+<td><code>company</code></td>
+<td>the production company</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The first thirty rows of the <code>movies</code> data frame are shown in <a href="#tbl-data" class="quarto-xref">Table&nbsp;2</a>, with variable types suppressed (since we’ll ask about them later).</p>
+<div style="page-break-after: always;"></div>
+<div id="tbl-data" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2
+</figcaption>
+<div aria-describedby="tbl-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>First 30 rows of <code>movies</code>, with variable types suppressed.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 500 × 16
+   name           score runtime genre     rating    release_country release_date
+ 1 Blue City        4.4 83 mins Action    R         United States   1986-05-02  
+ 2 Winter Sleep     8.1 196     Drama     Not Rated Turkey          2014-06-12  
+ 3 Rang De Basan…   8.1 167     Comedy    Not Rated United States   2006-01-26  
+ 4 Pokémon Detec…   6.6 104     Action    PG        United States   2019-05-10  
+ 5 A Bad Moms Ch…   5.6 104     Comedy    R         United States   2017-11-01  
+ 6 Replicas         5.5 107     Drama     PG-13     United States   2019-01-11  
+ 7 Windy City       5.8 103     Drama     R         Uruguay         1986-01-01  
+ 8 War for the P…   7.4 140     Action    PG-13     United States   2017-07-14  
+ 9 Tales from th…   6.4 98      Crime     R         United States   1995-05-24  
+10 Fire with Fire   6.5 103     Drama     PG-13     United States   1986-05-09  
+11 Raising Helen    6   119     Comedy    PG-13     United States   2004-05-28  
+12 Feeling Minne…   5.4 99      Comedy    R         United States   1996-09-13  
+13 The Babe         5.9 115     Biography PG        United States   1992-04-17  
+14 The Real Blon…   6   105     Comedy    R         United States   1998-02-27  
+15 To vlemma tou…   7.6 176     Drama     Not Rated United States   1997-11-01  
+16 Going the Dis…   6.3 102     Comedy    R         United States   2010-09-03  
+17 Jung on zo       6.8 103     Action    R         Hong Kong       1993-06-24  
+18 Rita, Sue and…   6.5 93      Comedy    R         United Kingdom  1987-05-29  
+19 Phone Booth      7   81      Crime     R         United States   2003-04-04  
+20 Happy Death D…   6.6 96      Comedy    PG-13     United States   2017-10-13  
+21 Barely Legal     4.7 90      Comedy    R         Thailand        2006-05-25  
+22 Three Kings      7.1 114     Action    R         United States   1999-10-01  
+23 Menace II Soc…   7.5 97      Crime     R         United States   1993-05-26  
+24 Four Rooms       6.8 98      Comedy    R         United States   1995-12-25  
+25 Quartet          6.8 98      Comedy    PG-13     United States   2013-03-01  
+26 Tape             7.2 86      Drama     R         Denmark         2002-07-12  
+27 Marked for De…   6   93      Action    R         United States   1990-10-05  
+28 Congo            5.2 109     Action    PG-13     United States   1995-06-09  
+29 Stop-Loss        6.4 112     Drama     R         United States   2008-03-28  
+30 Con Air          6.9 115     Action    R         United States   1997-06-06  
+# ℹ 470 more rows
+# ℹ 9 more variables: budget, gross, votes, year,
+#   director, writer, star, company, country</code></pre>
+</div>
+</div>
+</div>
+</figure>
+</div>
+<div style="page-break-after: always;"></div>
+<div style="page-break-after: always;"></div>
+<section id="score-vs.-runtime" class="level2">
+<h2 class="anchored" data-anchor-id="score-vs.-runtime">Score vs.&nbsp;runtime</h2>
+<p>In this part, we fit a model predicting <code>score</code> from <code>runtime</code> and name it <code>score_runtime_fit</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>score_runtime_fit <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(score <span class="sc">~</span> runtime, <span class="at">data =</span> movies)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><a href="#fig-score-runtime" class="quarto-xref">Figure&nbsp;2</a> visualizes the relationship between <code>score</code> and <code>runtime</code> as well as the linear model for predicting <code>score</code> from <code>runtime</code>. The first three movies in <a href="#tbl-data" class="quarto-xref">Table&nbsp;2</a> are labeled in the visualization as well. Answer all questions in this part based on <a href="#fig-score-runtime" class="quarto-xref">Figure&nbsp;2</a>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-score-runtime" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-score-runtime-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="exam-2-review_files/figure-html/fig-score-runtime-1.png" class="img-fluid figure-img" width="624">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-score-runtime-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Scatterplot of <code>score</code> vs.&nbsp;<code>runtime</code> for <code>movies</code>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+<section id="question-7" class="level3">
+<h3 class="anchored" data-anchor-id="question-7">Question 7</h3>
+<p>Which of the following is the best guess for the correlation between <code>runtime</code> and <code>score</code>?</p>
+<ol type="a">
+<li><span class="math inline">\(r = -0.83\)</span></li>
+<li><span class="math inline">\(r = -0.43\)</span></li>
+<li><span class="math inline">\(r=-0.13\)</span></li>
+<li><span class="math inline">\(r=0.03\)</span></li>
+<li><span class="math inline">\(r=0.43\)</span></li>
+<li><span class="math inline">\(r=0.93\)</span></li>
+<li><span class="math inline">\(r=1.83\)</span></li>
+</ol>
+</section>
+<section id="question-8" class="level3">
+<h3 class="anchored" data-anchor-id="question-8">Question 8</h3>
+<p>Based on this model, order the three labeled movies in <a href="#fig-score-runtime" class="quarto-xref">Figure&nbsp;2</a> in decreasing order of the magnitude (absolute value) of their residuals.</p>
+<ol type="a">
+<li><p>Winter Sleep &gt; Rang De Basanti &gt; Blue City</p></li>
+<li><p>Winter Sleep &gt; Blue City &gt; Rang De Basanti</p></li>
+<li><p>Rang De Basanti &gt; Winter Sleep &gt; Blue City</p></li>
+<li><p>Blue City &gt; Winter Sleep &gt; Rang De Basanti</p></li>
+<li><p>Blue City &gt; Rang De Basanti &gt; Winter Sleep</p></li>
+</ol>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="question-9" class="level3">
+<h3 class="anchored" data-anchor-id="question-9">Question 9</h3>
+<p>The R-squared for the model visualized in <a href="#fig-score-runtime" class="quarto-xref">Figure&nbsp;2</a> is 31%. Which of the following is the <u><strong>best</strong></u> interpretation of this value?</p>
+<ol type="a">
+<li><p>31% of the variability in movie runtimes is explained by their scores.</p></li>
+<li><p>31% of the variability in movie scores is explained by their runtimes.</p></li>
+<li><p>The model accurately predicts scores of 31% of the movies in this sample.</p></li>
+<li><p>The model accurately predicts scores of 31% of all movies.</p></li>
+<li><p>The correlation between scores and runtimes of movies is 0.31.</p></li>
+</ol>
+</section>
+</section>
+<section id="score-vs.-runtime-or-year" class="level2">
+<h2 class="anchored" data-anchor-id="score-vs.-runtime-or-year">Score vs.&nbsp;runtime or year</h2>
+<p>The visualizations below show the relationship between <code>score</code> and <code>runtime</code> as well as <code>score</code> and <code>year</code>, respectively. Additionally, the lines of best fit are overlaid on the visualizations.</p>
+<div class="cell quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="exam-2-review_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="exam-2-review_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<p>The correlation coefficients of these relationships are calculated below, though some of the code and the output are missing. Answer all questions in this part based on the code and output shown below.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>movies <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">__blank_1__</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">r_score_runtime =</span> <span class="fu">cor</span>(runtime, score),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">r_score_year =</span> <span class="fu">cor</span>(year, score)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<pre><code># A tibble: 1 × 2
+  r_score_runtime r_score_year
+            &lt;dbl&gt;        &lt;dbl&gt;
+1           0.434 __blank_2__       </code></pre>
+<section id="question-10" class="level3">
+<h3 class="anchored" data-anchor-id="question-10">Question 10</h3>
+<p>Which of the following goes in <code>__blank_1__</code>?</p>
+<ol type="a">
+<li><p><code>summarize</code></p></li>
+<li><p><code>mutate</code></p></li>
+<li><p><code>group_by</code></p></li>
+<li><p><code>arrange</code></p></li>
+<li><p><code>filter</code></p></li>
+</ol>
+</section>
+<section id="question-11" class="level3">
+<h3 class="anchored" data-anchor-id="question-11">Question 11</h3>
+<p>What can we say about the value that goes in <code>__blank_2__</code>?</p>
+<ol type="a">
+<li><p><code>NA</code></p></li>
+<li><p>A value between 0 and 0.434.</p></li>
+<li><p>A value between 0.434 and 1.</p></li>
+<li><p>A value between 0 and -0.434.</p></li>
+<li><p>A value between -1 and -0.434.</p></li>
+</ol>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+<section id="score-vs.-runtime-and-rating" class="level2">
+<h2 class="anchored" data-anchor-id="score-vs.-runtime-and-rating">Score vs.&nbsp;runtime and rating</h2>
+<p>In this part, we fit a model predicting <code>score</code> from <code>runtime</code> and <code>rating</code> (categorized as G, PG, PG-13, R, NC-17, and Not Rated), and name it <code>score_runtime_rating_fit</code>.</p>
+<p>The model output for <code>score_runtime_rating_fit</code> is shown in <a href="#tbl-score-runtime-rating-tidy" class="quarto-xref">Table&nbsp;3</a>. Answer all questions in this part based on <a href="#tbl-score-runtime-rating-tidy" class="quarto-xref">Table&nbsp;3</a>.</p>
+<div class="cell">
+<div id="tbl-score-runtime-rating-tidy" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-score-runtime-rating-tidy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Regression output for <code>score_runtime_rating_fit</code>.
+</figcaption>
+<div aria-describedby="tbl-score-runtime-rating-tidy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">4.525</td>
+<td style="text-align: right;">0.332</td>
+<td style="text-align: right;">13.647</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">runtime</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">10.702</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ratingPG</td>
+<td style="text-align: right;">-0.189</td>
+<td style="text-align: right;">0.295</td>
+<td style="text-align: right;">-0.642</td>
+<td style="text-align: right;">0.521</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ratingPG-13</td>
+<td style="text-align: right;">-0.452</td>
+<td style="text-align: right;">0.292</td>
+<td style="text-align: right;">-1.547</td>
+<td style="text-align: right;">0.123</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ratingR</td>
+<td style="text-align: right;">-0.257</td>
+<td style="text-align: right;">0.285</td>
+<td style="text-align: right;">-0.901</td>
+<td style="text-align: right;">0.368</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ratingNC-17</td>
+<td style="text-align: right;">-0.355</td>
+<td style="text-align: right;">0.486</td>
+<td style="text-align: right;">-0.730</td>
+<td style="text-align: right;">0.466</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ratingNot Rated</td>
+<td style="text-align: right;">-0.282</td>
+<td style="text-align: right;">0.328</td>
+<td style="text-align: right;">-0.860</td>
+<td style="text-align: right;">0.390</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<section id="question-12" class="level3">
+<h3 class="anchored" data-anchor-id="question-12">Question 12</h3>
+<p>Which of the following is <u><strong>TRUE</strong></u> about the intercept of <code>score_runtime_rating_fit</code>? <strong>Select all that are true.</strong></p>
+<ol type="a">
+<li><p>Keeping runtime constant, G-rated movies are predicted to score, on average, 4.525 points.</p></li>
+<li><p>Keeping runtime constant, movies without a rating are predicted to score, on average, 4.525 points.</p></li>
+<li><p>Movies without a rating that are 0 minutes in length are predicted to score, on average, 4.525 points.</p></li>
+<li><p>All else held constant, movies that are 0 minutes in length are predicted to score, on average, 4.525 points.</p></li>
+<li><p>G-rated movies that are 0 minutes in length are predicted to score, on average, 4.525 points.</p></li>
+</ol>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="question-13" class="level3">
+<h3 class="anchored" data-anchor-id="question-13">Question 13</h3>
+<p>Which of the following is the <u><strong>best</strong></u> interpretation of the slope of <code>runtime</code> in <code>score_runtime_rating_fit</code>?</p>
+<ol type="a">
+<li><p>All else held constant, as runtime increases by 1 minute, the score of the movie increases by 0.021 points.</p></li>
+<li><p>For G-rated movies, all else held constant, as runtime increases by 1 minute, the score of the movie increases by 0.021 points.</p></li>
+<li><p>All else held constant, for each additional minute of runtime, movie scores will be higher by 0.021 points on average.</p></li>
+<li><p>G-rated movies that are 0 minutes in length are predicted to score 0.021 points on average.</p></li>
+<li><p>For each higher level of rating, the movie scores go up by 0.021 points on average.</p></li>
+</ol>
+</section>
+<section id="question-14" class="level3">
+<h3 class="anchored" data-anchor-id="question-14">Question 14</h3>
+<p>Fill in the blank:</p>
+<blockquote class="blockquote">
+<p>R-squared of <code>score_runtime_rating_fit</code> (the model predicting <code>score</code> from <code>runtime</code> and <code>rating</code>) _________ the R-squared of the model <code>score_runtime_fit</code> (for predicting <code>score</code> from <code>runtime</code> alone).</p>
+</blockquote>
+<ol type="a">
+<li><p>is less than</p></li>
+<li><p>is equal to</p></li>
+<li><p>is greater than</p></li>
+<li><p>cannot be compared (based on the information provided) to</p></li>
+<li><p>is both greater than and less than</p></li>
+</ol>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="question-15" class="level3">
+<h3 class="anchored" data-anchor-id="question-15">Question 15</h3>
+<p>The model <code>score_runtime_rating_fit</code> (the model predicting <code>score</code> from <code>runtime</code> and <code>rating</code>) can be visualized as parallel lines for each level of <code>rating</code>. Which of the following is the equation of the line for R-rated movies?</p>
+<ol type="a">
+<li><p><span class="math inline">\(\widehat{score} = (4.525 - 0.257) + 0.021 \times runtime\)</span></p></li>
+<li><p><span class="math inline">\(score = (4.525 - 0.257) + 0.021 \times runtime\)</span></p></li>
+<li><p><span class="math inline">\(\widehat{score} = 4.525 + (0.021 - 0.257) \times runtime\)</span></p></li>
+<li><p><span class="math inline">\(score = 4.525 + (0.021 - 0.257) \times runtime\)</span></p></li>
+<li><p><span class="math inline">\(\widehat{score} = (4.525 + 0.021) - 0.257 \times runtime\)</span></p></li>
+</ol>
+</section>
+</section>
+<section id="question-16" class="level2">
+<h2 class="anchored" data-anchor-id="question-16">Question 16</h2>
+<p>Answer the following based on <a href="#tbl-score-runtime-rating-tidy" class="quarto-xref">Table&nbsp;3</a>.</p>
+<ol type="a">
+<li><p>Interpret the coefficient for <code>ratingR</code> in the context of the data.</p></li>
+<li><p>The R-squared of <code>score_runtime_fit</code> (predicting <code>score</code> from <code>runtime</code> alone) is 0.314 and the R-squared of <code>score_runtime_rating_fit</code> (predicting <code>score</code> from <code>runtime</code> and <code>rating</code>) is 0.2. The adjusted R-squared values of these models are 0.174 and 0.191, respectively. Your friend says, “R-squared went up when we added <code>rating</code>, so <code>rating</code> must be a useful predictor of score.” Which statistic should be used to compare these two models? Based on that statistic, which model would you choose, and why?</p></li>
+</ol>
+</section>
+</section>
+<section id="miscellaneous" class="level1">
+<h1>Miscellaneous</h1>
+<section id="question-17" class="level2">
+<h2 class="anchored" data-anchor-id="question-17">Question 17</h2>
+<p>Define the term “parsimonious model”.</p>
+</section>
+<section id="question-18" class="level2">
+<h2 class="anchored" data-anchor-id="question-18">Question 18</h2>
+<p>In order to predict the amount a taxi rider tipped (in dollars) based on the day of the week of the taxi ride, the time of day of the ride, and the ride distance, you could build this type of model:</p>
+<ol type="a">
+<li><p>simple linear regression</p></li>
+<li><p>multiple linear regression</p></li>
+<li><p>logistic regression</p></li>
+<li><p>ROC curve</p></li>
+</ol>
+</section>
+<section id="question-19" class="level2">
+<h2 class="anchored" data-anchor-id="question-19">Question 19</h2>
+<p>The odds of the Roadrunners winning tomorrow’s basketball game are 4 to 1. What is the probability the Roadrunners will win the game?</p>
+</section>
+<section id="question-20" class="level2">
+<h2 class="anchored" data-anchor-id="question-20">Question 20</h2>
+<p>Match each correlation to the corresponding scatterplot. <img src="images/correlation.png" class="img-fluid"></p>
+<ol type="a">
+<li><p><span class="math inline">\(r = -0.7\)</span></p></li>
+<li><p><span class="math inline">\(r = 0.45\)</span></p></li>
+<li><p><span class="math inline">\(r = 0.06\)</span></p></li>
+<li><p><span class="math inline">\(r = 0.92\)</span></p></li>
+</ol>
+</section>
+<section id="question-21" class="level2">
+<h2 class="anchored" data-anchor-id="question-21">Question 21</h2>
+<p>The following scatterplot has an outlier in the lower left corner. Which of the following are true about the outlier? Select all that apply.</p>
+<p><img src="images/outlier.png" class="img-fluid" width="300"></p>
+<ol type="a">
+<li><p>The point is outlying in the x direction.</p></li>
+<li><p>The point is outlying in the y direction.</p></li>
+<li><p>The point is influential.</p></li>
+</ol>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+<section id="spam-filter" class="level1">
+<h1>Spam filter</h1>
+<p>The data from this part come from incoming emails in David Diez’s (one of the authors of the OpenIntro textbooks) Gmail account for the first three months of 2012. All personally identifiable information has been removed.</p>
+<p>The name of the data frame used for this analysis is <code>email</code>. The variables we’ll use in this analysis are</p>
+<ul>
+<li><code>spam</code>: 1 if the email is spam, 0 otherwise</li>
+<li><code>dollar</code>: number of times a dollar sign or the word “dollar” appeared in the email</li>
+</ul>
+<p>A logistic regression model was fit to predict whether an email is spam or not, based on the number of times a dollar sign or the word “dollar” appeared in the email.</p>
+<p>The model output is shown below:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term        estimate std.error statistic p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 (Intercept)  -2.21      0.0569    -38.9  0      
+2 dollar       -0.0564    0.0195     -2.89 0.00380</code></pre>
+</div>
+</div>
+<section id="question-22" class="level2">
+<h2 class="anchored" data-anchor-id="question-22">Question 22</h2>
+<p>Partial code for producing the model (and its output) is given below. Which of the following goes in the blank on line 2?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-label="1"></a>spam_dollar_fit <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-label="2"></a>  <span class="fu">fit</span>(____, <span class="at">data =</span> email)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-label="3"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-label="4"></a><span class="fu">tidy</span>(spam_dollar_fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol type="a">
+<li><p><code>dollar ~ spam</code></p></li>
+<li><p><code>spam ~ dollar</code></p></li>
+<li><p><code>log(dollar) ~ spam</code></p></li>
+<li><p><code>spam ~ log(dollar)</code></p></li>
+</ol>
+</section>
+<section id="question-23" class="level2">
+<h2 class="anchored" data-anchor-id="question-23">Question 23</h2>
+<p>Based on the model output above for <code>spam_dollar_fit</code>, find the predicted probability that an email containing 5 dollar signs is spam. Round to 3 decimal places.</p>
+</section>
+<section id="question-24" class="level2">
+<h2 class="anchored" data-anchor-id="question-24">Question 24</h2>
+<p>What is the meaning of a false negative in this example?</p>
+<ol type="a">
+<li>A spam email was classified as spam.</li>
+<li>A spam email was classified as not spam.</li>
+<li>A not-spam email was classied as spam.</li>
+<li>A not-spam email was classified as not spam.</li>
+</ol>
+</section>
+<section id="question-25" class="level2">
+<h2 class="anchored" data-anchor-id="question-25">Question 25</h2>
+<p>Which of the following is the best interpretation of the coefficient of <code>dollar</code> in <code>spam_dollar_fit</code>?</p>
+<ol type="a">
+<li>For each additional dollar sign or word “dollar”, the probability of spam decreases by 0.0564.</li>
+<li>For each additional dollar sign or word “dollar”, the log-odds of spam decrease by 0.0564.</li>
+<li>For each additional dollar sign or word “dollar”, the odds of spam decrease by 0.0564.</li>
+<li>For each additional dollar sign or word “dollar”, the probability of spam decreases by 5.64%.</li>
+</ol>
+</section>
+<section id="question-26" class="level2">
+<h2 class="anchored" data-anchor-id="question-26">Question 26</h2>
+<p>The model <code>spam_dollar_fit</code> was used to classify a new email as spam or not. The augmented dataframe showing predicted probabilities is below:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  .pred_0 .pred_1
+    &lt;dbl&gt;   &lt;dbl&gt;
+1    0.43    0.57</code></pre>
+</div>
+</div>
+<p>Using a threshold of 0.6, how would this email be classified?</p>
+<ol type="a">
+<li>Spam</li>
+<li>Not spam</li>
+<li>Partially spam</li>
+<li>Cannot be determined</li>
+</ol>
+</section>
+<section id="question-27" class="level2">
+<h2 class="anchored" data-anchor-id="question-27">Question 27</h2>
+<p>A new model <code>spam_fit2</code> was fit (using additional predictors) and was used to classify each email in the <code>email</code> dataset as spam or not spam. The predictions were checked and tallied. The code and its output are shown below:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(spam_fit2, <span class="at">new_data =</span> email) <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(spam, .pred_class)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  spam  .pred_class     n
+  &lt;fct&gt; &lt;fct&gt;       &lt;int&gt;
+1 0     0            3547
+2 0     1               7
+3 1     0             353
+4 1     1              14</code></pre>
+</div>
+</div>
+<p>Calculate the true positive rate of the model, rounded to 3 decimal places.</p>
+</section>
+<section id="question-28" class="level2">
+<h2 class="anchored" data-anchor-id="question-28">Question 28</h2>
+<p>Suppose you increased the decision threshold. Which of the following are true? Select all that apply.</p>
+<ol type="a">
+<li>The true positive rate would increase or stay the same.</li>
+<li>The true positive rate would decrease or stay the same.</li>
+<li>The area under the ROC curve would increase.</li>
+<li>The model may predict “spam” less often.</li>
+</ol>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="question-29" class="level2">
+<h2 class="anchored" data-anchor-id="question-29">Question 29</h2>
+<p>The data is split into training and testing sets, and two new models for predicting <code>spam</code> are created.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>email_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(email, <span class="at">prop =</span> <span class="fl">0.7</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>email_training <span class="ot">&lt;-</span> <span class="fu">training</span>(email_split)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>email_testing <span class="ot">&lt;-</span> <span class="fu">testing</span>(email_split)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The first model is fit predicting <code>spam</code> from <code>dollar</code>, <code>winner</code> (indicating whether “winner” appeared in the email: <code>"no"</code> or <code>"yes"</code>), and <code>urgent_subj</code> (whether the word “urgent” is in the subject of the email: <code>0</code> or <code>1</code>). We will call this model Model A (<code>email_fit_A</code>).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>email_fit_A <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fit</span>(spam <span class="sc">~</span> dollar <span class="sc">+</span> winner <span class="sc">+</span> urgent_subj, <span class="at">data =</span> email_training)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Another model is fit predicting <code>spam</code> from all variables in the dataset except <code>time</code> (the date and time the email was sent). We will call this model Model B (<code>email_fit_B</code>).</p>
+<div class="cell" data-fmt="skip">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>email_fit_B <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fit</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        spam <span class="sc">~</span> to_multiple <span class="sc">+</span> from <span class="sc">+</span> cc <span class="sc">+</span> sent_email <span class="sc">+</span> image <span class="sc">+</span> attach <span class="sc">+</span> dollar <span class="sc">+</span> winner <span class="sc">+</span> inherit <span class="sc">+</span> viagra <span class="sc">+</span> password <span class="sc">+</span> num_char <span class="sc">+</span> line_breaks <span class="sc">+</span> format <span class="sc">+</span> re_subj <span class="sc">+</span> exclaim_subj <span class="sc">+</span> urgent_subj <span class="sc">+</span> exclaim_mess <span class="sc">+</span> number,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> email_training</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Each model is used to make predictions for the testing dataset.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>email_aug_A <span class="ot">&lt;-</span> <span class="fu">augment</span>(email_fit_A, <span class="at">new_data =</span> email_testing)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>email_aug_B <span class="ot">&lt;-</span> <span class="fu">augment</span>(email_fit_B, <span class="at">new_data =</span> email_testing)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Shown below are the ROC curves for Model A and Model B.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="exam-2-review_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol type="a">
+<li><p>What does the diagonal dotted line in the ROC curve plot represent?</p></li>
+<li><p>Based on the ROC curves, which model appears to have better classification ability? Justify your answer.</p></li>
+</ol>
+</section>
+<section id="general-social-survey" class="level2">
+<h2 class="anchored" data-anchor-id="general-social-survey">General Social Survey</h2>
+<p>The General Social Survey is a high-quality survey which gathers data on American society and opinions, conducted since 1972. This data set is a sample of 500 entries from the GSS, spanning years 1973-2018, including demographic markers and some economic variables.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>gss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 500 × 11
+    year   age sex    college   partyid hompop hours income    class    finrela 
+   &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;  &lt;fct&gt;     &lt;fct&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;ord&gt;     &lt;fct&gt;    &lt;fct&gt;   
+ 1  2014    36 male   degree    ind          3    50 $25000 o… middle … below a…
+ 2  1994    34 female no degree rep          4    31 $20000 -… working… below a…
+ 3  1998    24 male   degree    ind          1    40 $25000 o… working… below a…
+ 4  1996    42 male   no degree ind          4    40 $25000 o… working… above a…
+ 5  1994    31 male   degree    rep          2    40 $25000 o… middle … above a…
+ 6  1996    32 female no degree rep          4    53 $25000 o… middle … average 
+ 7  1990    48 female no degree dem          2    32 $25000 o… working… below a…
+ 8  2016    36 female degree    ind          1    20 $25000 o… middle … above a…
+ 9  2000    30 female degree    rep          5    40 $25000 o… middle … average 
+10  1998    33 female no degree dem          2    40 $15000 -… working… far bel…
+# ℹ 490 more rows
+# ℹ 1 more variable: weight &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Suppose you want to estimate the correlation between <code>hours</code> (number of hours worked in week before survey, truncated at 89) and <code>age</code> (age at time of survey, truncated at 89).</p>
+<section id="question-30" class="level3">
+<h3 class="anchored" data-anchor-id="question-30">Question 30</h3>
+<p>Which of the following is the <strong>best</strong> estimate of the correlation between <code>hours</code> and <code>age</code>?</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="exam-2-review_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol type="a">
+<li>-0.7</li>
+<li>0</li>
+<li>0.9</li>
+<li>0.6</li>
+</ol>
+</section>
+<section id="question-31" class="level3">
+<h3 class="anchored" data-anchor-id="question-31">Question 31</h3>
+<p>Fill in the blank for the code below for computing the correlation between <code>hours</code> and <code>age</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_____</span>(<span class="at">r =</span> <span class="fu">cor</span>(hours, age))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol type="a">
+<li><code>filter</code></li>
+<li><code>mutate</code></li>
+<li><code>summarize</code></li>
+<li><code>group_by</code></li>
+</ol>
+</section>
+<section id="question-32" class="level3">
+<h3 class="anchored" data-anchor-id="question-32">Question 32</h3>
+<p>A bootstrap distribution of the correlation between <code>hours</code> and <code>age</code> is simulated using 1,000 bootstrap samples. The code and visualization are displayed below:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">specify</span>(hours <span class="sc">~</span> age) <span class="sc">|&gt;</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"bootstrap"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"correlation"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="exam-2-review_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>What is the approximate 95% confidence interval for the correlation between <code>hours</code> and <code>age</code>?</p>
+<ol type="a">
+<li>(-0.15, 0.15)</li>
+<li>(-0.10, 0.10)</li>
+<li>(-0.05, 0.05)</li>
+<li>(0.05, 0.15)</li>
+</ol>
+</section>
+</section>
+<section id="inference-and-modeling-medley" class="level2">
+<h2 class="anchored" data-anchor-id="inference-and-modeling-medley">Inference and modeling medley</h2>
+<section id="question-33" class="level3">
+<h3 class="anchored" data-anchor-id="question-33">Question 33</h3>
+<p>A survey based on a random sample of 2,045 American teenagers found that a 95% confidence interval for the mean number of texts sent per month was (1450, 1550). A valid interpretation of this interval is</p>
+<ol type="a">
+<li>95% of all teens who text send between 1450 and 1550 text messages per month.</li>
+<li>If a new survey with the same sample size were to be taken, there is a 95% chance that the mean number of texts in the sample would be between 1450 and 1550.</li>
+<li>We are 95% confident that the mean number of texts per month of all American teens is between 1450 and 1550.</li>
+<li>We are 95% confident that the mean number of texts per month for the teens in the sample is between 1450 and 1550.</li>
+</ol>
+</section>
+<section id="question-34" class="level3">
+<h3 class="anchored" data-anchor-id="question-34">Question 34</h3>
+<p>Which of the following is true about bootstrapping?</p>
+<ol type="a">
+<li>Bootstrap samples are drawn from the original sample with replacement.<br>
+</li>
+<li>Bootstrap samples are the same size (n) as our original sample.</li>
+<li>The bootstrap uses the original sample to approximate the entire population.</li>
+<li>All of the above.</li>
+</ol>
+</section>
+<section id="question-35" class="level3">
+<h3 class="anchored" data-anchor-id="question-35">Question 35</h3>
+<p>If the p-value is 0.06 and our discernibility level is <span class="math inline">\(\alpha=0.01\)</span>, what do we do?</p>
+<ol type="a">
+<li>Accept the null.</li>
+<li>Fail to reject the null.</li>
+<li>Reject the null.</li>
+</ol>
+</section>
+<section id="question-36" class="level3">
+<h3 class="anchored" data-anchor-id="question-36">Question 36</h3>
+<p>If the p-value is 0.0342 and our discernibility level is <span class="math inline">\(\alpha=0.05\)</span>, what do we do?</p>
+<ol type="a">
+<li>Reject the null.</li>
+<li>Accept the null.</li>
+<li>Fail to reject the null.</li>
+</ol>
+</section>
+<section id="question-37" class="level3">
+<h3 class="anchored" data-anchor-id="question-37">Question 37</h3>
+<p>In logistic regression, the response variable <code>y</code> is what type?</p>
+<ol type="a">
+<li>Numerical continuous.</li>
+<li>Numerical discrete.</li>
+<li>Categorical with two levels.</li>
+<li>Categorical with three levels.</li>
+</ol>
+</section>
+<section id="question-38" class="level3">
+<h3 class="anchored" data-anchor-id="question-38">Question 38</h3>
+<p>A logistic regression model misclassifies an email from your grandmother as spam. That’s an example of a…</p>
+<ol type="a">
+<li>False positive.</li>
+<li>False negative.</li>
+</ol>
+</section>
+<section id="question-39" class="level3">
+<h3 class="anchored" data-anchor-id="question-39">Question 39</h3>
+<p>How much of a distribution is to the <strong>right</strong> of its 0.975 quantile?</p>
+<ol type="a">
+<li>0.975%</li>
+<li>2.5%</li>
+<li>50%</li>
+<li>97.5%</li>
+</ol>
+</section>
+<section id="question-40" class="level3">
+<h3 class="anchored" data-anchor-id="question-40">Question 40</h3>
+<p>True or false. And, if false, explain your reasoning.</p>
+<blockquote class="blockquote">
+<p>Increasing the number of bootstrap samples will decrease the width of the confidence interval.</p>
+</blockquote>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

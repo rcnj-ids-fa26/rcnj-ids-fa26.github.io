@@ -1,0 +1,71 @@
+---
+title: Exam 2 review
+subtitle: Suggested answers
+execute:
+  echo: false
+---
+
+1.  \(c\) For every additional \$1,000 of annual salary, the model predicts the raise to be higher, on average, by 0.0155%.
+2.  \(d\) $R^2$ of `raise_2_fit` is higher than $R^2$ of `raise_1_fit` since `raise_2_fit` has an additional predictor, and $R^2$ never decreases when a predictor is added.
+3.  The reference level of `performance_rating` is High, since it’s the first level alphabetically. Therefore, the coefficient of -2.40 means that, holding annual salary constant, employees with a Successful performance rating are predicted to get raises that are 2.40 percentage points lower, on average, than employees with a High performance rating. In this context, a negative coefficient makes sense since we would expect those with a High performance rating to get higher raises than those with a Successful performance rating.
+4.  \(a\) “Poor”, “Successful”, “High”, “Top”.
+5.  \(c\) Option 3. It's a linear model with no interaction effect, so parallel lines. And since the coefficient for `salary_typeSalaried` is positive, the line for Salaried employees has a higher intercept. The equations of the lines are as follows:
+    -   Hourly:
+
+        $$
+        \begin{align*}
+        \widehat{percent\_incr} &= 1.24 + 0.0000137 \times annual\_salary + 0.913 \times salary\_typeSalaried \\
+        &= 1.24 + 0.0000137 \times annual\_salary + 0.913 \times 0 \\
+        &= 1.24 + 0.0000137 \times annual\_salary
+        \end{align*}
+        $$
+
+    -   Salaried:
+
+        $$
+        \begin{align*}
+        \widehat{percent\_incr} &= 1.24 + 0.0000137 \times annual\_salary + 0.913 \times salary\_typeSalaried \\
+        &= 1.24 + 0.0000137 \times annual\_salary + 0.913 \times 1 \\
+        &= 2.153 + 0.0000137 \times annual\_salary
+        \end{align*}
+        $$
+6.  To evaluate how well the model predicts on new, unseen data.
+7.  \(e\)  $r=0.43$
+8.  \(e\) Blue City $>$ Rang De Basanti $>$ Winter Sleep
+9.  \(b\) 31% of the variability in movie scores is explained by their runtime.
+10. \(a\) summarize
+11. \(b\) A value between 0 and 0.434.
+12. \(e\) G-rated movies that are 0 minutes in length are predicted to score, on average, 4.525 points.
+13. \(c\) All else held constant, for each additional minute of runtime, movie scores will be higher by 0.021 points on average.
+14. \(c\) is greater than
+15. \(a\) $\widehat{score} = (4.525 - 0.257) + 0.021 \times runtime$
+16.
+    a.  Holding runtime constant, R-rated movies are predicted to score, on average, 0.257 points lower than G-rated movies.
+    b.  We should compare the models using adjusted R-squared, not R-squared. R-squared always increases (or stays the same) when we add a predictor, even if the predictor isn't useful, so the increase in R-squared alone doesn't tell us `rating` is a useful predictor. Adjusted R-squared penalizes for the number of predictors. Adjusted R-squared is slightly higher for `score_runtime_rating_fit` (0.191 vs. 0.187), so we would choose the model with `runtime` and `rating`, though the improvement is quite small and the simpler model may be preferred for parsimony.
+17. A parsimonious model is the simplest model with the best predictive performance.
+18. \(b\) multiple linear regression
+19. $p = 0.8$
+20. a-4; b-3; c-1; d-2;
+21. \(a\) and (b).
+22. \(b\) `spam ~ dollar`
+23. $\widehat{p}=\frac{\exp(-2.21 -0.0564*5)}{1+\exp(-2.21 -0.0564*5)} = 0.076$
+24. \(b\) A spam email was classified as not spam.
+25. \(b\) For each additional dollar sign or word “dollar”, the log-odds of spam decrease by 0.0564.
+26. \(b\) Not spam
+27. $TPR = \dfrac{TP}{FN+TP}= \dfrac{14}{353+14} = 0.381$
+28. \(b\) and (d)
+29. 
+    a.  The diagonal line represents a model that classifies at random, i.e., a model that is no better than guessing (area under the curve of 0.5).
+    b.  Model B appears to have better classification ability since its ROC curve is closer to the top-left corner of the plot, i.e., it has higher sensitivity for most values of 1 - specificity, and hence a larger area under the curve. Model A's ROC curve is close to the diagonal line, so it is not much better than guessing.
+30. (b) 0
+31. (c) `summarize`
+32. (b) (-0.10, 0.10)
+
+33. (c) We are 95% confident that the mean number of texts per month of all American teens is between 1450 and 1550.
+34. (d) All of the above.
+35. (b) Fail to reject the null.
+36. (a) Reject the null.
+37. (c) Categorical with two levels.
+38. (a) False positive.
+39. (b) 2.5%
+40. False. Increasing the *sample size* (not the number of bootstrap samples) decreases the standard error of the sample statistic, and hence the width of the confidence interval.
