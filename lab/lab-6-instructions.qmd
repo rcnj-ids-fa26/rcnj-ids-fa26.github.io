@@ -1,0 +1,420 @@
+---
+title: Lab 6
+subtitle: "Houses in Duke Forest"
+categories: Lab
+draft: false
+---
+
+# Introduction
+
+In this lab you'll return to the Duke Forest housing data from class and use simulation-based inference in two ways: a **bootstrap confidence interval** to quantify the uncertainty in an estimated slope, and a **randomization test** to decide whether an observed relationship could plausibly be due to chance alone.
+
+## Learning objectives
+
+By the end of the lab, you will...
+
+-   Construct a bootstrap distribution for a regression slope and use it to build percentile confidence intervals.
+-   Interpret a confidence interval for a slope.
+-   State null and alternative hypotheses about a slope.
+-   Generate a null distribution by permutation, compute a p-value, and state a conclusion in context.
+
+## Getting started
+
+Log in to RStudio, clone your `lab-6` repo from GitHub, open your `lab-6.qmd` document, and get started!
+
+::: {.callout-tip collapse="true"}
+## Click here if you prefer to see step-by-step instructions
+
+### Step 1: Login to Posit Cloud
+
+-   Go to <https://posit.cloud> and go to our course workspace.
+
+### Step 2: Clone the repo & start new RStudio project
+
+-   Go to the GitHub course organization and click on the repo with the prefix **lab-6**.
+    It contains the starter documents you need to complete the lab.
+
+-   Click on the green **CODE** button and select **HTTPS** (it should already be selected by default).
+    Click on the clipboard icon to copy the repo URL.
+
+-   In RStudio, go to New Project ➛ New Project from Git Repository ➛ Git
+-   Paste the URL of your assignment repo into the dialog box URL of your Git Repository.
+-   Click OK. The repo will be cloned and an RStudio project will be created.
+-   Go to the Files pane and click **lab-6.qmd** to open the template Quarto file.
+    This is where you will write up your code and narrative for the lab.
+
+### Step 3: Update the YAML
+
+In `lab-6.qmd`, update the `author` field to your name, render your document, and examine the changes.
+Then, in the Git pane, stage your changes, add a commit message (e.g., "Added author name"), and click **Commit**.
+Then, push the changes to your GitHub repository and, in your browser, confirm that these changes have indeed propagated to your repository.
+
+::: callout-important
+If you run into any issues with the first steps outlined above, seek help before proceeding.
+:::
+:::
+
+::: callout-important
+Your repo also contains a `data/` folder and a `tests/` folder.
+**Do not move, rename, edit, or delete them.**
+The template reads data from `data/` and uses `tests/` to give you instant feedback on your answers (see "Checking your work" below).
+:::
+
+## Packages
+
+In this lab we will work with the **tidyverse** and **tidymodels** packages.
+
+```{r}
+#| eval: true
+#| message: false
+library(tidyverse)
+library(tidymodels)
+```
+
+-   **Run** the code cell by clicking on the green triangle (play) button for the code cell labeled `load-packages`. This loads the packages so that their features (the functions and datasets in them) are accessible from your *Console*.
+-   Then, **render** the document that loads these packages to make their features available for other code cells in your Quarto document.
+
+## Checking your work
+
+This lab is **autograded**.
+That changes two things about how you work:
+
+1.  **Answers go into named objects.**
+    Each question below tells you exactly what to name your answer (e.g., "save the model as `bed_fit`"), and the template's code cells already contain placeholders such as `bed_fit <- NULL` with a short comment describing what goes there.
+    Replace the `NULL` (or `NA`) with your code, but **do not change the object names**.
+    The autograder looks for these exact names; an answer stored under a different name receives no credit, even if the code is correct.
+
+2.  **You can check your answers as you go.**
+    After each question, the template contains a check chunk that runs `ottr::check()` on that question.
+    Run it to see the results of the **public checks**: quick tests that confirm your answer has the right structure (a fitted model, a bootstrap distribution with the right number of replicates, and so on).
+    These checks are designed to tell you whether you're on the right track *without* revealing the answer.
+
+3.  **The last check chunk checks your code style.**
+    It reports any lines that do not follow the course style guidelines (see below), with line numbers, so you can fix them before submitting.
+
+::: callout-note
+## Multiple choice and short answers
+
+Some questions ask you to record an answer by assigning a value to a variable.
+Letters must be typed as strings (in quotes), for example `q1_slope_interp <- "B"`.
+Numeric answers are typed as numbers without quotes, for example `q1_slope <- 1000`.
+:::
+
+::: callout-warning
+Passing all public checks does **not** guarantee full credit.
+When your submission is graded, additional **hidden tests** check your answers for full correctness.
+An answer with the right shape but wrong values can pass every public check and still lose points, so always sanity-check your results yourself.
+A check chunk that errors with something like "object not found" usually means you haven't run the cells above it -- run all chunks in order (or render the document) and try again.
+If your checks start failing after you re-run a chunk, restart R (**Session ➛ Restart R**) and run the chunks in order from the top.
+:::
+
+::: callout-warning
+## Never put these in your document
+
+`install.packages()`, `View()`, and `?` help requests belong in the Console, never in a code chunk.
+A document containing them will fail the autograder.
+:::
+
+## Guidelines
+
+Code should follow the [tidyverse style](https://style.tidyverse.org/).
+Particularly,
+
+-   there should be spaces before and line breaks after each `+` when building a `ggplot`,
+
+-   there should also be spaces before and line breaks after each `|>` in a data transformation pipeline,
+
+-   there should be spaces around `=` signs and spaces after commas.
+
+Furthermore, all code should be visible in the PDF output, i.e., should not run off the page on the PDF.
+Lines should not span more than 80 characters; long lines should be split across multiple lines with line breaks.[^1]
+
+[^1]: Remember, haikus not novellas when writing code!
+
+::: callout-important
+You should have at least 3 commits with meaningful commit messages by the end of the assignment.
+:::
+
+## Data
+
+The data come from the `duke_forest` dataset in the **openintro** package and describe 98 houses sold in the Duke Forest neighborhood of Durham, NC in November 2020, scraped from Zillow.
+They are provided as `duke_forest.csv` in the `data` folder, and the template reads them in with:
+
+```{r}
+#| eval: true
+#| message: false
+duke_forest <- read_csv("data/duke_forest.csv")
+```
+
+The variables used in this lab are:
+
+| Variable     | Description                                   |
+|--------------|-----------------------------------------------|
+| `price`      | Sale price, in USD                            |
+| `bed`        | Number of bedrooms                            |
+| `lot`        | Area of the entire property, in acres         |
+| `year_built` | Year the house was built                      |
+
+# Questions
+
+## Part 1 - How much is a bedroom worth?
+
+In class you estimated the relationship between price and area.
+Here you'll do the same for the number of bedrooms, and then quantify how uncertain that estimate is.
+
+### Question 1
+
+**1a.**
+Fit a linear regression model predicting `price` from `bed` and save it as `bed_fit`.
+Display a tidy summary of the model output (`tidy(bed_fit)` is already in the template).
+
+**1b.**
+Record the estimated slope in `q1_slope`, as a number from the tidy output.
+
+**1c.**
+Record in `q1_slope_interp` the option that correctly interprets the slope:
+
+   A. A house with one bedroom is predicted to sell for about \$123,000.
+
+   B. For each additional bedroom, the predicted sale price is higher by about \$123,000, on average.
+
+   C. Each additional bedroom adds exactly \$123,000 to the sale price of every house.
+
+   D. For each additional \$1 of sale price, the predicted number of bedrooms is higher by about 123,000.
+
+::: {.callout-tip title="Render, commit, and push"}
+Render, commit, and push your changes to GitHub with the commit message "Added answer for Question 1".
+
+Make sure to commit and push all changed files so that your Git pane is empty afterward.
+:::
+
+### Question 2
+
+The slope in Question 1 is an estimate from a sample of 98 houses.
+A different set of 98 houses would give a different slope.
+To see how much the slope could vary, you'll build its **bootstrap distribution**.
+
+**2a.**
+Using `specify()` followed by `fit()`, calculate the observed fit and save it as `observed_fit`.
+
+**2b.**
+Take 1,000 bootstrap samples and fit the model to each, saving the result as `boot_fits`.
+The `set.seed(1234)` line is already in the template immediately before this step; leave it in place so your results are reproducible.
+
+**2c.**
+Create a histogram of the bootstrap slopes for `bed` (only the `bed` term, not the intercept), saved as `boot_hist`, with an informative title and axis labels.
+
+### Question 3
+
+```{r}
+#| echo: false
+#| eval: true
+#| message: false
+ci_obs <- duke_forest |>
+  specify(price ~ bed) |>
+  fit()
+
+set.seed(1234)
+ci_boot <- duke_forest |>
+  specify(price ~ bed) |>
+  generate(reps = 1000, type = "bootstrap") |>
+  fit()
+
+ci_page <- get_confidence_interval(
+  ci_boot,
+  point_estimate = ci_obs,
+  level = 0.95,
+  type = "percentile"
+)
+
+fmt_dollars <- function(x) format(round(x), big.mark = ",", scientific = FALSE)
+ci_lo <- fmt_dollars(ci_page$lower_ci[ci_page$term == "bed"])
+ci_hi <- fmt_dollars(ci_page$upper_ci[ci_page$term == "bed"])
+```
+
+**3a.**
+Use `get_confidence_interval()` with the percentile method to construct a 95% confidence interval from `boot_fits`, saved as `ci_95`.
+It will contain a row for the intercept and a row for `bed`; the row for `bed` is the one of interest.
+
+**3b.**
+Record in `q3_interp` the correct interpretation of the 95% confidence interval for `bed`:
+
+   A. We are 95% confident that, across all houses in Duke Forest, the true increase in price per additional bedroom is between \$`r ci_lo` and \$`r ci_hi`.
+
+   B. 95% of the houses in Duke Forest have a price per bedroom that is between \$`r ci_lo` and \$`r ci_hi`.
+
+   C. There is a 95% probability that the slope estimated from this sample of 98 houses is between \$`r ci_lo` and \$`r ci_hi`.
+
+   D. The true increase in price per additional bedroom is certainly between \$`r ci_lo` and \$`r ci_hi`, because the interval was built from 1,000 bootstrap samples.
+
+::: {.callout-tip title="Render, commit, and push"}
+Render, commit, and push your changes to GitHub with the commit message "Added answers for Questions 2 and 3".
+
+Make sure to commit and push all changed files so that your Git pane is empty afterward.
+:::
+
+## Part 2 - Is lot size related to the age of a house?
+
+Duke Forest was developed over many decades.
+One might wonder whether the earliest houses were built on larger lots, before land in the neighborhood became scarce.
+Or perhaps the opposite is true, and newer houses were built on larger lots as the neighborhood expanded outward.
+Since we don't have a reason to expect one direction over the other, in this part you'll test whether there is any relationship between lot size and the year a house was built.
+
+One house has no recorded lot size, so the template removes it first:
+
+```{r}
+#| eval: false
+duke_lot <- duke_forest |>
+  filter(!is.na(lot))
+```
+
+Use `duke_lot` for the rest of the lab.
+
+### Question 4
+
+**4a.**
+Create a scatterplot of `year_built` (y-axis) vs. `lot` (x-axis) with a regression line, saved as `lot_plot`, with an informative title and axis labels.
+
+**4b.**
+Fit a linear regression model predicting `year_built` from `lot` and save it as `lot_fit`.
+Display a tidy summary of the model output.
+
+### Question 5
+
+Let $\beta_1$ denote the true slope for `lot` across all houses in Duke Forest, and $b_1$ the slope estimated from this sample.
+
+**5a.**
+Record in `q5_null` the correct statement of the null hypothesis:
+
+   A. $H_0$: There is no relationship between lot size and year built, i.e., $b_1 = 0$.
+
+   B. $H_0$: There is no relationship between lot size and year built, i.e., $\beta_1 = 0$.
+
+   C. $H_0$: There is a relationship between lot size and year built, i.e., $\beta_1 \neq 0$.
+
+   D. $H_0$: Houses on larger lots are older, i.e., $\beta_1 < 0$.
+
+**5b.**
+Record in `q5_alt` the correct statement of the alternative hypothesis for this research question:
+
+   A. $H_A$: There is a relationship between lot size and year built, i.e., $b_1 \neq 0$.
+
+   B. $H_A$: Houses on larger lots tend to have been built earlier, i.e., $\beta_1 < 0$.
+
+   C. $H_A$: There is a relationship between lot size and year built, i.e., $\beta_1 \neq 0$.
+
+   D. $H_A$: There is no relationship between lot size and year built, i.e., $\beta_1 = 0$.
+
+### Question 6
+
+To decide whether the observed slope could have arisen by chance, you'll simulate a world in which the null hypothesis is true by **permuting** the years built among the houses, breaking any relationship with lot size.
+
+**6a.**
+Using `specify()` followed by `fit()`, calculate the observed fit for `year_built ~ lot` from `duke_lot` and save it as `observed_lot_fit`.
+
+**6b.**
+Generate the null distribution: specify the model, state the null hypothesis of independence, generate 1,000 permutations, and fit the model to each.
+Save the result as `null_fits`.
+The `set.seed(1234)` line is already in the template immediately before this step; leave it in place.
+
+**6c.**
+Visualize the null distribution and save the plot as `null_hist`.
+You may use `visualize()`, which shows the null distributions of both the intercept and the slope for `lot` side by side; the panel for `lot` is the one of interest.
+Alternatively, you may make a histogram of only the `lot` slopes with `ggplot()`.
+
+**6d.**
+Record in `q6_center` the option that best describes the null distribution of the slope for `lot`:
+
+   A. It is centered near 0, because permuting breaks the relationship between the two variables.
+
+   B. It is centered near the observed slope, because each permutation resembles the original sample.
+
+   C. It is centered near 0.6, the average lot size in the sample.
+
+   D. It is centered near 1,000, the number of permutations that were generated.
+
+::: {.callout-tip title="Render, commit, and push"}
+Render, commit, and push your changes to GitHub with the commit message "Added answers for Questions 4 to 6".
+
+Make sure to commit and push all changed files so that your Git pane is empty afterward.
+:::
+
+### Question 7
+
+**7a.**
+Use `get_p_value()` to calculate the two-sided p-value for the slope of `lot`, using `null_fits` and `observed_lot_fit`.
+Save the result as `p_value`.
+
+**7b.**
+Record in `q7_pvalue_meaning` the correct interpretation of this p-value:
+
+   A. The probability that the null hypothesis of no relationship between lot size and year built is true.
+
+   B. The probability that there is a relationship between lot size and year built among Duke Forest houses.
+
+   C. The proportion of houses in the sample whose year built is explained by the size of their lot.
+
+   D. The probability of a slope at least as extreme as the observed one, if there were truly no relationship.
+
+**7c.**
+Using a significance level of $\alpha = 0.05$, record your decision in `q7_decision`:
+
+   A. Reject $H_0$, because the p-value is less than 0.05.
+
+   B. Fail to reject $H_0$, because the p-value is greater than 0.05.
+
+   C. Reject $H_0$, because the observed slope is negative.
+
+   D. Fail to reject $H_0$, because the observed slope is not exactly 0.
+
+**7d.**
+Record in `q7_conclusion` the correct conclusion in the context of the research question:
+
+   A. The data prove that there is no relationship between lot size and the year a house was built in Duke Forest.
+
+   B. The data provide convincing evidence that houses on larger lots in Duke Forest tend to have been built earlier.
+
+   C. The data do not provide convincing evidence of a relationship between lot size and the year a house was built.
+
+   D. The data show that lot size and year built are related in Duke Forest, but that the relationship is a weak one.
+
+::: {.callout-tip title="Render, commit, and push"}
+Render, commit, and push your final changes to GitHub with a meaningful commit message.
+
+Make sure to commit and push all changed files so that your Git pane is empty afterward.
+We keep repeating this because it's important and because we see students forget to do this.
+:::
+
+## Code style
+
+The last check chunk in your template runs a style check on your whole document and reports every line that breaks one of the style guidelines above, with its line number.
+There is nothing to write for this question: fix the lines it reports, re-run the check, and repeat until it passes.
+
+# Wrap-up
+
+## Submission
+
+::: callout-warning
+Before you wrap up the assignment, make sure all of your files are updated in your GitHub repo.
+We will be checking these to make sure you have been committing and pushing changes (with descriptive commit messages).
+
+You must turn in **both** the `.qmd` file and the PDF to Gradescope by the submission deadline to be considered "on time".
+:::
+
+Download your completed `lab-6.qmd` and `lab-6.pdf` files.
+To download a file from Posit Cloud, go to the **Files** pane, select the file by marking its **checkbox**, click **More**, then **Export**.
+
+Submit **BOTH** `lab-6.qmd` and `lab-6.pdf` in Gradescope (accessed via Canvas), due by the deadline. (You will NOT need to select pages for the PDF.)
+
+::: callout-important
+## Checklist
+
+Make sure you have:
+
+-   answered all questions, using the exact object names given in each question
+-   run the check chunk for each question and reviewed the results
+-   rendered your Quarto document
+-   committed and pushed everything to your GitHub repository so that the Git pane in RStudio is empty
+-   downloaded your QMD and PDF files from RStudio onto your computer
+-   uploaded your `lab-6.qmd` **and** `lab-6.pdf` files to the Lab 6 Gradescope assignment and confirmed the autograder ran successfully
+:::
